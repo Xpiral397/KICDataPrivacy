@@ -37,22 +37,60 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "KICAuth",
+    'users',
     "compressor",
     "rest_framework",
+    'rest_framework_simplejwt',
     'djoser'
 ]
+# settings.py
 
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ],'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
-        'rest_framework_simplejwt.authentication.JWTStatelessUserAuthentication'
-    ]
+DJOSER = {
+    "LOGIN_FILED":"email",
+    "USER_CREATE_PASSWORD":True,
+    "USERNAME_CHANGED_EMAIL_CONFIRMATION":True,
+    "PASSWORD_CHANGED_EMAIL_CONFIRMATION":True,
+    "SEND_CONFIRMATION_EMAIL":True,
+    "SET_PASSWORD_RETYPE":True,
+    "SET_USERNAME_RETYPE":True,
+    "PASSWORD_RESET_CONFIRM_URL":'password/reset/confirm/{uid}/{token}',
+    "USERNAME_RESET_CONFIRM_URL":'email/reset/confirm/{uid}/{token}',
+    "ACTIVATION_URL":"activate/{uid}/{token}",
+    "SEND_ACTIVATION_EMAIL":True,
+    'SERIALIZERS': {
+        'user_create': 'users.serializers.UserCreateSerializer',
+        'user': 'users.serializers.UserCreateSerializer',
+        "user_delete":"djoser.serializers.UserDeleteSerializer"
+    }
 }
+
+SIMPLE_JWT ={
+    "AUTH_HEADER_TYPES":("JWT",)
+}
+
+AUTH_USER_MODEL = 'users.UserAccount'
+
+
+
+
+# DJOSER = {
+#     ,
+#     'HIDE_USERS': False,  # Show users in the user list endpoint
+#     'TOKEN_MODEL': 'rest_framework_simplejwt.tokens.AccessToken',
+#     'TOKEN_ROTATE_REFRESH': True,
+#     'TOKEN_REFRESH_LIFETIME': 60 * 60 * 24 * 7,  # 7 days
+#     'TOKEN_LIFETIME': 60 * 60 * 24 * 14,  # 14 days
+# } 
+
+
+# Django Rest Framework settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+       
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -63,6 +101,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+SIMPLE_JWT = {
+   'AUTH_HEADER_TYPES': ('JWT',),
+} 
 
 ROOT_URLCONF = 'KICData.urls'
 
@@ -82,15 +124,17 @@ TEMPLATES = [
 	},
 ]
 
-DJOSER = {
-    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
-    'ACTIVATION_URL': '/activate/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': True,
-    'PASSWORD_RSET_CONFIRM_RETYPE': True,
-    "TOKEN_MODEL":None,
-    'SERIALIZERS': {},
-}
-
+# DJOSER = {
+#     'SERIALIZERS': {
+#         'user': 'your_project.serializers.CustomUserSerializer',  # Replace with your actual serializer path
+#     },
+#     'LOGIN_FIELD': 'email',  # Assuming you use email for login, change as needed
+#     'SEND_ACTIVATION_EMAIL': True,
+#     'SEND_CONFIRMATION_EMAIL': True,
+#     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
+#     'ACTIVATION_URL': '#/activate/{uid}/{token}',
+#     'SEND_ACTIVATION_EMAIL': True,
+# }
 WSGI_APPLICATION = 'KICData.wsgi.application'
 
 
@@ -156,4 +200,9 @@ COMPRESS_ENABLED = True
 STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
 
 
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_HOST_PASSWORD = 'mpld njts oquj lcmm'
+EMAIL_HOST_USER = 'xpiraltechs@gmail.com'
+EMAIL_USE_TLS = True
