@@ -2,16 +2,46 @@
 import DotGrid from "@/design/dot";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
-import React from "react";
+import React, { useState } from "react";
 import Google from "@/public/icons/google.svg";
 import { Select, SelectItem } from "@nextui-org/react";
+import { UserDataError, signup } from "@/app/helpers/signupUser";
+import StatusModal from "@/components/Modal";
 
 export default function Login() {
+  const [formData, setFormData] = useState({
+    surname: "ola",
+    othername: "",
+    email: "",
+    password: "",
+    rePassword: "",
+    gender: "MALE",
+    keepLoggedIn: false,
+  });
+  const [sucessModal, setSuccessModal] = useState<boolean>(false);
+  const [UserDataError, setError] = useState<UserDataError>({});
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    const response = await signup(formData);
+    if (response.status == 400) {
+      console.log(response);
+      setError((prev: UserDataError) => ({ ...prev, ...response.data }));
+    } else if (response.status == 200) {
+      setSuccessModal(!sucessModal);
+    }
+    // Handle form submission, e.g., send data to the server
+    console.log("Form data submitted:", formData);
+  };
+
   return (
     <div
       className="flex justify-between bg-white h-full w-full relative items-center flex-row "
       data-label="sign-in"
     >
+      {sucessModal && (
+        <StatusModal status="CREATED_SUCCESS" onSendActivationLink={() => {}} />
+      )}
       <div className=" w-full h-full absolute  ">
         <div className="lg:hidden bg-purple-900 overflow-hidden relative w-full h-full">
           <div className="w-full absolute left-0 top-0 ">
@@ -65,62 +95,143 @@ export default function Login() {
             <div>
               <div className="flex space-x-2">
                 <div>
-                  <label className="text-sm text-slate-700 mb-2 font-[500] font-[Helvetica]">
-                    Surname
+                  <label
+                    className={`text-sm ${
+                      UserDataError.name ? "text-danger" : "text-slate-700"
+                    } mb-2 font-[500] font-[Helvetica]`}
+                  >
+                    Surname{" "}
+                    <span className="text-danger-500">
+                      :{UserDataError.username}
+                    </span>
                   </label>
                   <Input
                     type="text"
                     placeholder="Jessica"
+                    onChange={(e: any) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        surname: e.target.value,
+                      }))
+                    }
                     name="username"
                     classNames={{
-                      inputWrapper: "py-2 rounded-md h-10 bg-white",
+                      inputWrapper: "py-2 rounded-md h-10 text-slate-900",
                     }}
                   />
                 </div>
                 <div>
-                  <label className="text-sm text-slate-700 mb-2 font-[500] font-[Helvetica]">
-                    Othername
+                  <label
+                    className={`text-sm ${
+                      UserDataError.name ? "text-danger-500" : "text-slate-700"
+                    } mb-2 font-[500] font-[Helvetica]`}
+                  >
+                    Othername{" "}
+                    <span className="text-danger-500">
+                      :{UserDataError.username}
+                    </span>
                   </label>
                   <Input
                     type="text"
-                    placeholder="joe@gmail.com"
-                    name="username"
+                    placeholder="Your other name"
+                    onChange={(e: any) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        othername: e.target.value,
+                      }))
+                    }
+                    name="othername"
                     classNames={{
-                      inputWrapper: "py-2 rounded-md h-10 bg-white",
+                      inputWrapper: "py-2 rounded-md h-10 ",
                     }}
                   />
                 </div>
               </div>
 
               <div className="mt-2">
-                <label className="text-sm text-slate-700 mb-2 font-[500] font-[Helvetica]">
+                <label
+                  className={`text-sm ${
+                    UserDataError.email ? "text-danger-500" : "text-slate-700"
+                  } mb-2 font-[500] font-[Helvetica]`}
+                >
                   Your Email
                 </label>
                 <Input
                   type="email"
                   placeholder="joe@gmail.com"
-                  name="username"
+                  name="email"
+                  onChange={(e: any) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      email: e.target.value,
+                    }))
+                  }
                   classNames={{
-                    inputWrapper: "py-2 rounded-md h-10 bg-white",
+                    inputWrapper: "py-2 rounded-md h-10 ",
                   }}
                 />
               </div>
 
               <div className="mt-5 mb-5">
-                <label className="text-sm text-slate-800 mb-3 bg-white font-[400] font-[Helvetica]">
+                <label
+                  className={`text-sm ${
+                    UserDataError.password
+                      ? "text-danger-500"
+                      : "text-slate-700"
+                  } mb-2 font-[500] font-[Helvetica]`}
+                >
                   Password
                 </label>
                 <Input
                   type="password"
-                  name="username"
+                  onChange={(e: any) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      password: e.target.value,
+                    }))
+                  }
+                  name="password"
                   placeholder="At least 8 character"
                   classNames={{
-                    inputWrapper: "py-2 rounded-md h-10 bg-white",
+                    inputWrapper: "py-2 rounded-md h-10 ",
                   }}
                 />
               </div>
 
-              <Select label="Select Your Genders" className="max-w-xs bg-white">
+              <div className="mt-5 mb-5">
+                <label
+                  className={`text-sm ${
+                    UserDataError.rePassword || UserDataError.password
+                      ? "text-danger-500"
+                      : "text-slate-700"
+                  } mb-2 font-[500] font-[Helvetica]`}
+                >
+                  Confirm Password
+                </label>
+                <Input
+                  type="password"
+                  name="rePassword"
+                  onChange={(e: any) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      rePassword: e.target.value,
+                    }))
+                  }
+                  placeholder="Confirm Your Password "
+                  classNames={{
+                    inputWrapper: "py-2 rounded-md h-10",
+                  }}
+                />
+              </div>
+
+              <Select
+                onChange={(e: any) =>
+                  setFormData((prev) => ({ ...prev, gender: e.target.value }))
+                }
+                name="gender"
+                label="Select Your Genders"
+                className="max-w-x"
+              >
                 {["Male", "Female", "Bi-Sexual", "Prefer Not To Say"].map(
                   (gender) => (
                     <SelectItem key={gender} value={gender}>
@@ -130,22 +241,33 @@ export default function Login() {
                 )}
               </Select>
 
-              <div className="space-x-2 bg-white ">
-                <input type="checkbox" />
+              <div className="space-x-">
+                <input
+                  type="checkbox"
+                  onChange={(e: any) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      keepLoggedIn: e.target.value,
+                    }))
+                  }
+                />
                 <label className="text-[12px] text-slate-900 font-[600] font-[Helvetica]">
                   Keep me logged in
                 </label>
               </div>
             </div>
-            <Button className="bg-purple-500 text-slate-100 rounded-md ">
-              Log in
+            <Button
+              onClick={handleSubmit}
+              className="bg-purple-500 text-slate-100 rounded-md "
+            >
+              Sign Up
             </Button>
             <div className="space-y-5 flex items-center flex-col">
               <h1 className="text-purple-900 space-x-2">
                 <span>Don't here an account?</span>
-                <span className="text-purple-800 font-[600]">Sign up</span>
+                <span className="text-purple-800 font-[600]">Login</span>
               </h1>
-              <h1 className="text-purple-800">Forget password?</h1>
+              <h1 className="text-purple-800">Already have account ?</h1>
             </div>
           </form>
         </div>
@@ -187,7 +309,7 @@ export default function Login() {
           </div>
           <div className="w-full absolute right-0 top-0   hidden lg:flex">
             <DotGrid
-              gridSize={150}
+              gridSize={25}
               spacing={15}
               dotRadius={0.51}
               dotColor="white"
@@ -196,7 +318,7 @@ export default function Login() {
 
           <div className="right-0 top-0 absolute ">
             <DotGrid
-              gridSize={225}
+              gridSize={25}
               spacing={15}
               dotRadius={0.51}
               dotColor="yellow"
@@ -207,7 +329,7 @@ export default function Login() {
         <div className="bg-purple-900 relative w-full">
           <div className="w-full absolute left-0 bottom-0 hidden lg:flex">
             <DotGrid
-              gridSize={150}
+              gridSize={25}
               spacing={20}
               dotRadius={0.51}
               dotColor="blue"
@@ -215,7 +337,7 @@ export default function Login() {
           </div>
           <div className="left-1  bottom-0 absolute ">
             <DotGrid
-              gridSize={125}
+              gridSize={25}
               spacing={20}
               dotRadius={0.69}
               dotColor="orange"

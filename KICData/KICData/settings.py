@@ -24,9 +24,11 @@ SECRET_KEY = 'django-insecure-k6vtl8rnod!$q5mku#v*0cad2h3!ldsvvei=!6*&bp4&jputc-
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
-
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # or the origin of your frontend
+]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 # Application definition
 
@@ -46,6 +48,9 @@ INSTALLED_APPS = [
 # settings.py
 
 DJOSER = {
+    'VIEWSET': 'djoser.views.UserViewSet',
+    'USER_ID_FIELD': 'id',  # Optional: Specify the user ID field
+    'SERIALIZER_GETTER': 'users.utils.get_user_serializer',
     "LOGIN_FILED":"email",
     "USER_CREATE_PASSWORD":True,
     "USERNAME_CHANGED_EMAIL_CONFIRMATION":True,
@@ -94,6 +99,7 @@ REST_FRAMEWORK = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
