@@ -1,5 +1,7 @@
 interface UserData {
   surname: string;
+  name: string;
+  username: string;
   othername: string;
   email: string;
   password: string;
@@ -30,7 +32,8 @@ export async function signup(userData: UserData): Promise<SignupResponse> {
     const apiUrl = " http://127.0.0.1:8000/auth/users/";
 
     // Adjust the payload based on your API requirements
-    const payload = {
+    const payload: UserData = {
+      username: userData.email,
       surname: userData.surname,
       othername: userData.othername,
       email: userData.email,

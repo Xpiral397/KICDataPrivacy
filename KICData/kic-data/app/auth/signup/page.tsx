@@ -23,11 +23,14 @@ export default function Login() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setError({});
     const response = await signup(formData);
     if (response.status == 400) {
-      console.log(response);
-      setError((prev: UserDataError) => ({ ...prev, ...response.data }));
-    } else if (response.status == 200) {
+      setError((prev: UserDataError) => {
+        return { ...prev, ...response.dataError };
+      });
+      console.log(UserDataError, "Ji");
+    } else if (response.status == 201) {
       setSuccessModal(!sucessModal);
     }
     // Handle form submission, e.g., send data to the server
@@ -40,7 +43,12 @@ export default function Login() {
       data-label="sign-in"
     >
       {sucessModal && (
-        <StatusModal status="CREATED_SUCCESS" onSendActivationLink={() => {}} />
+        <div className=" flex items-center justify-center top-0 right-0 absolute w-full h-full z-[1000]">
+          <StatusModal
+            status="CREATED_SUCCESS"
+            onSendActivationLink={() => {}}
+          />
+        </div>
       )}
       <div className=" w-full h-full absolute  ">
         <div className="lg:hidden bg-purple-900 overflow-hidden relative w-full h-full">
@@ -93,7 +101,7 @@ export default function Login() {
 
           <form method="POST" className="  rounded-md  flex flex-col space-y-5">
             <div>
-              <div className="flex space-x-2">
+              <div className="flex items-center space-x-2">
                 <div>
                   <label
                     className={`text-sm ${
@@ -102,7 +110,7 @@ export default function Login() {
                   >
                     Surname{" "}
                     <span className="text-danger-500">
-                      :{UserDataError.username}
+                      :{UserDataError.surname}
                     </span>
                   </label>
                   <Input
@@ -128,7 +136,7 @@ export default function Login() {
                   >
                     Othername{" "}
                     <span className="text-danger-500">
-                      :{UserDataError.username}
+                      :{UserDataError.name}
                     </span>
                   </label>
                   <Input
@@ -154,7 +162,10 @@ export default function Login() {
                     UserDataError.email ? "text-danger-500" : "text-slate-700"
                   } mb-2 font-[500] font-[Helvetica]`}
                 >
-                  Your Email
+                  Your Email{" "}
+                  <span className="text-danger-500">
+                    :{UserDataError.email && UserDataError.email}
+                  </span>
                 </label>
                 <Input
                   type="email"
@@ -180,7 +191,10 @@ export default function Login() {
                       : "text-slate-700"
                   } mb-2 font-[500] font-[Helvetica]`}
                 >
-                  Password
+                  Password{" "}
+                  <span className="text-danger-500">
+                    :{UserDataError.password && UserDataError.password[0]}
+                  </span>
                 </label>
                 <Input
                   type="password"
@@ -206,7 +220,10 @@ export default function Login() {
                       : "text-slate-700"
                   } mb-2 font-[500] font-[Helvetica]`}
                 >
-                  Confirm Password
+                  Confirm Password{" "}
+                  <span className="text-danger-500">
+                    :{UserDataError.rePassword && UserDataError.rePassword[0]}
+                  </span>
                 </label>
                 <Input
                   type="password"
@@ -232,13 +249,11 @@ export default function Login() {
                 label="Select Your Genders"
                 className="max-w-x"
               >
-                {["Male", "Female", "Bi-Sexual", "Prefer Not To Say"].map(
-                  (gender) => (
-                    <SelectItem key={gender} value={gender}>
-                      {gender}
-                    </SelectItem>
-                  )
-                )}
+                {["MALE", "FEMALE", "PREFER-NOT-TO-SAY"].map((gender) => (
+                  <SelectItem key={gender} value={gender}>
+                    {gender}
+                  </SelectItem>
+                ))}
               </Select>
 
               <div className="space-x-">
