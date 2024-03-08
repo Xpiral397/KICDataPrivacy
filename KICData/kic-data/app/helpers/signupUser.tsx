@@ -1,12 +1,12 @@
-interface UserData {
-  surname: string;
-  name: string;
-  username: string;
-  othername: string;
-  email: string;
-  password: string;
-  rePassword: string;
-  gender: string;
+export interface UserData {
+  surname?: string;
+  name?: string;
+  username?: string;
+  othername?: string;
+  email?: string;
+  password?: string;
+  rePassword?: string;
+  gender?: string;
   keepLoggedIn?: boolean;
 }
 export interface UserDataError {
@@ -19,7 +19,7 @@ export interface UserDataError {
   keepLoggedIn?: boolean;
 }
 
-interface SignupResponse {
+export interface SignupResponse {
   status: number;
   data?: any;
   error?: string;
@@ -64,6 +64,7 @@ export async function signup(userData: UserData): Promise<SignupResponse> {
     }
   } catch (error: any) {
     // Return an error status code and message
+    console.log(error.status);
     return { status: 500, error: error.message || "Internal Server Error" };
   }
 }

@@ -4,35 +4,46 @@ import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import React, { useState } from "react";
 import Google from "@/public/icons/google.svg";
-import { Select, SelectItem } from "@nextui-org/react";
-import { UserDataError, signup } from "@/app/helpers/signupUser";
+import { Select, SelectItem, Spinner } from "@nextui-org/react";
+import {
+  SignupResponse,
+  UserData,
+  UserDataError,
+  signup,
+} from "@/app/helpers/signupUser";
 import StatusModal from "@/components/Modal";
 
 export default function Login() {
-  const [formData, setFormData] = useState({
-    surname: "ola",
-    othername: "",
-    email: "",
-    password: "",
-    rePassword: "",
-    gender: "MALE",
-    keepLoggedIn: false,
-  });
+  const [formData, setFormData] = useState<UserData>();
   const [sucessModal, setSuccessModal] = useState<boolean>(false);
+  const [failedModal, setFailedsModal] = useState<boolean>(false);
   const [UserDataError, setError] = useState<UserDataError>({});
-
+  const [isLoading, setLoading] = useState<boolean>(false);
   const handleSubmit = async (e: any) => {
+    // const confirm = (
+    //   password: string,
+    //   re_password: string,
+    //   surname,
+    //   othername,
+    //   email
+    // ) => {};
+
+    setLoading(true);
     e.preventDefault();
     setError({});
-    const response = await signup(formData);
-    if (response.status == 400) {
+    const response = await signup(formData as UserData);
+    if (response.status == 400 || response.status == 500) {
       setError((prev: UserDataError) => {
         return { ...prev, ...response.dataError };
       });
+      setFailedsModal(true);
+
       console.log(UserDataError, "Ji");
     } else if (response.status == 201) {
+      setLoading(false);
       setSuccessModal(!sucessModal);
     }
+    setLoading(false);
     // Handle form submission, e.g., send data to the server
     console.log("Form data submitted:", formData);
   };
@@ -43,11 +54,33 @@ export default function Login() {
       data-label="sign-in"
     >
       {sucessModal && (
-        <div className=" flex items-center justify-center top-0 right-0 absolute w-full h-full z-[1000]">
+        <div className=" flex items-center justify-center top-0 right-0 absolute w-full h-full">
           <StatusModal
             status="CREATED_SUCCESS"
-            onSendActivationLink={() => {}}
+            onSendActivationLink={() => {
+              setSuccessModal(false);
+            }}
           />
+        </div>
+      )}
+
+      {failedModal && (
+        <div className=" flex items-center justify-center top-0 right-0 absolute w-full h-full ">
+          <StatusModal
+            status="LOGIN_FAILED"
+            onSendActivationLink={setFailedsModal(false)}
+          />
+        </div>
+      )}
+
+      {isLoading && (
+        <div className="flex items-center justify-center top-0 right-0 absolute w-full h-full z-[1000]">
+          <div className="bg-white shadow-2xl shadow-blue-900   rounded-md w-full  max-w-[450px] sm:w-[500px] flex space-x-5 items-center place-items-center justify-center h-[300px]">
+            <Spinner color="secondary" />
+            <h1 className="text-purple-800 font-[600]">
+              Processing Your Request ...
+            </h1>
+          </div>
         </div>
       )}
       <div className=" w-full h-full absolute  ">
@@ -64,7 +97,7 @@ export default function Login() {
       </div>
 
       <div
-        className="z-10 rounded-md flex   items-center  justify-center h-full w-full "
+        className="z-10   rounded-md flex   items-center  justify-center h-full w-full "
         data-label="label"
       >
         <div

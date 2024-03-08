@@ -58,9 +58,9 @@ DJOSER = {
     "SEND_CONFIRMATION_EMAIL":True,
     "SET_PASSWORD_RETYPE":True,
     "SET_USERNAME_RETYPE":True,
-    "PASSWORD_RESET_CONFIRM_URL":'password/reset/confirm/{uid}/{token}',
-    "USERNAME_RESET_CONFIRM_URL":'email/reset/confirm/{uid}/{token}',
-    "ACTIVATION_URL":"activate/{uid}/{token}",
+    "PASSWORD_RESET_CONFIRM_URL":'/auth/password/reset/confirm/{uid}/{token}',
+    "USERNAME_RESET_CONFIRM_URL":'auth/reset-email-confirm/{uid}/{token}',
+    "ACTIVATION_URL":"/auth/activate/email/{uid}/{token}",
     "SEND_ACTIVATION_EMAIL":True,
     'SERIALIZERS': {
         'user_create': 'users.serializers.UserCreateSerializer',
@@ -111,6 +111,9 @@ MIDDLEWARE = [
 SIMPLE_JWT = {
    'AUTH_HEADER_TYPES': ('JWT',),
 } 
+
+DOMAIN = ('localhost:3000') 
+SITE_NAME = ('KIC-DataPrivacy') 
 
 ROOT_URLCONF = 'KICData.urls'
 
