@@ -8,9 +8,15 @@ export default function SidebarBoardLayout({
   children: ReactNode;
 }) {
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col  ">
       <div className="w-full">
         <Navbar />
+      </div>
+      <div className="flex justify-between">
+        <div className="w-[300px]">
+          <SingleSidebarBoardLayout />
+        </div>
+        <main>{children}</main>
       </div>
       <div className="w-[300px]">
         <SingleSidebarBoardLayout />

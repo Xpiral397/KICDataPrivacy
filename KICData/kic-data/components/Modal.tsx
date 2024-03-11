@@ -12,6 +12,7 @@ import {
 import { ResendActivateEmailLink } from "@/app/helpers/resendActivationLink";
 import { constants } from "buffer";
 import { Result } from "postcss";
+import Link from "next/link";
 
 type AccountStatus =
   | "ACTIVATION_FAILED"
@@ -54,7 +55,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
       case "LOGIN_FAILED":
         return "Login Failed";
       case "ACTIVATION_SUCCESS":
-        return "Email Confirm Successful";
+        return "Email Confirmatin Successful";
       case "ACTIVATION_FAILED":
         return "Activation Failed";
       case "EMAIL_RESEND_ACTIVATION_LINK_SUCCESS":
@@ -202,7 +203,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
                 Close
               </Button>
               <Button color="primary" onPress={onSendActivationLink}>
-                Login
+                <Link href={"/dashboard"}>Login</Link>
               </Button>
             </>
           ),

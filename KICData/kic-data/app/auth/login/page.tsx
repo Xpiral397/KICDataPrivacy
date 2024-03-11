@@ -1,9 +1,11 @@
 import DotGrid from "@/design/dot";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
+import { useRouter } from "next/router";
 import React from "react";
 
 export default function Login() {
+  const router = useRouter();
   return (
     <div
       className="flex justify-between bg-white h-full w-full relative items-center flex-row "
@@ -88,7 +90,14 @@ export default function Login() {
             <div className="space-y-5 flex items-center flex-col">
               <h1 className="text-purple-900 space-x-2">
                 <span>Don't here an account?</span>
-                <span className="text-purple-800 font-[600]">Sign up</span>
+                <span
+                  className="text-purple-800 font-[600]"
+                  onClick={() => {
+                    router.push("/singup");
+                  }}
+                >
+                  Sign up
+                </span>
               </h1>
               <h1 className="text-purple-800">Forget password?</h1>
             </div>

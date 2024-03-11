@@ -14,9 +14,11 @@ import {
 import StatusModal from "@/components/Modal";
 import { checkPasswordStrength } from "@/app/validity/validatePassword";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { countryNames } from "@/config/country";
 
 export default function Login() {
-  console.log(process.env.NEXTAUTH_URL, process.env.GOOGLE_CLIENT_SECRET);
+  const router = useRouter();
   const [formData, setFormData] = useState<UserData>();
   const [sucessModal, setSuccessModal] = useState<boolean>(false);
   const [failedModal, setFailedsModal] = useState<boolean>(false);
@@ -367,22 +369,43 @@ export default function Login() {
                 />
               </div>
 
-              <Select
-                onChange={(e: any) =>
-                  setFormData((prev) => ({ ...prev, gender: e.target.value }))
-                }
-                name="gender"
-                label="Select Your Genders"
-                className="max-w-x"
-              >
-                {["MALE", "FEMALE", "PREFER-NOT-TO-SAY"].map((gender) => (
-                  <SelectItem key={gender} value={gender}>
-                    {gender}
-                  </SelectItem>
-                ))}
-              </Select>
+              <div className="w-full  flex justify-between items-center h-full space-x-2 ">
+                <Select
+                  onChange={(e: any) =>
+                    setFormData((prev) => ({ ...prev, gender: e.target.value }))
+                  }
+                  name="gender"
+                  label="Select Your Genders"
+                  className="max-w-x"
+                >
+                  {[
+                    ["MALE", "Male"],
+                    ["FEMALE", "Female"],
+                    ["PREFER-NOT-TO-SAY", "Prefer Not Say"],
+                  ].map((gender) => (
+                    <SelectItem key={gender[0]} value={gender[0]}>
+                      {gender[1]}
+                    </SelectItem>
+                  ))}
+                </Select>
 
-              <div className="space-x-">
+                <Select
+                  onChange={(e: any) =>
+                    setFormData((prev) => ({ ...prev, gender: e.target.value }))
+                  }
+                  name="country"
+                  label="Select Your Country"
+                  className="w-full"
+                >
+                  {countryNames.map((country: string) => (
+                    <SelectItem key={country} value={country}>
+                      {country}
+                    </SelectItem>
+                  ))}
+                </Select>
+              </div>
+
+              <div className="space-x-3 mt-5 flex h-full items-center">
                 <input
                   type="checkbox"
                   onChange={(e: any) =>
@@ -393,7 +416,7 @@ export default function Login() {
                   }
                 />
                 <label className="text-[12px] text-slate-900 font-[600] font-[Helvetica]">
-                  Keep me logged in
+                  I agree to this website Privacy & Policy
                 </label>
               </div>
             </div>
@@ -407,7 +430,14 @@ export default function Login() {
             <div className="space-y-5 flex items-center flex-col">
               <h1 className="text-purple-900 space-x-2">
                 <span>Don't here an account?</span>
-                <span className="text-purple-800 font-[600]">Login</span>
+                <span
+                  onClick={() => {
+                    router.push("/login");
+                  }}
+                  className="text-purple-800 font-[600]"
+                >
+                  Login
+                </span>
               </h1>
               <h1 className="text-purple-800">Already have account ?</h1>
             </div>

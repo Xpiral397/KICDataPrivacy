@@ -18,6 +18,7 @@ import { Button, Divider, ScrollShadow, User } from "@nextui-org/react";
 import Link from "next/link";
 
 type Features =
+  | "Account"
   | "Data Overview"
   | "Consent Management"
   | "Data Access"
@@ -34,7 +35,7 @@ type Features =
 export function SingleSidebarBoardLayout() {
   const [selected, select] = useState<Features>("Data Overview");
   return (
-    <div className="flex w-full items-center bg-blue-50">
+    <div className="flex w-full items-center bg-blue-50 py-10">
       <nav className="flex flex-col  space-y-5 w-full ">
         <ul className="flex  h-full flex-col w-full">
           <h1 className="text-slate-500 font-[550] px-3">Data Overview</h1>
@@ -48,19 +49,19 @@ export function SingleSidebarBoardLayout() {
               <li>
                 <Button
                   startContent={
-                    <HomeOutlined className="w-5 hover:text-white" />
+                    <PeopleAltOutlined className="w-5 hover:text-white" />
                   }
                   onClick={() => {
-                    select("Data Overview");
+                    select("Account");
                   }}
                   className={`w-full rounded-md ${
-                    selected == "Data Overview"
+                    selected == "Account"
                       ? "dark:bg-purple-700 bg-blue-500 text-white"
                       : "bg-bue-50 dark:bg-slate-900 text-slate-500"
                   } text-start font-[500]`}
                 >
-                  <Link href={"/"} className="w-full text-inherit ">
-                    Data Overview
+                  <Link href={"/Account"} className="w-full text-inherit ">
+                    Account
                   </Link>
                 </Button>
               </li>
@@ -83,6 +84,7 @@ export function SingleSidebarBoardLayout() {
                   </Link>
                 </Button>
               </li>
+
               <li>
                 <Button
                   startContent={

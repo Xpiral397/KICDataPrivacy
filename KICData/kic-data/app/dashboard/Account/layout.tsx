@@ -1,8 +1,8 @@
 "use client";
 import { Tab, Tabs } from "@nextui-org/react";
-import React from "react";
+import React, { ReactNode } from "react";
 
-export default function RenderHomePage() {
+function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="w-full">
       <div className="w-full bg-500">
@@ -23,3 +23,5 @@ export default function RenderHomePage() {
     </div>
   );
 }
+
+export default Layout;
