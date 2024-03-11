@@ -2,7 +2,7 @@
 import DotGrid from "@/design/dot";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Google from "@/public/icons/google.svg";
 import { Select, SelectItem, Spinner } from "@nextui-org/react";
 import {
@@ -12,13 +12,74 @@ import {
   signup,
 } from "@/app/helpers/signupUser";
 import StatusModal from "@/components/Modal";
+import { checkPasswordStrength } from "@/app/validity/validatePassword";
+import { signIn } from "next-auth/react";
 
 export default function Login() {
+  console.log(process.env.NEXTAUTH_URL, process.env.GOOGLE_CLIENT_SECRET);
   const [formData, setFormData] = useState<UserData>();
   const [sucessModal, setSuccessModal] = useState<boolean>(false);
   const [failedModal, setFailedsModal] = useState<boolean>(false);
   const [UserDataError, setError] = useState<UserDataError>({});
   const [isLoading, setLoading] = useState<boolean>(false);
+  const [isdisabled, setDisabled] = useState<boolean>(false);
+  useEffect(() => {
+    setDisabled(false);
+    if (formData?.othername == "") {
+      setDisabled(true);
+      setError((prev) => {
+        return {
+          ...prev,
+          othername: "othername length must be more than 23",
+        };
+      });
+    }
+    if ((formData?.surname ?? "")?.length < 3) {
+      setDisabled(true);
+      setError((prev) => {
+        return {
+          ...prev,
+          surnamee: "surname  length must be more than 3",
+        };
+      });
+    }
+    if (formData?.password !== formData?.rePassword || !formData?.password) {
+      setDisabled(true);
+      setError((prev) => {
+        return {
+          ...prev,
+          password: "Password Did'nt Match",
+          rePassword: "Password Didnt Match",
+        };
+      });
+    } else {
+      checkPasswordStrength(formData?.password ?? "").then((result) => {
+        if (result == "Password is strong") {
+          setError((prev) => {
+            return {
+              ...prev,
+              password: "Password is strong",
+              rePassword: "Password is strong",
+            };
+          });
+        } else {
+          setDisabled(true);
+          setError((prev) => {
+            return {
+              ...prev,
+              password: result,
+              rePassword: result,
+            };
+          });
+        }
+      });
+    }
+  }, [
+    formData?.surname,
+    formData?.othername,
+    formData?.password,
+    formData?.rePassword,
+  ]);
   const handleSubmit = async (e: any) => {
     // const confirm = (
     //   password: string,
@@ -31,6 +92,16 @@ export default function Login() {
     setLoading(true);
     e.preventDefault();
     setError({});
+
+    if (formData?.password && formData.password.length < 5) {
+      setError((prev) => {
+        return {
+          ...prev,
+          password: "Password Did'nt Match",
+          rePassword: "Password Didnt Match",
+        };
+      });
+    }
     const response = await signup(formData as UserData);
     if (response.status == 400 || response.status == 500) {
       setError((prev: UserDataError) => {
@@ -125,6 +196,9 @@ export default function Login() {
 
           <div className="mb-20">
             <Button
+              onClick={() => {
+                signIn("google", { callbackUrl: "/dashboard" });
+              }}
               startContent={<img src={Google.src} width={"32"} />}
               className="bg-white w-full font-[400]"
             >
@@ -169,7 +243,12 @@ export default function Login() {
                   >
                     Othername{" "}
                     <span className="text-danger-500">
-                      :{UserDataError.name}
+                      :
+                      {(UserDataError.name ? UserDataError.name : "") +
+                        " " +
+                        (UserDataError.othername
+                          ? UserDataError.othername
+                          : "")}
                     </span>
                   </label>
                   <Input
@@ -219,14 +298,21 @@ export default function Login() {
               <div className="mt-5 mb-5">
                 <label
                   className={`text-sm ${
-                    UserDataError.password
+                    UserDataError.password &&
+                    UserDataError.password !== "Password is strong"
                       ? "text-danger-500"
-                      : "text-slate-700"
+                      : "text-success-50a0"
                   } mb-2 font-[500] font-[Helvetica]`}
                 >
                   Password{" "}
-                  <span className="text-danger-500">
-                    :{UserDataError.password && UserDataError.password[0]}
+                  <span
+                    className={
+                      UserDataError.rePassword == "Password is strong"
+                        ? "text-success-500"
+                        : "text-danger-500"
+                    }
+                  >
+                    :{UserDataError.password || UserDataError.password}
                   </span>
                 </label>
                 <Input
@@ -248,14 +334,21 @@ export default function Login() {
               <div className="mt-5 mb-5">
                 <label
                   className={`text-sm ${
-                    UserDataError.rePassword || UserDataError.password
+                    UserDataError.rePassword &&
+                    UserDataError.rePassword != "Password is strong"
                       ? "text-danger-500"
-                      : "text-slate-700"
+                      : ""
                   } mb-2 font-[500] font-[Helvetica]`}
                 >
                   Confirm Password{" "}
-                  <span className="text-danger-500">
-                    :{UserDataError.rePassword && UserDataError.rePassword[0]}
+                  <span
+                    className={
+                      UserDataError.rePassword == "Password is strong"
+                        ? "text-success-500"
+                        : "text-danger-500"
+                    }
+                  >
+                    :{UserDataError.rePassword || UserDataError.rePassword}
                   </span>
                 </label>
                 <Input
@@ -305,6 +398,7 @@ export default function Login() {
               </div>
             </div>
             <Button
+              disabled={isdisabled}
               onClick={handleSubmit}
               className="bg-purple-500 text-slate-100 rounded-md "
             >

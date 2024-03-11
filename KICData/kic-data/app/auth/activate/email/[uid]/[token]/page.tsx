@@ -11,7 +11,7 @@ export default function LoginActivation(params: {
   uid: string;
   token: string;
 }) {
-  const { uid, token } = params.params;
+  const { uid, token } = params.params!;
   const [email, setEmail] = useState("");
   const [sucessModal, setSuccessModal] = useState<boolean>(false);
   const [NotSucessModal, setNotSuccessModal] = useState<boolean>(false);

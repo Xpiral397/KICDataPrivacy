@@ -36,10 +36,6 @@ export function SingleSidebarBoardLayout() {
   return (
     <div className="flex w-full items-center bg-blue-50">
       <nav className="flex flex-col  space-y-5 w-full ">
-        <h1 className="px-2 text-blue-900 text-2xl mt-2 mb-2 font-[600] text-[16px]">
-          KIC DataPrivacy
-        </h1>
-
         <ul className="flex  h-full flex-col w-full">
           <h1 className="text-slate-500 font-[550] px-3">Data Overview</h1>
 

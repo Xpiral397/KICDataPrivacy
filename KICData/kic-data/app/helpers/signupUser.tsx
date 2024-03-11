@@ -11,6 +11,7 @@ export interface UserData {
 }
 export interface UserDataError {
   surname?: string;
+  othername?: string;
   name?: string;
   email?: string;
   password?: string;
