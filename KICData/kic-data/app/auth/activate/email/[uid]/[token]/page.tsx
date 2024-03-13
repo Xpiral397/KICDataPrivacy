@@ -11,7 +11,7 @@ export default function LoginActivation(params: {
   uid: string;
   token: string;
 }) {
-  const { uid, token } = params.params!;
+  const { uid, token } = params.params;
   const [email, setEmail] = useState("");
   const [sucessModal, setSuccessModal] = useState<boolean>(false);
   const [NotSucessModal, setNotSuccessModal] = useState<boolean>(false);
@@ -33,12 +33,12 @@ export default function LoginActivation(params: {
 
   return (
     <div
-      className="flex justify-between bg-white h-full w-full relative items-center flex-row "
+      className="relative flex flex-row items-center justify-between w-full h-full bg-white "
       data-label="sign-in"
     >
-      <div className=" w-full h-full absolute  ">
-        <div className="lg:hidden bg-purple-900 overflow-hidden relative w-full h-full">
-          <div className="w-full absolute left-0 top-0 ">
+      <div className="absolute w-full h-full ">
+        <div className="relative w-full h-full overflow-hidden bg-purple-900 lg:hidden">
+          <div className="absolute top-0 left-0 w-full ">
             <DotGrid
               gridSize={100}
               spacing={10}
@@ -50,7 +50,7 @@ export default function LoginActivation(params: {
       </div>
 
       <div
-        className="z-10 rounded-md flex   items-center  justify-center h-full w-full "
+        className="z-10 flex items-center justify-center w-full h-full rounded-md "
         data-label="label"
       >
         <div
@@ -68,9 +68,9 @@ export default function LoginActivation(params: {
               KICData Privacy
             </h1>
           </div>
-          <div className="w-full bg-white flex  text-center place-items-center justify-center">
+          <div className="flex justify-center w-full text-center bg-white place-items-center">
             {sucessModal && (
-              <div className=" flex items-center justify-center top-0 right-0 absolute w-full h-fulL">
+              <div className="absolute top-0 right-0 flex items-center justify-center w-full  h-fulL">
                 <StatusModal
                   status="ACTIVATION_SUCCESS"
                   onSendActivationLink={() => {}}
@@ -78,11 +78,11 @@ export default function LoginActivation(params: {
               </div>
             )}
             <div
-              className=" flex items-center justify-center top-0 right-0 absolute w-full h-fulL"
+              className="absolute top-0 right-0 flex items-center justify-center w-full  h-fulL"
               id="re-send-activation-link"
             ></div>
             {NotSucessModal && (
-              <div className=" flex items-center justify-center top-0 right-0 absolute w-full h-full ">
+              <div className="absolute top-0 right-0 flex items-center justify-center w-full h-full ">
                 <StatusModal
                   status="ACTIVATION_FAILED"
                   onSendActivationLink={() => {}}
@@ -104,8 +104,8 @@ export default function LoginActivation(params: {
         </div>
       </div>
 
-      <div className="w-full h-full lg:block hidden overflow-hidden ">
-        <div className="bg-purple-900 overflow-hidden relative w-full h-full">
+      <div className="hidden w-full h-full overflow-hidden lg:block ">
+        <div className="relative w-full h-full overflow-hidden bg-purple-900">
           <div className=" rounded-md px-10  w-full h-full flex flex-col items-center right-0  mt-[20%] absolute z-[1000]">
             <div className="w-[500px] space-y-2 flex flex-col items-center shadow-2xl shadow-purple-600 bg-white px-5 py-2 rounded-md">
               <h1 className="font-[600] text-purple-900 ">
@@ -139,7 +139,7 @@ export default function LoginActivation(params: {
               </div>
             </div>
           </div>
-          <div className="w-full absolute right-0 top-0   hidden lg:flex">
+          <div className="absolute top-0 right-0 hidden w-full lg:flex">
             <DotGrid
               gridSize={150}
               spacing={15}
@@ -147,7 +147,7 @@ export default function LoginActivation(params: {
               dotColor="white"
             />
           </div>
-          <div className="right-0 top-0 absolute ">
+          <div className="absolute top-0 right-0 ">
             <DotGrid
               gridSize={225}
               spacing={15}
@@ -157,8 +157,8 @@ export default function LoginActivation(params: {
           </div>
         </div>
 
-        <div className="bg-purple-900 relative w-full">
-          <div className="w-full absolute left-0 bottom-0 hidden lg:flex">
+        <div className="relative w-full bg-purple-900">
+          <div className="absolute bottom-0 left-0 hidden w-full lg:flex">
             <DotGrid
               gridSize={150}
               spacing={20}
@@ -166,7 +166,7 @@ export default function LoginActivation(params: {
               dotColor="blue"
             />
           </div>
-          <div className="left-1  bottom-0 absolute ">
+          <div className="absolute bottom-0 left-1 ">
             <DotGrid
               gridSize={125}
               spacing={20}

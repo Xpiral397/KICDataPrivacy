@@ -9,10 +9,12 @@ import {
   Link,
   User,
 } from "@nextui-org/react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 export default function Navbar() {
+  const router = useRouter();
   const items = [
     {
       key: "new",
@@ -38,10 +40,18 @@ export default function Navbar() {
         <DotGrid gridSize={4} spacing={4} dotRadius={1} dotColor="white" />
         <h1 className="text-white font-[600]  text-xl">KICData</h1>
       </div>
-      <ul className="flex text-white font-[500] space-x-10 ">
-        <li>Security</li>
-        <li>Alert</li>
-        <li>Support</li>
+
+      <ul className="flex items-center justify-center space-x-10 ">
+        <ul className="flex text-white font-[500] space-x-10 text-sm  ">
+          <li>Account</li>
+          <li
+            onClick={() => {
+              router.push("Learn");
+            }}
+          >
+            Learn
+          </li>
+        </ul>
         <div className="flex items-center gap-4">
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
@@ -67,7 +77,13 @@ export default function Navbar() {
               <DropdownItem key="help_and_feedback">
                 Help & Feedback
               </DropdownItem>
-              <DropdownItem key="logout" color="danger">
+              <DropdownItem
+                onClick={() => {
+                  signOut();
+                }}
+                key="logout"
+                color="danger"
+              >
                 Log Out
               </DropdownItem>
             </DropdownMenu>

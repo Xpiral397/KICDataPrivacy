@@ -1,16 +1,52 @@
+// ResetPassword.tsx
+"use client";
+import { requestForResetPasswordLink } from "@/app/helpers/requestForResetPasswordLink";
+import { resetPasswordRequest } from "@/app/helpers/resetPassword";
+import StatusModal from "@/components/Modal";
 import DotGrid from "@/design/dot";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
-import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 
-export default function Login() {
-  const router = useRouter();
+export default function ResetPassword() {
+  const [email, setEmail] = useState("");
+
+  const [error, setError] = useState("");
+
+  const handleResetPassword = async () => {
+    // Perform client-side validation
+    if (!email) {
+      setError("Please enter both password and confirm password.");
+      return;
+    }
+
+    // Make the reset password request
+    const response = await requestForResetPasswordLink(email);
+    alert(response);
+    console.log(response);
+
+    setError(response);
+  };
+
   return (
     <div
-      className="relative flex flex-row items-center justify-between w-full h-full bg-white "
-      data-label="sign-in"
+      className="relative flex flex-row items-center justify-between w-full h-full bg-white"
+      data-label="reset-password"
     >
+      {error == "PASSWORD_RESET" ? (
+        <StatusModal
+          status="PASSWORD_RESET_SUCCESS"
+          onSendActivationLink={() => {}}
+        />
+      ) : error == "PASSWORD_RESET_FAILED" ? (
+        <StatusModal
+          onSendActivationLink={() => {}}
+          status="PASSWORD_RESET_FAILED"
+        />
+      ) : (
+        ""
+      )}
+
       <div className="absolute w-full h-full ">
         <div className="relative w-full h-full overflow-hidden bg-purple-900 lg:hidden">
           <div className="absolute top-0 left-0 w-full ">
@@ -23,7 +59,6 @@ export default function Login() {
           </div>
         </div>
       </div>
-
       <div
         className="z-10 flex items-center justify-center w-full h-full rounded-md "
         data-label="label"
@@ -43,63 +78,43 @@ export default function Login() {
               KICData Privacy
             </h1>
           </div>
-          <form method="POST" className="flex flex-col space-y-5 rounded-md ">
+
+          <form method="POST" className="flex flex-col space-y-5 rounded-md">
             <div>
-              <h1 className="text-slate-800 text-xl font-[600] font-[Helvetica]">
-                Log in.
-              </h1>
-              <h1 className="text-slate-600 font-[450] mb-5 mt-2 text-[15px]">
-                Log in with your KICData data that you entered during your
-                registration
-              </h1>
-
               <div>
+                {" "}
+                <h1 className="mt-2 mb-2 text-slate-700 py-5 px-15 rounded-lg  text-3xl font-[600] font-[Helvetica]">
+                  Password Reset Link Request
+                </h1>
                 <label className="text-slate-700 mb-2 font-[500] font-[Helvetica]">
-                  Your Email
+                  New Password
                 </label>
-                <input
-                  type="text"
-                  placeholder="joe@gmail.com"
-                  name="username"
-                  className="w-full px-4 py-2 bg-white border rounded-md border-slate-400 focus:outline-none focus:border-slate-900"
+                <Input
+                  type="email"
+                  placeholder="Enter Your Gmail"
+                  name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  // className="w-full px-4 py-2 bg-white border rounded-md border-slate-400 focus:outline-none focus:border-slate-900"
                 />
               </div>
 
-              <div className="mt-5 mb-5">
-                <label className="text-slate-800 mb-3 bg-white font-[400] font-[Helvetica]">
-                  Password
-                </label>
-                <input
-                  type="text"
-                  name="username"
-                  placeholder="At least 8 character"
-                  className="w-full px-4 py-2 bg-white border rounded-md border-slate-400 focus:outline-none focus:border-slate-900"
-                />
-              </div>
+              {error && (
+                <div className="mb-3 font-bold text-red-600">{error}</div>
+              )}
 
-              <div className="space-x-2 bg-white ">
-                <input type="checkbox" />
-                <label className="text-slate-900 font-[400] font-[Helvetica]">
-                  Keep me logged in
-                </label>
+              <Button
+                className="mt-3 bg-purple-500 rounded-md text-slate-100"
+                onClick={handleResetPassword}
+              >
+                Request For Password Reset Link
+              </Button>
+
+              <div className="flex flex-col items-center space-y-5">
+                <h1 className="space-x-2 text-purple-900">
+                  <span>{error}</span>
+                </h1>
               </div>
-            </div>
-            <Button className="bg-purple-500 rounded-md text-slate-100 ">
-              Log in
-            </Button>
-            <div className="flex flex-col items-center space-y-5">
-              <h1 className="space-x-2 text-purple-900">
-                <span>Don't here an account?</span>
-                <span
-                  className="text-purple-800 font-[600]"
-                  onClick={() => {
-                    router.push("/singup");
-                  }}
-                >
-                  Sign up
-                </span>
-              </h1>
-              <h1 className="text-purple-800">Forget password?</h1>
             </div>
           </form>
         </div>
@@ -135,22 +150,21 @@ export default function Login() {
                 <p className="text-[15px] text-purple-800 font-[Arial, Helvetica, sans-serif] font-[500] ">
                   Keep your eyes on your data, focus on your privacy rather than
                 </p>
-                <div className="rotate-260 absolute top-[18%] mr-[20px] border-r-white border-t-white border-r-[7px] border-t-[7px] h-[90px] w-[200px] space-y-2 flex flex-col items-center  bg-transparent  px-5 py-2 rounded-md"></div>
+                <div className="rotate-260 absolute top-[18%] mr-[30px] border-r-white border-t-white border-r-[7px] border-t-[7px] h-[90px] w-[200px] space-y-2 flex flex-col items-center  bg-transparent  px-5 py-2 rounded-md"></div>
               </div>
             </div>
           </div>
           <div className="absolute top-0 right-0 hidden w-full lg:flex">
             <DotGrid
-              gridSize={25}
+              gridSize={150}
               spacing={15}
               dotRadius={0.51}
               dotColor="white"
             />
           </div>
-
           <div className="absolute top-0 right-0 ">
             <DotGrid
-              gridSize={25}
+              gridSize={225}
               spacing={15}
               dotRadius={0.51}
               dotColor="yellow"
@@ -161,7 +175,7 @@ export default function Login() {
         <div className="relative w-full bg-purple-900">
           <div className="absolute bottom-0 left-0 hidden w-full lg:flex">
             <DotGrid
-              gridSize={25}
+              gridSize={150}
               spacing={20}
               dotRadius={0.51}
               dotColor="blue"
@@ -169,7 +183,7 @@ export default function Login() {
           </div>
           <div className="absolute bottom-0 left-1 ">
             <DotGrid
-              gridSize={25}
+              gridSize={125}
               spacing={20}
               dotRadius={0.69}
               dotColor="orange"

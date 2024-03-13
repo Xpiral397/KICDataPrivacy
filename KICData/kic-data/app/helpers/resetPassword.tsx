@@ -2,9 +2,10 @@
 export const resetPasswordRequest = async (
   uid: string,
   token: string,
-  password: string
+  new_password: string,
+  re_new_password: string
 ) => {
-  const url = "http://localhost:8000/your-reset-password-endpoint/"; // Replace with your actual Django endpoint
+  const url = "http://localhost:8000/auth/users/reset_password_confirm/"; // Replace with your actual Django endpoint
 
   try {
     const response = await fetch(url, {
@@ -12,17 +13,14 @@ export const resetPasswordRequest = async (
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ uid, token, password }),
+      body: JSON.stringify({ uid, token, new_password, re_new_password }),
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      return "PASSWORD_RESET_LINK_FAILED";
     }
-
-    const data = await response.json();
-    return data;
+    return "PASSWORD_RESET_LINK_SUCCESS";
   } catch (error) {
-    console.error("Error:", error);
-    throw new Error("Error making the reset password request");
+    return "PASSWORD_RESET_LINK_FAILED";
   }
 };

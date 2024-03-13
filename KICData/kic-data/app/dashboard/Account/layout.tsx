@@ -4,21 +4,9 @@ import React, { ReactNode } from "react";
 
 function Layout({ children }: { children: ReactNode }) {
   return (
-    <div className="w-full">
-      <div className="w-full bg-500">
-        <div className="mt-1 rounded-md w-full flex flex-wrap gap-4">
-          <Tabs
-            className="bg-white"
-            color={"secondary"}
-            aria-label="Tabs colors"
-            radius="full"
-          >
-            <Tab key="Linked Account" title="Linked Account" />
-            <Tab key="music" title="Connected" />
-            <Tab key="Disconnect" title="Disconected" />
-          </Tabs>
-          <Tabs />
-        </div>
+    <div className="w-full h-full items-center justify-center">
+      <div className="w-full items-center flex flex-col  h-full">
+        {children}
       </div>
     </div>
   );

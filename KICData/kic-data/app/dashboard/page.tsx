@@ -1,25 +1,22 @@
 "use client";
-import { Tab, Tabs } from "@nextui-org/react";
-import React from "react";
+import { Progress } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
-export default function RenderHomePage() {
+export default function Page() {
+  const router = useRouter();
+  useEffect(() => {
+    router.push("/dashboard/Learn/pm");
+  }, []);
   return (
-    <div className="w-full">
-      <div className="w-full bg-500">
-        <div className="mt-1 rounded-md w-full flex flex-wrap gap-4">
-          <Tabs
-            className="bg-white"
-            color={"secondary"}
-            aria-label="Tabs colors"
-            radius="full"
-          >
-            <Tab key="Linked Account" title="Linked Account" />
-            <Tab key="music" title="Connected" />
-            <Tab key="Disconnect" title="Disconected" />
-          </Tabs>
-          <Tabs />
-        </div>
-      </div>
+    <div className="w-full h-full justify-center items-center flex flex-col">
+      <h1>Loading...</h1>
+      <Progress
+        size="sm"
+        isIndeterminate
+        aria-label="Loading..."
+        className="max-w-md"
+      />
     </div>
   );
 }
