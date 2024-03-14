@@ -44,6 +44,7 @@ class UserAccount(AbstractUser, PermissionsMixin):
     has_confirm_email = models.BooleanField(default=False)
     has_confirm_location = models.BooleanField(default=False)
     has_confirm_full_name = models.BooleanField(default=False)
+    account = models.JSONField(default = {"links":[]})
     has_confirm_number = models.BooleanField(default=False)
     has_confirm_profile_picture = models.BooleanField(default=False)
     number = models.CharField(max_length=20, null=True, blank=True)

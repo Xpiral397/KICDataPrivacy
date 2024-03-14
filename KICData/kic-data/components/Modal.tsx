@@ -16,6 +16,10 @@ import Link from "next/link";
 
 type AccountStatus =
   | "ACTIVATION_FAILED"
+  | "PASSWORD_RESET_LINK_SUCCESS"
+  | "PASSWORD_RESET_LINK_FAILED"
+  | "PASSWORD_RESET_FAILED"
+  | "PASSWORD_RESET_SUCCESS"
   | "RE_ACTIVATION_FAILED"
   | "EMAIL_RESEND_ACTIVATION_LINK_SUCCESS"
   | "EMAIL_RESEND_ACTIVATION_LINK_FAILED"
@@ -62,6 +66,15 @@ const StatusModal: React.FC<StatusModalProps> = ({
         return "Email Verification Resend Successfully";
       case "EMAIL_RESEND_ACTIVATION_LINK_FAILED":
         return "Email Verification Links Failed On Resend";
+      case "PASSWORD_RESET_LINK_SUCCESS":
+        return "Password Reset Link Sent Successfully";
+      case "PASSWORD_RESET_LINK_FAILED":
+        return "Password Reset Link Sent Failed";
+      case "PASSWORD_RESET_SUCCESS":
+        return "Password Reset  Successfully";
+      case "PASSWORD_RESET_FAILED":
+        return "Password Reset Failed";
+
       default:
         return "Status";
     }
@@ -138,7 +151,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
             <>
               <Input
                 onChange={(e) => setEmail(e.target.value)}
-                className="text-slate-900 border-blue-500"
+                className="border-blue-500 text-slate-900"
               />
               <Button
                 color="primary"
@@ -167,7 +180,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
             <>
               <Input
                 onChange={(e) => setEmail(e.target.value)}
-                className="text-slate-900 border-blue-500"
+                className="border-blue-500 text-slate-900"
               />
               <Button
                 color="primary"
@@ -200,7 +213,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
                   onSendActivationLink();
                 }}
               >
-                Close
+                Closec
               </Button>
               <Button color="primary" onPress={onSendActivationLink}>
                 <Link href={"/dashboard"}>Login</Link>
@@ -223,6 +236,64 @@ const StatusModal: React.FC<StatusModalProps> = ({
             </Button>
           ),
         };
+      case "PASSWORD_RESET_LINK_SUCCESS":
+        return {
+          content:
+            "Password reset link sent is sent successfully, if you have an email associated with our database you will recive a notification on your email, on how to rest your password. Check your spam is not seen . Thanks!",
+          actions: (
+            <Button
+              color="success"
+              onClick={() => {
+                onClose();
+              }}
+            >
+              Close
+            </Button>
+          ),
+        };
+      case "PASSWORD_RESET_SUCESS":
+        return {
+          content: "You Have Successfully Change Your Password",
+          actions: (
+            <Button
+              color="success"
+              onClick={() => {
+                onClose();
+              }}
+            >
+              Close
+            </Button>
+          ),
+        };
+      case "PASSWORD_RESET_SUCESS":
+        return {
+          content: "You Have Successfully Change Your Password",
+          actions: (
+            <Button
+              color="success"
+              onClick={() => {
+                onClose();
+              }}
+            >
+              Close
+            </Button>
+          ),
+        };
+      case "PASSWORD_RESET_FAILED":
+        return {
+          content:
+            "Your attempt to changed your password was unable to be processed, please check your credentials and verify you tokens or contact KICData Privacy teams. Thanks",
+          actions: (
+            <Button
+              color="warning"
+              onClick={() => {
+                onClose();
+              }}
+            >
+              Close
+            </Button>
+          ),
+        };
       case "EMAIL_RESEND_ACTIVATION_LINK_FAILED":
         return {
           content:
@@ -231,7 +302,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
             <>
               <Input
                 onChange={(e) => setEmail(e.target.value)}
-                className="text-slate-900 border-blue-500"
+                className="border-blue-500 text-slate-900"
               />
 
               <Button
