@@ -11,7 +11,7 @@ export default function SidebarBoardLayout({
 }) {
   const router = useRouter();
   useEffect(() => {
-    router.push("/dashboard/Learn/pm");
+    router.push("/dashboard/Account");
   }, []);
   return (
     <div className="h-full flex flex-col">
