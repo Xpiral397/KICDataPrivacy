@@ -251,7 +251,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
             </Button>
           ),
         };
-      case "PASSWORD_RESET_SUCESS":
+      case "PASSWORD_RESET_SUCCESS":
         return {
           content: "You Have Successfully Change Your Password",
           actions: (

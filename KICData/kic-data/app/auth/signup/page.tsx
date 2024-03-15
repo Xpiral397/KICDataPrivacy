@@ -32,7 +32,7 @@ export default function Login() {
       setError((prev) => {
         return {
           ...prev,
-          othername: "othername length must be more than 23",
+          othername: "othername length must be more than 2 or 3",
         };
       });
     }
@@ -115,6 +115,7 @@ export default function Login() {
     } else if (response.status == 201) {
       setLoading(false);
       setSuccessModal(!sucessModal);
+      signIn('credentials')
     }
     setLoading(false);
     // Handle form submission, e.g., send data to the server
@@ -391,7 +392,10 @@ export default function Login() {
 
                 <Select
                   onChange={(e: any) =>
-                    setFormData((prev) => ({ ...prev, gender: e.target.value }))
+                    setFormData((prev) => ({
+                      ...prev,
+                      country: e.target.value,
+                    }))
                   }
                   name="country"
                   label="Select Your Country"
@@ -432,7 +436,7 @@ export default function Login() {
                 <span>Don't here an account?</span>
                 <span
                   onClick={() => {
-                    router.push("/login");
+                    router.push("auth/login");
                   }}
                   className="text-purple-800 font-[600]"
                 >

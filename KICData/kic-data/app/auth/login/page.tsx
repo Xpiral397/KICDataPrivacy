@@ -1,11 +1,26 @@
+"use client";
+import { authorize } from "@/app/helpers/XXRSAgent/activate";
+import StatusModal from "@/components/Modal";
 import DotGrid from "@/design/dot";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
-import { useRouter } from "next/router";
-import React from "react";
+import { signIn, useSession } from "next-auth/react";
+import Cookies from "js-cookies";
+import { redirect, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 export default function Login() {
+  const session = useSession();
   const router = useRouter();
+  const [email, setEmail] = useState<string>();
+  const [auth, setAuth] = useState<boolean>(false);
+  const [failed, error] = useState<boolean>(false);
+  const [password, setPassword] = useState<string>();
+  const setSessionCookies = (sessionData: any) => {
+    Cookies.set("auth", sessionData.accessToken);
+    // Set other session data as needed
+  };
+
   return (
     <div
       className="relative flex flex-row items-center justify-between w-full h-full bg-white "
@@ -43,6 +58,13 @@ export default function Login() {
               KICData Privacy
             </h1>
           </div>
+          {failed && (
+            <StatusModal
+              status="LOGIN_FAILED"
+              onSendActivationLink={() => {}}
+            />
+          )}
+
           <form method="POST" className="flex flex-col space-y-5 rounded-md ">
             <div>
               <h1 className="text-slate-800 text-xl font-[600] font-[Helvetica]">
@@ -61,6 +83,9 @@ export default function Login() {
                   type="text"
                   placeholder="joe@gmail.com"
                   name="username"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
                   className="w-full px-4 py-2 bg-white border rounded-md border-slate-400 focus:outline-none focus:border-slate-900"
                 />
               </div>
@@ -73,6 +98,9 @@ export default function Login() {
                   type="text"
                   name="username"
                   placeholder="At least 8 character"
+                  onChange={(e) => {
+                    setPassword(e.target.value ?? "");
+                  }}
                   className="w-full px-4 py-2 bg-white border rounded-md border-slate-400 focus:outline-none focus:border-slate-900"
                 />
               </div>
@@ -84,22 +112,46 @@ export default function Login() {
                 </label>
               </div>
             </div>
-            <Button className="bg-purple-500 rounded-md text-slate-100 ">
+            <Button
+              onClick={(e) => {
+                if (email && password) {
+                  try {
+                    signIn("credentials", {
+                      email,
+                      password,
+                      redirect: false,
+                    });
+                    setAuth(true);
+                    error(false);
+                    if (session.data?.user.userData.email) {
+                      setSessionCookies(session?.status ?? "");
+                      router.push("/dashboard");
+                    }
+                  } catch (e) {
+                    error(true);
+                    setAuth(false);
+                  }
+                }
+              }}
+              className="bg-purple-500 rounded-md text-slate-100 "
+            >
               Log in
             </Button>
             <div className="flex flex-col items-center space-y-5">
               <h1 className="space-x-2 text-purple-900">
-                <span>Don't here an account?</span>
+                <span>Don't heve an account?</span>
                 <span
                   className="text-purple-800 font-[600]"
                   onClick={() => {
-                    router.push("/singup");
+                    router.push("auth/singup");
                   }}
                 >
                   Sign up
                 </span>
               </h1>
-              <h1 className="text-purple-800">Forget password?</h1>
+              <a href="/auth/reset_password" className="text-purple-800">
+                Forget password?
+              </a>
             </div>
           </form>
         </div>

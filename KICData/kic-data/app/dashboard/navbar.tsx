@@ -2,6 +2,7 @@
 import DotGrid from "@/design/dot";
 import {
   Avatar,
+  Button,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -9,9 +10,9 @@ import {
   Link,
   User,
 } from "@nextui-org/react";
-import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import React from "react";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { redirect, useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
 export default function Navbar() {
   const router = useRouter();
@@ -33,7 +34,12 @@ export default function Navbar() {
       label: "Delete file",
     },
   ];
-  const { data } = useSession();
+  const { data, status } = useSession();
+  useEffect(() => {
+    if (status !== "authenticated") {
+      router.push("/auth/login");
+    }
+  });
   return (
     <nav className="h-16 px-10 flex items-center justify-between bg-blue-500 w-full">
       <div className="flex items-center space-x-5">
@@ -65,8 +71,8 @@ export default function Navbar() {
             <DropdownMenu aria-label="Profile Actions" variant="flat">
               <DropdownItem key="profile" className="h-14 gap-2">
                 <p className="font-semibold">Signed in as</p>
-                <p className="font-semibold">{data?.user?.name}</p>
-                <p className="font-semibold">{data?.user?.email}</p>
+                <p className="font-semibold">{data?.user?.userData.name}</p>
+                <p className="font-semibold">{data?.user?.userData?.email}</p>
               </DropdownItem>
               <DropdownItem key="settings">My Settings</DropdownItem>
               <DropdownItem key="team_settings">Activity Log</DropdownItem>
@@ -84,7 +90,14 @@ export default function Navbar() {
                 key="logout"
                 color="danger"
               >
-                Log Out
+                <Button
+                  onClick={() => {
+                    signOut();
+                  }}
+                  className="px-2 w-full bg-danger-300 text-white font-[600]"
+                >
+                  Log Out
+                </Button>{" "}
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>

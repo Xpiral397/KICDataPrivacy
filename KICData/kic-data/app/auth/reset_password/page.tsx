@@ -21,11 +21,9 @@ export default function ResetPassword() {
     }
 
     // Make the reset password request
-    const response = await requestForResetPasswordLink(email);
-    alert(response);
-    console.log(response);
-
-    setError(response);
+    requestForResetPasswordLink(email).then((response) => {
+      setError(response);
+    });
   };
 
   return (
@@ -33,7 +31,7 @@ export default function ResetPassword() {
       className="relative flex flex-row items-center justify-between w-full h-full bg-white"
       data-label="reset-password"
     >
-      {error == "PASSWORD_RESET" ? (
+      {error == "PASSWORD_RESET_SUCCESS" ? (
         <StatusModal
           status="PASSWORD_RESET_SUCCESS"
           onSendActivationLink={() => {}}
@@ -44,8 +42,18 @@ export default function ResetPassword() {
           status="PASSWORD_RESET_FAILED"
         />
       ) : (
-        ""
+        <StatusModal
+          status="PASSWORD_RESET_SUCCESS"
+          onSendActivationLink={() => {}}
+        />
       )}
+
+      <StatusModal
+        status="PASSWORD_RESET_SUCCESS"
+        onSendActivationLink={() => {
+          alert("done");
+        }}
+      />
 
       <div className="absolute w-full h-full ">
         <div className="relative w-full h-full overflow-hidden bg-purple-900 lg:hidden">
@@ -81,7 +89,7 @@ export default function ResetPassword() {
 
           <form method="POST" className="flex flex-col space-y-5 rounded-md">
             <div>
-              <div>
+              <div className="space-y-10">
                 {" "}
                 <h1 className="mt-2 mb-2 text-slate-700 py-5 px-15 rounded-lg  text-3xl font-[600] font-[Helvetica]">
                   Password Reset Link Request
@@ -93,28 +101,23 @@ export default function ResetPassword() {
                   type="email"
                   placeholder="Enter Your Gmail"
                   name="email"
-                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   // className="w-full px-4 py-2 bg-white border rounded-md border-slate-400 focus:outline-none focus:border-slate-900"
                 />
               </div>
 
-              {error && (
+              {error && error !== "PASSWORD_RESET_SUCCESS" && (
                 <div className="mb-3 font-bold text-red-600">{error}</div>
               )}
 
               <Button
-                className="mt-3 bg-purple-500 rounded-md text-slate-100"
+                className="mt-10 bg-purple-500 rounded-md text-slate-100"
                 onClick={handleResetPassword}
               >
                 Request For Password Reset Link
               </Button>
 
-              <div className="flex flex-col items-center space-y-5">
-                <h1 className="space-x-2 text-purple-900">
-                  <span>{error}</span>
-                </h1>
-              </div>
+              <div className="flex flex-col items-center space-y-5"></div>
             </div>
           </form>
         </div>
@@ -154,7 +157,7 @@ export default function ResetPassword() {
               </div>
             </div>
           </div>
-          <div className="absolute top-0 right-0 hidden w-full lg:flex">
+          {/* <div className="absolute top-0 right-0 hidden w-full lg:flex">
             <DotGrid
               gridSize={150}
               spacing={15}
@@ -169,7 +172,7 @@ export default function ResetPassword() {
               dotRadius={0.51}
               dotColor="yellow"
             />
-          </div>
+          </div> */}
         </div>
 
         <div className="relative w-full bg-purple-900">

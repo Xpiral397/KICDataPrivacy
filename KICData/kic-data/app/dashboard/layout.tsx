@@ -3,17 +3,23 @@ import { SingleSidebarBoardLayout } from "@/components/sidebar";
 import { ReactNode, useEffect } from "react";
 import Navbar from "./navbar";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function SidebarBoardLayout({
   children,
 }: {
   children: ReactNode;
 }) {
+  const session = useSession();
   const router = useRouter();
   useEffect(() => {
-    router.push("/dashboard/Account");
+    if (session.status !== "authenticated") {
+      router.push("/auth/login");
+    } else {
+      router.push("/dashboard/Account");
+    }
   }, []);
-  return (
+  return session.status === "authenticated" ? (
     <div className="h-full flex flex-col">
       <div className="w-full">
         <Navbar />
@@ -22,5 +28,7 @@ export default function SidebarBoardLayout({
         <main className="w-full h-full">{children}</main>
       </div>
     </div>
+  ) : (
+    ""
   );
 }
