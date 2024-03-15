@@ -20,6 +20,9 @@ export async function fetchCurrentUser(username:string , password:string) : Prom
                 'Authorization': `JWT ${access}`,
             },
         });
+        if(!userResponse.ok) {
+            return null
+        }
         const userData = await userResponse.json();
 
         // Step 3: Return the access token and user data

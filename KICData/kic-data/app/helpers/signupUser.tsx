@@ -1,4 +1,5 @@
 export interface UserData {
+  country?: string;
   surname?: string;
   name?: string;
   username?: string;
@@ -18,6 +19,7 @@ export interface UserDataError {
   rePassword?: string;
   gender?: string;
   keepLoggedIn?: boolean;
+  country?: string;
 }
 
 export interface SignupResponse {

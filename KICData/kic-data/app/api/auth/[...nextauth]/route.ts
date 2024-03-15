@@ -56,24 +56,27 @@ const Options= {
         newUser: "/auth/singup",
     },
     secret: process.env.NEXTAUTH_SECRET,
-  
-   
+
         
     callbacks: {
+
          async jwt({token, user}: any) {
       
         if(user) {
            token = user
             }
-    console.log(user,'jiiii')
+  
         return token
-   },
+        },
+    
+
         async session({session, token}:any) {
             if(token) {
                 session.user = token
+                 return session;
             }
-            console.log(session)
-            return session;
+          
+           
     }
 
     }

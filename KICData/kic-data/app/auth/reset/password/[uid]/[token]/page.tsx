@@ -5,39 +5,42 @@ import StatusModal from "@/components/Modal";
 import DotGrid from "@/design/dot";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function ResetPassword(param: any) {
   const { uid, token } = param.params;
+  const [fired, setFired] = useState();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [resetMessage, setResetMessage] = useState("");
   const [error, setError] = useState("");
 
-  const handleResetPassword = async () => {
-    // Perform client-side validation
-    if (!password || !confirmPassword) {
-      setError("Please enter both password and confirm password.");
-      return;
-    }
+  useEffect(() => {
+    const handleResetPassword = async () => {
+      if (!password || !confirmPassword) {
+        setError("Please enter both password and confirm password.");
+        return;
+      }
 
-    if (password !== confirmPassword) {
-      setError("Passwords do not match. Please enter matching passwords.");
-      return;
-    }
+      if (password !== confirmPassword) {
+        setError("Passwords do not match. Please enter matching passwords.");
+        return;
+      }
 
-    // Make the reset password request
-    const response = await resetPasswordRequest(
-      uid,
-      token,
-      password,
-      confirmPassword
-    );
-    alert(response);
-    console.log(response);
+      // Make the reset password request
+      const response = await resetPasswordRequest(
+        uid,
+        token,
+        password,
+        confirmPassword
+      );
+      alert(response);
+      console.log(response);
 
-    setError(response);
-  };
+      setError(response);
+    };
+    handleResetPassword();
+  }, [fired]);
 
   return (
     <div

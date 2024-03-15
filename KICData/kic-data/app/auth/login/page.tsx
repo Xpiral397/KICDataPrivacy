@@ -4,8 +4,8 @@ import StatusModal from "@/components/Modal";
 import DotGrid from "@/design/dot";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
+import { Spinner } from "@nextui-org/react";
 import { signIn, useSession } from "next-auth/react";
-import Cookies from "js-cookies";
 import { redirect, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -16,10 +16,6 @@ export default function Login() {
   const [auth, setAuth] = useState<boolean>(false);
   const [failed, error] = useState<boolean>(false);
   const [password, setPassword] = useState<string>();
-  const setSessionCookies = (sessionData: any) => {
-    Cookies.set("auth", sessionData.accessToken);
-    // Set other session data as needed
-  };
 
   return (
     <div
@@ -58,11 +54,21 @@ export default function Login() {
               KICData Privacy
             </h1>
           </div>
+
           {failed && (
             <StatusModal
               status="LOGIN_FAILED"
               onSendActivationLink={() => {}}
             />
+          )}
+
+          {auth && (
+            <div className="flex items-center justify-center top-0 right-0 absolute w-full h-full z-[1000]">
+              <div className="bg-white shadow-2xl shadow-blue-900   rounded-md w-full  max-w-[450px] sm:w-[500px] flex space-x-5 items-center place-items-center justify-center h-[300px]">
+                <Spinner color="secondary" />
+                <h1 className="text-purple-800 font-[600]">Logging in...</h1>
+              </div>
+            </div>
           )}
 
           <form method="POST" className="flex flex-col space-y-5 rounded-md ">
@@ -104,29 +110,22 @@ export default function Login() {
                   className="w-full px-4 py-2 bg-white border rounded-md border-slate-400 focus:outline-none focus:border-slate-900"
                 />
               </div>
-
-              <div className="space-x-2 bg-white ">
-                <input type="checkbox" />
-                <label className="text-slate-900 font-[400] font-[Helvetica]">
-                  Keep me logged in
-                </label>
-              </div>
             </div>
             <Button
               onClick={(e) => {
                 if (email && password) {
                   try {
-                    signIn("credentials", {
-                      email,
-                      password,
-                      redirect: false,
-                    });
-                    setAuth(true);
-                    error(false);
-                    if (session.data?.user.userData.email) {
-                      setSessionCookies(session?.status ?? "");
-                      router.push("/dashboard");
-                    }
+                    (async () => {
+                      setAuth(true);
+                      error(false);
+                      await signIn("credentials", {
+                        email,
+                        password,
+                        redirect: false,
+                      });
+                      setAuth(false);
+                      error(true);
+                    })();
                   } catch (e) {
                     error(true);
                     setAuth(false);
@@ -141,15 +140,18 @@ export default function Login() {
               <h1 className="space-x-2 text-purple-900">
                 <span>Don't heve an account?</span>
                 <span
-                  className="text-purple-800 font-[600]"
+                  className="text-purple-800 font-[600] pointer"
                   onClick={() => {
-                    router.push("auth/singup");
+                    router.push("/auth/signup");
                   }}
                 >
                   Sign up
                 </span>
               </h1>
-              <a href="/auth/reset_password" className="text-purple-800">
+              <a
+                href="/auth/reset_password"
+                className="pointer text-purple-800"
+              >
                 Forget password?
               </a>
             </div>

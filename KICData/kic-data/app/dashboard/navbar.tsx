@@ -71,8 +71,12 @@ export default function Navbar() {
             <DropdownMenu aria-label="Profile Actions" variant="flat">
               <DropdownItem key="profile" className="h-14 gap-2">
                 <p className="font-semibold">Signed in as</p>
-                <p className="font-semibold">{data?.user?.userData.name}</p>
-                <p className="font-semibold">{data?.user?.userData?.email}</p>
+                <p className="font-semibold">
+                  {data?.user?.userData?.name ?? data?.user?.name ?? ""}
+                </p>
+                <p className="font-semibold">
+                  {data?.user?.userData?.email ?? data?.user?.email ?? ""}
+                </p>
               </DropdownItem>
               <DropdownItem key="settings">My Settings</DropdownItem>
               <DropdownItem key="team_settings">Activity Log</DropdownItem>

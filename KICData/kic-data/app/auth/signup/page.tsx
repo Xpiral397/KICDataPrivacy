@@ -4,7 +4,22 @@ import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import React, { useEffect, useState } from "react";
 import Google from "@/public/icons/google.svg";
-import { Select, SelectItem, Spinner } from "@nextui-org/react";
+import {
+  Card,
+  CardBody,
+  Code,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Select,
+  SelectItem,
+  Spinner,
+  Tab,
+  Tabs,
+  useDisclosure,
+} from "@nextui-org/react";
 import {
   SignupResponse,
   UserData,
@@ -25,6 +40,10 @@ export default function Login() {
   const [UserDataError, setError] = useState<UserDataError>({});
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isdisabled, setDisabled] = useState<boolean>(false);
+  const [accept, setAccept] = useState<boolean>(false);
+  const [showPolicy, setPolicy] = useState<boolean>(false);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [modalError, setModalError] = useState<boolean>();
   useEffect(() => {
     setDisabled(false);
     if (formData?.othername == "") {
@@ -41,11 +60,60 @@ export default function Login() {
       setError((prev) => {
         return {
           ...prev,
-          surnamee: "surname  length must be more than 3",
+          surname: "surname  length must be more than 3",
+        };
+      });
+    } else {
+      setDisabled(false);
+      setError((prev) => {
+        return {
+          ...prev,
+          surname: "",
         };
       });
     }
-    if (formData?.password !== formData?.rePassword || !formData?.password) {
+    if ((formData?.othername ?? "")?.length < 3) {
+      setDisabled(true);
+      setError((prev) => {
+        return {
+          ...prev,
+          othername: "othername length must be more than 3",
+        };
+      });
+    } else {
+      setDisabled(false);
+      setError((prev) => {
+        return {
+          ...prev,
+          othername: "",
+        };
+      });
+    }
+    if (
+      (formData?.email ?? "")?.length < 10 ||
+      !formData?.email?.includes("gmail.com")
+    ) {
+      setDisabled(true);
+      setError((prev) => {
+        return {
+          ...prev,
+          email: "Enter valid gmail",
+        };
+      });
+    } else {
+      setDisabled(false);
+      setError((prev) => {
+        return {
+          ...prev,
+          email: "",
+        };
+      });
+    }
+
+    if (
+      (formData && formData?.password !== formData?.rePassword) ||
+      !formData?.password
+    ) {
       setDisabled(true);
       setError((prev) => {
         return {
@@ -55,32 +123,70 @@ export default function Login() {
         };
       });
     } else {
-      checkPasswordStrength(formData?.password ?? "").then((result) => {
-        if (result == "Password is strong") {
-          setError((prev) => {
-            return {
-              ...prev,
-              password: "Password is strong",
-              rePassword: "Password is strong",
-            };
-          });
-        } else {
-          setDisabled(true);
-          setError((prev) => {
-            return {
-              ...prev,
-              password: result,
-              rePassword: result,
-            };
-          });
-        }
+      setDisabled(false);
+      setError((prev) => {
+        return {
+          ...prev,
+          password: "",
+          rePassword: "",
+        };
       });
+    }
+    if (formData && !formData.country && !formData.gender) {
+      setDisabled(true);
+      setError((prev) => {
+        return {
+          ...prev,
+          gender: "Gender require",
+          country: "Country  required",
+        };
+      });
+    } else {
+      setDisabled(false);
+      setError((prev) => {
+        return {
+          ...prev,
+          gender: "",
+          country: "",
+        };
+      });
+      checkPasswordStrength(formData?.password ?? "")
+        .then((result) => {
+          if (result == "Password is strong") {
+            setError((prev) => {
+              return {
+                ...prev,
+                password: "Password is strong",
+                rePassword: "Password is strong",
+              };
+            });
+          } else {
+            setDisabled(true);
+            setError((prev) => {
+              return {
+                ...prev,
+                password: result,
+                rePassword: result,
+              };
+            });
+          }
+        })
+        .catch(() => {
+          setModalError(true);
+        });
+    }
+    if (!accept) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
     }
   }, [
     formData?.surname,
     formData?.othername,
     formData?.password,
     formData?.rePassword,
+    formData?.country,
+    formData?.gender,
   ]);
   const handleSubmit = async (e: any) => {
     // const confirm = (
@@ -95,7 +201,7 @@ export default function Login() {
     e.preventDefault();
     setError({});
 
-    if (formData?.password && formData.password.length < 5) {
+    if (formData && formData.password != formData.rePassword) {
       setError((prev) => {
         return {
           ...prev,
@@ -115,7 +221,6 @@ export default function Login() {
     } else if (response.status == 201) {
       setLoading(false);
       setSuccessModal(!sucessModal);
-      signIn('credentials')
     }
     setLoading(false);
     // Handle form submission, e.g., send data to the server
@@ -127,6 +232,114 @@ export default function Login() {
       className="flex justify-between bg-white h-full w-full relative items-center flex-row "
       data-label="sign-in"
     >
+      {modalError ? (
+        <StatusModal
+          status="PASSWORD_RESET_FAILED"
+          onSendActivationLink={() => {
+            setModalError(false);
+          }}
+        />
+      ) : (
+        ""
+      )}
+      {
+        <Modal
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          isDismissable={false}
+          isKeyboardDismissDisabled={true}
+          size="4xl"
+        >
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex flex-col gap-1">
+                  Modal Title
+                </ModalHeader>
+                <ModalBody>
+                  <div className="flex w-full flex-col">
+                    <Tabs aria-label="Options">
+                      <Tab key="photos" title="Photos">
+                        <Card>
+                          <CardBody className="text-[monospace]">
+                            # Data Consent Form ## Introduction Thank you for
+                            participating in our research study. Before
+                            proceeding, we need your consent to collect and use
+                            your data. Please read the following informatio
+                            before agreeing. ## Purpose of the Study This study
+                            aims to [brief description of the study purpose). #
+                            bala Collecion We will collect the following data
+                            from you: - Personal information such as name, age,
+                            and contact details. - Responses to survey
+                            questions. - Behavioral data collected through
+                            [describe methods, e.g., tracking website usage,
+                            recording interactions, etc.]. • Any ower relevant
+                            data types"
+                          </CardBody>
+                        </Card>
+                      </Tab>
+                      <Tab key="data" title="How Your Data Will be Used">
+                        <Card>
+                          <CardBody>
+                            our data will be used for the following purposes: -
+                            Analysis to achieve the objectives of the study. -
+                            Publication of research findings in academic
+                            journals or presentations. - [Any other intended
+                            use, e.g., informing product development, policy
+                            recommendations, etc.]. ## Confidentiality and
+                            Anonymity - Your data will be kept confidential and
+                            stored securely. - We will anonymize your data
+                            before analysis and publication to protect your
+                            identity. - Only authorized researchers will have
+                            access to your data. ## Voluntary Participation and
+                            Withdrawal - Participation in this study is
+                            voluntary, and you can withdraw at any time without
+                            penalty. - If you withdraw, any data collected up to
+                            that point will still be used, unless you explicitly
+                            request otherwise.
+                          </CardBody>
+                        </Card>
+                      </Tab>
+                      <Tab key="videos" title="Videos">
+                        <Card>
+                          <CardBody>
+                            Excepteur sint occaecat cupidatat non proident, sunt
+                            in culpa qui officia deserunt mollit anim id est
+                            laborum.
+                          </CardBody>
+                        </Card>
+                      </Tab>
+                    </Tabs>
+                  </div>
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    color="danger"
+                    variant="light"
+                    onPress={() => {
+                      setAccept(false);
+
+                      onClose();
+                    }}
+                  >
+                    Reject Policy
+                  </Button>
+                  <Button
+                    color="primary"
+                    onPress={() => {
+                      setAccept(true);
+                      onClose();
+                    }}
+                  >
+                    Accept Policy
+                  </Button>
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
+      }
+
       {sucessModal && (
         <div className=" flex items-center justify-center top-0 right-0 absolute w-full h-full">
           <StatusModal
@@ -191,10 +404,6 @@ export default function Login() {
           </div>
           <h1 className="text-slate-800 text-xl font-[600] font-[Helvetica]">
             Sign Up.
-          </h1>
-          <h1 className="text-slate-600 font-[450] mb-5 mt-2 text-[12.5px]">
-            Log in with your KICData data that you entered during your
-            registration
           </h1>
 
           <div className="mb-20">
@@ -371,57 +580,86 @@ export default function Login() {
               </div>
 
               <div className="w-full  flex justify-between items-center h-full space-x-2 ">
-                <Select
-                  onChange={(e: any) =>
-                    setFormData((prev) => ({ ...prev, gender: e.target.value }))
-                  }
-                  name="gender"
-                  label="Select Your Genders"
-                  className="max-w-x"
-                >
-                  {[
-                    ["MALE", "Male"],
-                    ["FEMALE", "Female"],
-                    ["PREFER-NOT-TO-SAY", "Prefer Not Say"],
-                  ].map((gender) => (
-                    <SelectItem key={gender[0]} value={gender[0]}>
-                      {gender[1]}
-                    </SelectItem>
-                  ))}
-                </Select>
+                <div className="w-full space-y-2">
+                  <Code color="warning">{UserDataError.gender}</Code>
+                  <Select
+                    onChange={(e: any) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        gender: e.target.value,
+                      }))
+                    }
+                    name="gender"
+                    label="Select Your Genders"
+                    className="max-w-x"
+                  >
+                    {[
+                      ["MALE", "Male"],
+                      ["FEMALE", "Female"],
+                      ["PREFER-NOT-TO-SAY", "Prefer Not Say"],
+                    ].map((gender) => (
+                      <SelectItem key={gender[0]} value={gender[0]}>
+                        {gender[1]}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                </div>
 
-                <Select
-                  onChange={(e: any) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      country: e.target.value,
-                    }))
-                  }
-                  name="country"
-                  label="Select Your Country"
-                  className="w-full"
-                >
-                  {countryNames.map((country: string) => (
-                    <SelectItem key={country} value={country}>
-                      {country}
-                    </SelectItem>
-                  ))}
-                </Select>
+                <div className="w-full space-y-2">
+                  <Code color="warning">{UserDataError.country}</Code>
+                  <Select
+                    onChange={(e: any) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        country: e.target.value,
+                      }))
+                    }
+                    name="country"
+                    label="Select Your Country"
+                    className="w-full"
+                  >
+                    {countryNames.map((country: string) => (
+                      <SelectItem key={country} value={country}>
+                        {country}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                </div>
               </div>
 
               <div className="space-x-3 mt-5 flex h-full items-center">
-                <input
-                  type="checkbox"
-                  onChange={(e: any) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      keepLoggedIn: e.target.value,
-                    }))
-                  }
-                />
-                <label className="text-[12px] text-slate-900 font-[600] font-[Helvetica]">
-                  I agree to this website Privacy & Policy
-                </label>
+                {accept ? (
+                  <>
+                    <input
+                      checked={accept}
+                      type="checkbox"
+                      onChange={(e: any) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          keepLoggedIn: e.target.value,
+                        }))
+                      }
+                    />
+                    <label
+                      onClick={() => onOpen()}
+                      className="text-[12px] text-slate-900 font-[600] font-[Helvetica]"
+                    >
+                      <Code color="success">
+                        {" "}
+                        You agree to this website Privacy & Policy
+                      </Code>
+                    </label>
+                  </>
+                ) : (
+                  <label
+                    onClick={() => {
+                      onOpen();
+                    }}
+                    className="pointer text-[12px] text-red-500 font-[600] font-[Helvetica]"
+                  >
+                    Read and agree to this website Privacy & Policy
+                  </label>
+                )}
               </div>
             </div>
             <Button
@@ -432,25 +670,26 @@ export default function Login() {
               Sign Up
             </Button>
             <div className="space-y-5 flex items-center flex-col">
+              <h1 className="text-purple-800 pointer">
+                Already have account ?
+              </h1>
               <h1 className="text-purple-900 space-x-2">
-                <span>Don't here an account?</span>
                 <span
                   onClick={() => {
-                    router.push("auth/login");
+                    router.push("/auth/login");
                   }}
-                  className="text-purple-800 font-[600]"
+                  className="text-purple-800 font-[600] pointer"
                 >
                   Login
                 </span>
               </h1>
-              <h1 className="text-purple-800">Already have account ?</h1>
             </div>
           </form>
         </div>
       </div>
       <div className="w-full h-full lg:block hidden overflow-hidden ">
         <div className="bg-purple-900 overflow-hidden relative w-full h-full">
-          <div className=" rounded-md px-10  w-full h-full flex flex-col items-center right-0  mt-[20%] absolute z-[1000]">
+          <div className=" rounded-md px-10  w-full h-full flex flex-col items-center right-0  mt-[20%] absolute z-[10]">
             <div className="w-[500px] space-y-2 flex flex-col items-center shadow-2xl shadow-purple-600 bg-white px-5 py-2 rounded-md">
               <h1 className="font-[600] text-purple-900 ">
                 Keep your data safe

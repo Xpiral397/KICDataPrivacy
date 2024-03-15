@@ -6,25 +6,27 @@ import StatusModal from "@/components/Modal";
 import DotGrid from "@/design/dot";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function ResetPassword() {
   const [email, setEmail] = useState("");
-
+  const [fired, setFired] = useState<boolean>(false);
   const [error, setError] = useState("");
 
-  const handleResetPassword = async () => {
-    // Perform client-side validation
-    if (!email) {
-      setError("Please enter both password and confirm password.");
-      return;
-    }
-
-    // Make the reset password request
-    requestForResetPasswordLink(email).then((response) => {
-      setError(response);
-    });
-  };
+  useEffect(() => {
+    const handleResetPassword = async () => {
+      // Perform client-side validation
+      if (!email) {
+        setError("Please enter your email");
+        return;
+      }
+      // Make the reset password request
+      requestForResetPasswordLink(email).then((response) => {
+        setError(response);
+      });
+    };
+    handleResetPassword();
+  }, [fired]);
 
   return (
     <div
@@ -42,18 +44,8 @@ export default function ResetPassword() {
           status="PASSWORD_RESET_FAILED"
         />
       ) : (
-        <StatusModal
-          status="PASSWORD_RESET_SUCCESS"
-          onSendActivationLink={() => {}}
-        />
+        ""
       )}
-
-      <StatusModal
-        status="PASSWORD_RESET_SUCCESS"
-        onSendActivationLink={() => {
-          alert("done");
-        }}
-      />
 
       <div className="absolute w-full h-full ">
         <div className="relative w-full h-full overflow-hidden bg-purple-900 lg:hidden">
@@ -112,7 +104,7 @@ export default function ResetPassword() {
 
               <Button
                 className="mt-10 bg-purple-500 rounded-md text-slate-100"
-                onClick={handleResetPassword}
+                onClick={() => setFired(!fired)}
               >
                 Request For Password Reset Link
               </Button>
