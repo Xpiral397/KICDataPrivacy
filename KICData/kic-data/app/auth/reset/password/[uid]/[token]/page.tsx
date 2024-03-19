@@ -5,26 +5,34 @@ import StatusModal from "@/components/Modal";
 import DotGrid from "@/design/dot";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
+import {Spinner} from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 
 export default function ResetPassword(param: any) {
   const { uid, token } = param.params;
-  const [fired, setFired] = useState();
+  const [fired, setFired] = useState<boolean>(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [resetMessage, setResetMessage] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const handleResetPassword = async () => {
-      if (!password || !confirmPassword) {
+      if (!password.length || !confirmPassword.length) {
         setError("Please enter both password and confirm password.");
         return;
+      }
+      else{
+        setError('')
       }
 
       if (password !== confirmPassword) {
         setError("Passwords do not match. Please enter matching passwords.");
         return;
+      }
+      else{
+      setError('')
       }
 
       // Make the reset password request
@@ -34,28 +42,44 @@ export default function ResetPassword(param: any) {
         password,
         confirmPassword
       );
-      alert(response);
+  
       console.log(response);
 
       setError(response);
     };
-    handleResetPassword();
-  }, [fired]);
+   
+    if(fired){
+      setLoading(true)
+      handleResetPassword().then((e)=>{
+      setLoading(false)
+    })}
+  }, [fired, password, confirmPassword, error]);
 
   return (
     <div
       className="relative flex flex-row items-center justify-between w-full h-full bg-white"
       data-label="reset-password"
     >
-      {error == "PASSWORD_RESET_LINK_FAILED" ? (
+    {loading && (
+        <div className="flex items-center justify-center top-0 right-0 absolute w-full h-full z-[1000]">
+          <div className="bg-white shadow-2xl shadow-blue-900   rounded-md w-full  max-w-[450px] sm:w-[500px] flex space-x-5 items-center place-items-center justify-center h-[300px]">
+            <Spinner color="secondary" />
+            <h1 className="text-purple-800 font-[600]">
+              Processing Your Request ...
+            </h1>
+          </div>
+        </div>
+      )}
+
+      {error == "PASSWORD_RESET_FAILED" ? (
         <StatusModal
-          status="PASSWORD_RESET_LINK_FAILED"
+          status="PASSWORD_RESET_FAILED"
           onSendActivationLink={() => {}}
         />
-      ) : error == "PASSWORD_RESET_LINK_FAILED" ? (
+      ) : error == "PASSWORD_RESET_SUCCESS" ? (
         <StatusModal
           onSendActivationLink={() => {}}
-          status="PASSWORD_RESET_LINK_SUCCESS"
+          status="PASSWORD_RESET_SUCCESS"
         />
       ) : (
         ""
@@ -107,7 +131,6 @@ export default function ResetPassword(param: any) {
                   type="password"
                   placeholder="Enter your new password"
                   name="password"
-                  value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   // className="w-full px-4 py-2 bg-white border rounded-md border-slate-400 focus:outline-none focus:border-slate-900"
                 />
@@ -122,19 +145,18 @@ export default function ResetPassword(param: any) {
                   type="password"
                   name="confirmPassword"
                   placeholder="Re-enter your new password"
-                  value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   // className="w-full px-4 py-2 bg-white border rounded-md border-slate-400 focus:outline-none focus:border-slate-900"
                 />
               </div>
 
-              {error && (
-                <div className="mb-3 font-bold text-red-600">{error}</div>
+              {error  && (
+                <div className={`mb-3 font-bold ${error !== "PASSWORD_RESET__SUCCESS" ?"text-red-600":"text-success-500"}`}>{error}</div>
               )}
 
               <Button
                 className="bg-purple-500 rounded-md text-slate-100"
-                onClick={handleResetPassword}
+                onClick={()=>setFired(true)}
               >
                 Reset Password
               </Button>
@@ -183,28 +205,14 @@ export default function ResetPassword(param: any) {
               </div>
             </div>
           </div>
-          <div className="absolute top-0 right-0 hidden w-full lg:flex">
-            <DotGrid
-              gridSize={150}
-              spacing={15}
-              dotRadius={0.51}
-              dotColor="white"
-            />
-          </div>
-          <div className="absolute top-0 right-0 ">
-            <DotGrid
-              gridSize={225}
-              spacing={15}
-              dotRadius={0.51}
-              dotColor="yellow"
-            />
-          </div>
+         
+         
         </div>
 
         <div className="relative w-full bg-purple-900">
           <div className="absolute bottom-0 left-0 hidden w-full lg:flex">
             <DotGrid
-              gridSize={150}
+              gridSize={50}
               spacing={20}
               dotRadius={0.51}
               dotColor="blue"
@@ -212,7 +220,7 @@ export default function ResetPassword(param: any) {
           </div>
           <div className="absolute bottom-0 left-1 ">
             <DotGrid
-              gridSize={125}
+              gridSize={25}
               spacing={20}
               dotRadius={0.69}
               dotColor="orange"

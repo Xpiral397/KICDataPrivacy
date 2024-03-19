@@ -6,14 +6,22 @@ import StatusModal from "@/components/Modal";
 import DotGrid from "@/design/dot";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
+import {Spinner} from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 
 export default function ResetPassword() {
   const [email, setEmail] = useState("");
   const [fired, setFired] = useState<boolean>(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState<boolean>(true)
+  const [number, setNumber] = useState<number>(0)
 
   useEffect(() => {
+    
+    if (!(number > 3)){
+    
+    setLoading(true);
+    setError('')
     const handleResetPassword = async () => {
       // Perform client-side validation
       if (!email) {
@@ -22,10 +30,17 @@ export default function ResetPassword() {
       }
       // Make the reset password request
       requestForResetPasswordLink(email).then((response) => {
+        if(response === 'PASSWORD_RESET_SUCCESS'){
+          setNumber(number + 1);
+        }
         setError(response);
       });
     };
-    handleResetPassword();
+    handleResetPassword().then(result=>{
+      setLoading(false)
+      setFired(false)
+    });
+    }
   }, [fired]);
 
   return (
@@ -33,15 +48,38 @@ export default function ResetPassword() {
       className="relative flex flex-row items-center justify-between w-full h-full bg-white"
       data-label="reset-password"
     >
+       {loading && (
+        <div className="flex items-center justify-center top-0 right-0 absolute w-full h-full z-[1000]">
+          <div className="bg-white shadow-2xl shadow-blue-900   rounded-md w-full  max-w-[450px] sm:w-[500px] flex space-x-5 items-center place-items-center justify-center h-[300px]">
+            <Spinner color="secondary" />
+            <h1 className="text-purple-800 font-[600]">
+              Processing Your Request ...
+            </h1>
+          </div>
+        </div>
+      )}
+
+      {
+        number > 3   && (
+        <div className="flex items-center justify-center top-0 right-0 absolute w-full h-full z-[1000]">
+          <div className="bg-white shadow-2xl shadow-blue-900   rounded-md w-full  max-w-[450px] sm:w-[500px] flex space-x-5 items-center place-items-center justify-center h-[300px]">
+            <Spinner color="secondary" />
+            <h1 className="text-purple-800 font-[600]">
+              Your have reach maximum pasword reset 
+            </h1>
+          </div>
+        </div>
+      )}
+
       {error == "PASSWORD_RESET_SUCCESS" ? (
         <StatusModal
-          status="PASSWORD_RESET_SUCCESS"
+          status='PASSWORD_RESET_LINK_SUCCESS'
           onSendActivationLink={() => {}}
         />
       ) : error == "PASSWORD_RESET_FAILED" ? (
         <StatusModal
           onSendActivationLink={() => {}}
-          status="PASSWORD_RESET_FAILED"
+          status="PASSWORD_RESET_LINK_FAILED"
         />
       ) : (
         ""
@@ -86,7 +124,7 @@ export default function ResetPassword() {
                 <h1 className="mt-2 mb-2 text-slate-700 py-5 px-15 rounded-lg  text-3xl font-[600] font-[Helvetica]">
                   Password Reset Link Request
                 </h1>
-                <label className="text-slate-700 mb-2 font-[500] font-[Helvetica]">
+                <label className="text-slate-700 mb-1 font-[500] font-[Helvetica]">
                   New Password
                 </label>
                 <Input
@@ -104,7 +142,7 @@ export default function ResetPassword() {
 
               <Button
                 className="mt-10 bg-purple-500 rounded-md text-slate-100"
-                onClick={() => setFired(!fired)}
+                onClick={() => setFired(true)}
               >
                 Request For Password Reset Link
               </Button>

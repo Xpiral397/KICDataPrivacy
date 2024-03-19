@@ -175,11 +175,7 @@ export default function Login() {
           setModalError(true);
         });
     }
-    if (!accept) {
-      setDisabled(true);
-    } else {
-      setDisabled(false);
-    }
+  
   }, [
     formData?.surname,
     formData?.othername,
@@ -187,6 +183,7 @@ export default function Login() {
     formData?.rePassword,
     formData?.country,
     formData?.gender,
+  
   ]);
   const handleSubmit = async (e: any) => {
     // const confirm = (
@@ -196,7 +193,7 @@ export default function Login() {
     //   othername,
     //   email
     // ) => {};
-
+    console.log('Parsing');
     setLoading(true);
     e.preventDefault();
     setError({});
@@ -210,6 +207,7 @@ export default function Login() {
         };
       });
     }
+
     const response = await signup(formData as UserData);
     if (response.status == 400 || response.status == 500) {
       setError((prev: UserDataError) => {
@@ -218,9 +216,14 @@ export default function Login() {
       setFailedsModal(true);
 
       console.log(UserDataError, "Ji");
-    } else if (response.status == 201) {
+    } 
+    else if (response.status == 201) {
       setLoading(false);
-      setSuccessModal(!sucessModal);
+      console.log('Success;', sucessModal)
+      setSuccessModal(false)
+      console.log('Success;', sucessModal)
+      setSuccessModal(true);
+      console.log('Success;', sucessModal)
     }
     setLoading(false);
     // Handle form submission, e.g., send data to the server
@@ -344,21 +347,25 @@ export default function Login() {
         <div className=" flex items-center justify-center top-0 right-0 absolute w-full h-full">
           <StatusModal
             status="CREATED_SUCCESS"
+            booleanCallback = {setSuccessModal}
             onSendActivationLink={() => {
-              setSuccessModal(false);
+              console.log('done')
+              setSuccessModal;
             }}
           />
         </div>
       )}
 
-      {failedModal && (
+      {
+      failedModal && (
         <div className=" flex items-center justify-center top-0 right-0 absolute w-full h-full ">
           <StatusModal
             status="LOGIN_FAILED"
             onSendActivationLink={setFailedsModal(false)}
           />
         </div>
-      )}
+      )
+      }
 
       {isLoading && (
         <div className="flex items-center justify-center top-0 right-0 absolute w-full h-full z-[1000]">
@@ -370,6 +377,8 @@ export default function Login() {
           </div>
         </div>
       )}
+
+
       <div className=" w-full h-full absolute  ">
         <div className="lg:hidden bg-purple-900 overflow-hidden relative w-full h-full">
           <div className="w-full absolute left-0 top-0 ">
@@ -435,11 +444,13 @@ export default function Login() {
                   <Input
                     type="text"
                     placeholder="Jessica"
-                    onChange={(e: any) =>
+                    onChange={(e: any) =>{
+                      e.preventDefault()
                       setFormData((prev) => ({
                         ...prev,
                         surname: e.target.value,
                       }))
+                    }
                     }
                     name="username"
                     classNames={{
@@ -466,12 +477,13 @@ export default function Login() {
                   <Input
                     type="text"
                     placeholder="Your other name"
-                    onChange={(e: any) =>
+                    onChange={(e: any) =>{
+                      e.preventDefault();
                       setFormData((prev) => ({
                         ...prev,
                         othername: e.target.value,
                       }))
-                    }
+                    }}
                     name="othername"
                     classNames={{
                       inputWrapper: "py-2 rounded-md h-10 ",
@@ -495,12 +507,13 @@ export default function Login() {
                   type="email"
                   placeholder="joe@gmail.com"
                   name="email"
-                  onChange={(e: any) =>
+                  onChange={(e: any) =>{
+                    e.preventDefault()
                     setFormData((prev) => ({
                       ...prev,
                       email: e.target.value,
                     }))
-                  }
+                  }}
                   classNames={{
                     inputWrapper: "py-2 rounded-md h-10 ",
                   }}
@@ -530,11 +543,12 @@ export default function Login() {
                 <Input
                   type="password"
                   onChange={(e: any) =>
+                    {
                     setFormData((prev) => ({
                       ...prev,
                       password: e.target.value,
                     }))
-                  }
+                  }}
                   name="password"
                   placeholder="At least 8 character"
                   classNames={{
@@ -567,11 +581,12 @@ export default function Login() {
                   type="password"
                   name="rePassword"
                   onChange={(e: any) =>
+                    {
                     setFormData((prev) => ({
                       ...prev,
                       rePassword: e.target.value,
                     }))
-                  }
+                  }}
                   placeholder="Confirm Your Password "
                   classNames={{
                     inputWrapper: "py-2 rounded-md h-10",
@@ -583,12 +598,12 @@ export default function Login() {
                 <div className="w-full space-y-2">
                   <Code color="warning">{UserDataError.gender}</Code>
                   <Select
-                    onChange={(e: any) =>
+                    onChange={(e: any) =>{
                       setFormData((prev) => ({
                         ...prev,
                         gender: e.target.value,
                       }))
-                    }
+                    }}
                     name="gender"
                     label="Select Your Genders"
                     className="max-w-x"
@@ -608,12 +623,13 @@ export default function Login() {
                 <div className="w-full space-y-2">
                   <Code color="warning">{UserDataError.country}</Code>
                   <Select
-                    onChange={(e: any) =>
+                    onChange={(e: any) =>{
+                    
                       setFormData((prev) => ({
                         ...prev,
                         country: e.target.value,
                       }))
-                    }
+                    }}
                     name="country"
                     label="Select Your Country"
                     className="w-full"
@@ -633,12 +649,14 @@ export default function Login() {
                     <input
                       checked={accept}
                       type="checkbox"
-                      onChange={(e: any) =>
+                      onChange={(e: any) =>{
+                        e.preventDefault()
                         setFormData((prev) => ({
                           ...prev,
                           keepLoggedIn: e.target.value,
                         }))
                       }
+                    }
                     />
                     <label
                       onClick={() => onOpen()}
@@ -665,7 +683,7 @@ export default function Login() {
             <Button
               disabled={isdisabled}
               onClick={handleSubmit}
-              className="bg-purple-500 text-slate-100 rounded-md "
+              className="bg-purple-500 text-slate-100 rounded-md"
             >
               Sign Up
             </Button>

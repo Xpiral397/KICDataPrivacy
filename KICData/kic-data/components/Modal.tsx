@@ -13,6 +13,8 @@ import { ResendActivateEmailLink } from "@/app/helpers/resendActivationLink";
 import { constants } from "buffer";
 import { Result } from "postcss";
 import Link from "next/link";
+import {Router} from "next/router";
+import {useRouter} from "next/navigation";
 
 type AccountStatus =
   | "ACTIVATION_FAILED"
@@ -32,17 +34,20 @@ type AccountStatus =
 interface StatusModalProps {
   email?: string;
   status: AccountStatus;
+  booleanCallback?:any
   onSendActivationLink: any; // Function to send activation link
 }
 
 const StatusModal: React.FC<StatusModalProps> = ({
   status,
   onSendActivationLink,
+  booleanCallback,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [_status, setStatus] = useState<string>(status);
   const [email, setEmail] = useState<string>(status);
+  const router = useRouter()
 
   React.useEffect(() => {
     onOpen();
@@ -91,6 +96,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
             <Button
               color="primary"
               onPress={() => {
+                if(booleanCallback)booleanCallback(false)
                 onSendActivationLink();
                 onClose();
               }}
@@ -106,6 +112,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
             <Button
               color="primary"
               onPress={() => {
+                if(booleanCallback)booleanCallback(false)
                 onClose();
                 onSendActivationLink();
               }}
@@ -125,6 +132,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
                 onClick={() => {
                   onSendActivationLink();
                   onClose();
+                  if(booleanCallback)booleanCallback(false)
                 }}
               >
                 Close
@@ -134,6 +142,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
                 onClick={() => {
                   onSendActivationLink();
                   onClose();
+                  if(booleanCallback)booleanCallback(false)
                 }}
               >
                 {" "}
@@ -157,6 +166,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
                 color="primary"
                 onClick={() => {
                   onClose();
+                  if(booleanCallback)booleanCallback(false)
                   ResendActivateEmailLink(
                     email ?? "",
                     "ACTIVATION_FAILED"
@@ -165,6 +175,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
                     console.log("log in", result);
                   });
                   onSendActivationLink();
+                  
                 }}
               >
                 Resend Link
@@ -185,6 +196,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
               <Button
                 color="primary"
                 onClick={() => {
+                  if(booleanCallback)booleanCallback(false)
                   onClose();
                   ResendActivateEmailLink(
                     email ?? "",
@@ -209,8 +221,10 @@ const StatusModal: React.FC<StatusModalProps> = ({
               <Button
                 color="success"
                 onClick={() => {
+                  if(booleanCallback)booleanCallback(false)
                   onClose();
                   onSendActivationLink();
+                  if(booleanCallback)booleanCallback(false)
                 }}
               >
                 Closec
@@ -230,6 +244,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
               color="success"
               onClick={() => {
                 onClose();
+                if(booleanCallback)booleanCallback(false)
               }}
             >
               Close
@@ -245,6 +260,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
               color="success"
               onClick={() => {
                 onClose();
+                if(booleanCallback)booleanCallback(false)
               }}
             >
               Close
@@ -259,9 +275,10 @@ const StatusModal: React.FC<StatusModalProps> = ({
               color="success"
               onClick={() => {
                 onClose();
+                router.push('/auth/login')
               }}
             >
-              Close
+            Login
             </Button>
           ),
         };
@@ -272,6 +289,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
             <Button
               color="success"
               onClick={() => {
+                if(booleanCallback)booleanCallback(false)
                 onClose();
               }}
             >
@@ -286,8 +304,10 @@ const StatusModal: React.FC<StatusModalProps> = ({
           actions: (
             <Button
               color="warning"
+
               onClick={() => {
                 onClose();
+                if(booleanCallback)booleanCallback(false)
               }}
             >
               Close
@@ -308,6 +328,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
               <Button
                 color="primary"
                 onClick={() => {
+                  if(booleanCallback)booleanCallback(false)
                   onClose();
                   ResendActivateEmailLink(email ?? "").then((result) =>
                     setStatus(result)
@@ -329,7 +350,11 @@ const StatusModal: React.FC<StatusModalProps> = ({
 
   return (
     <div>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={()=>{
+        if(booleanCallback)booleanCallback(false);
+        onClose()
+      }
+        }>
         <ModalContent>
           <ModalHeader>{getTitle()}</ModalHeader>
           <ModalBody>{content}</ModalBody>
