@@ -114,7 +114,7 @@ export default function Login() {
             <Button
               onClick={(e) => {
                 if (email && password) {
-                  try {
+                  
                     (async () => {
                       setAuth(true);
                       error(false);
@@ -125,11 +125,10 @@ export default function Login() {
                       });
                       setAuth(false);
                       error(true);
-                    })();
-                  } catch (e) {
+                    })().catch((e) =>{
                     error(true);
                     setAuth(false);
-                  }
+                    })
                 }
               }}
               className="bg-purple-500 rounded-md text-slate-100 "
@@ -160,7 +159,7 @@ export default function Login() {
       </div>
       <div className="hidden w-full h-full overflow-hidden lg:block ">
         <div className="relative w-full h-full overflow-hidden bg-purple-900">
-          <div className=" rounded-md px-10  w-full h-full flex flex-col items-center right-0  mt-[20%] absolute z-[1000]">
+          <div className=" rounded-md px-10  w-full h-full flex flex-col items-center right-0  mt-[20%] absolute z-[1]">
             <div className="w-[500px] space-y-2 flex flex-col items-center shadow-2xl shadow-purple-600 bg-white px-5 py-2 rounded-md">
               <h1 className="font-[600] text-purple-900 ">
                 Keep your data safe

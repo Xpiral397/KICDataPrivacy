@@ -1,5 +1,6 @@
 "use client";
 import DotGrid from "@/design/dot";
+import {InputRounded, SearchRounded} from "@mui/icons-material";
 import {
   Avatar,
   Button,
@@ -7,6 +8,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Input,
   Link,
   User,
 } from "@nextui-org/react";
@@ -48,9 +50,11 @@ export default function Navbar() {
       </div>
 
       <ul className="flex items-center justify-center space-x-10 ">
-        <ul className="flex text-white font-[500] space-x-10 text-sm  ">
-          <li>Account</li>
+        <ul className="flex items-center  text-white font-[500] space-x-10 text-sm  ">
+          <Input  startContent=<SearchRounded color="secondary"/> size="sm" className="lg:block hidden  w-[300px]" endContent={<InputRounded color="secondary"/>}/>
+          <a href = '/dashboard/Account' className=" pointer">Account</a>
           <li
+          className="pointer"
             onClick={() => {
               router.push("Learn");
             }}

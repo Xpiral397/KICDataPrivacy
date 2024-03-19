@@ -18,173 +18,51 @@ const BlogPost = () => {
         {/* Introduction */}
         <div className="mt-8">
           <p className="text-lg">
-            In the bustling realm of e-commerce, where transactions occur
-            seamlessly across digital platforms, ensuring the security of
-            personal information is paramount. From browsing products to
-            completing purchases, users entrust e-commerce platforms with
-            sensitive data, ranging from payment details to personal
-            preferences. However, with the proliferation of cyber threats and
-            data breaches, safeguarding personal information has never been more
-            critical. This article explores the significance of personal
-            information security in the context of e-commerce and provides
-            practical strategies for protecting your digital identity.
+          In the rapidly evolving world of e-commerce, where transactions occur at the speed of a click, understanding your rights as a consumer is paramount. From privacy protections to refund policies, knowing your rights empowers you to make informed decisions, assert your interests, and navigate the digital marketplace with confidence. This article aims to shed light on the rights of consumers in the context of e-commerce and provide actionable insights to help you exercise and protect those rights.
+
           </p>
         </div>
+
+
+        <ul className=" text-slate-900] font-[400] mt-3 mx-5 space-y-2 font-[Roboto, sans-serif, Helvetica]">
+            
+            <li className="font-[400]">
+              <span className="font-[700]">Right to Privacy</span>: : As a consumer engaging in e-commerce activities, you have the right to privacy and data protection. E-commerce platforms are required to collect, use, and safeguard your personal information in accordance with privacy laws and regulations. This includes obtaining your consent before collecting your data, providing clear and transparent privacy policies, and implementing robust security measures to protect your information from unauthorized access or disclosure
+            </li>
+
+            <li>
+              <span className="font-[700]">Right to Transparency</span>:: E-commerce platforms are obligated to provide clear and accurate information about their products, services, pricing, and terms of use. This includes disclosing any fees, taxes, or additional charges upfront, as well as outlining the terms and conditions governing your interactions with the platform. Transparency ensures that consumers can make informed decisions and understand the implications of their actions in the e-commerce ecosystem
+
+            </li>
+
+
+            <li>
+              <span className="font-[800]">Right to Fair Treatment</span>: You have the right to fair and equitable treatment when engaging with e-commerce platforms. This includes access to customer support and assistance in resolving disputes or issues with products or services. E-commerce platforms should provide timely and effective responses to customer inquiries and complaints, ensuring that consumers receive adequate support throughout their shopping experience.
+           </li>
+            <li>
+              <span className="font-[800]">Right to Security</span>:: E-commerce platforms are responsible for maintaining the security of their systems and protecting consumers' personal and financial information from cyber threats and data breaches. This includes implementing encryption protocols, secure payment gateways, and authentication measures to safeguard sensitive data. Consumers have the right to expect that their information will be handled securely and that appropriate measures will be taken to prevent unauthorized access or misuse.
+              </li>
+            
+               <li>
+               <span className="font-[800]">Right to Redress</span>: 
+               :If you encounter problems or dissatisfaction with a product or service purchased through an e-commerce platform, you have the right to seek redress and remedies. This may include requesting refunds, exchanges, or compensation for defective or misrepresented items. E-commerce platforms should have clear and accessible refund and return policies that outline your rights and options in such situations.
+               </li> 
+               <li>
+               <span className="font-[800]">Right to Opt-Out</span>: 
+               : You have the right to control how your personal information is used and shared by e-commerce platforms. This includes the ability to opt out of marketing communications, data-sharing practices, and targeted advertising. E-commerce platforms should provide mechanisms for users to exercise their privacy preferences and manage their consent settings easily.
+               </li>
+        </ul>
 
         {/* Subsections */}
         {/* Example Subsection */}
-        <div className="mt-8">
-          <h2 className="font-bold text-xl mb-4">Understanding the Risks</h2>
-          <p>
-            At the heart of personal information security lies the principle of
-            confidentiality – ensuring that sensitive data remains private and
-            inaccessible to unauthorized parties. When engaging in e-commerce
-            activities, users divulge a myriad of personal details, including
-            names, addresses, payment card information, and browsing habits.
-            Therefore, it is essential to entrust this information to reputable
-            e-commerce platforms that prioritize data protection and employ
-            robust security measures.
-          </p>
-          <h2 className="font-bold text-xl mb-4 mt-10">
-            Security Measur & Data Encryption
-          </h2>
-          <p>
-            security measures. One of the primary security measures implemented
-            by e-commerce platforms is encryption, which encodes data
-            transmitted between users' devices and the platform's servers.
-            Encryption protocols such as SSL (Secure Sockets Layer) and TLS
-            (Transport Layer Security) ensure that sensitive information remains
-            encrypted during transmission, thwarting interception by malicious
-            actors. As such, always verify that the e-commerce website you're
-            accessing utilizes HTTPS (Hypertext Transfer Protocol Secure)
-            encryption, as indicated by the padlock icon and "https://" prefix
-            in the website's URL. In addition to encryption, users play a
-            pivotal role in personal information security by adopting proactive
-            security practices and exercising caution when sharing sensitive
-            data online. Avoid storing payment card details on e-commerce
-            platforms unless necessary, and opt for secure payment methods such
-            as credit cards with fraud protection or digital wallets.
-            Furthermore, create strong, unique passwords for e-commerce accounts
-            and enable multi-factor authentication whenever possible to add an
-            extra layer of security.
-          </p>
-        </div>
-
-        {/* Practical Tips */}
-        <div className="mt-8">
-          <h2 className="font-bold text-xl mb-4">
-            Proactive Security Practices
-          </h2>
-          <div className="rounded-lg bg-zinc-50 py-2 px-3 border ">
-            <Accordion
-              motionProps={{
-                variants: {
-                  enter: {
-                    y: 0,
-                    opacity: 1,
-                    height: "auto",
-                    transition: {
-                      height: {
-                        type: "spring",
-                        stiffness: 500,
-                        damping: 30,
-                        duration: 1,
-                      },
-                      opacity: {
-                        easings: "ease",
-                        duration: 1,
-                      },
-                    },
-                  },
-                  exit: {
-                    y: -10,
-                    opacity: 0,
-                    height: 0,
-                    transition: {
-                      height: {
-                        easings: "ease",
-                        duration: 0.25,
-                      },
-                      opacity: {
-                        easings: "ease",
-                        duration: 0.3,
-                      },
-                    },
-                  },
-                },
-              }}
-              className="border bg-white rounded-lg"
-            >
-              <AccordionItem
-                key="1"
-                aria-label="Password Updates"
-                title="Password Updates"
-                classNames={{
-                  title: "font-[500] font-[sans-serif]",
-                }}
-              >
-                Over time, passwords can be compromised without your knowledge,
-                especially if they are reused across multiple sites. Regular
-                updates minimize the window of opportunity for a hacker to use
-                stolen credentials. Furthermore, in the event of a data breach,
-                having a recently changed password can prevent unauthorized
-                access to your account.
-              </AccordionItem>
-              <AccordionItem
-                classNames={{
-                  title: "font-[500] font-[sans-serif]",
-                }}
-                key="2"
-                aria-label="Accordion 2"
-                title="2 Step Authentication"
-              >
-                MFA adds an additional layer of security beyond just the
-                password. Even if a hacker manages to obtain your password, they
-                would still need the second factor—usually something you have
-                (like a phone to receive a verification code) or something you
-                are (like a fingerprint)—to access your account.
-              </AccordionItem>
-              <AccordionItem
-                key="3"
-                aria-label="Accordion 3"
-                title="Why It's Important"
-                classNames={{
-                  title: "font-[500] font-[sans-serif]",
-                }}
-              >
-                Updating passwords regularly and using multi-factor
-                authentication (MFA) are key practices in securing your online
-                accounts, including those on e-commerce platforms.
-              </AccordionItem>
-            </Accordion>
-
-            <ul className="list-disc pl-8 space-y-2">
-              <li>
-                Regularly update your passwords and use multi-factor
-                authentication.
-              </li>
-              <li>
-                Verify the security of e-commerce platforms before making
-                purchases.
-              </li>
-              {/* More tips */}
-            </ul>
-          </div>
-        </div>
+        
 
         {/* Conclusion */}
         <div className="mt-8">
           <h2 className="font-bold text-xl">Conclusion</h2>
           <p>
-            In conclusion, personal information security is paramount in
-            e-commerce, where users entrust sensitive data to online platforms
-            for various transactions. By understanding the importance of data
-            confidentiality, adopting proactive security practices, and
-            remaining vigilant against cyber threats, users can protect their
-            digital identity and enjoy safe and secure e-commerce experiences.
-            Remember, prioritizing personal information security is key to
-            maintaining trust and confidence in the digital marketplace.
-          </p>
+          In conclusion, understanding your rights as a consumer in e-commerce is essential for protecting your interests, privacy, and security in the digital marketplace. By knowing your rights, you can make informed decisions, hold e-commerce platforms accountable, and advocate for fair treatment and transparency. Remember, your rights as a consumer empower you to navigate the e-commerce landscape confidently and assert your interests in an increasingly digital world.
+</p>
         </div>
       </div>
     </div>

@@ -13,3 +13,10 @@ class UserCreateSerializer(UserCreateSerializer):
         name = serializers.CharField(required=True)
         email = serializers.EmailField(required=True)
         password = serializers.CharField(required=True, write_only=True)
+        
+class UserCreateSerializerAll(UserCreateSerializer):
+    class Meta(UserCreateSerializer.Meta):
+        model = UserModel
+        fields = "__all__"      
+            
+      

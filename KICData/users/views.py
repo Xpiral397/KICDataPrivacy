@@ -1,10 +1,11 @@
 # views.py
 from djoser.views import UserViewSet
-from .serializers import UserCreateSerializer as CustomUserSerializer
+from .serializers import UserCreateSerializer as CustomUserSerializer,UserCreateSerializerAll
 from django.http import JsonResponse
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.contrib.auth import get_user_model
-from django.http import JsonResponse
+
+from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 import sqlite3
@@ -29,16 +30,19 @@ def date_from_webkit(webkit_timestamp):
     delta = datetime.timedelta(microseconds=int(webkit_timestamp))
     return epoch_start + delta
 
-def fetch_cookies(request):
-    if request.method == 'POST' and request.FILES.get('cookies_file'):
-        user = request.user
+@csrf_exempt
+def fetch_cookies(request,username):
+    SAVE =False
+    print(request.FILES['file'])
+    if request.method == 'POST' and request.FILES['file']:
         
         # get the user
         Users = get_user_model()
         try:
-            User = Users.objects.get(user.username)
+            User = Users.objects.get(username)
+            SAVE = True
         except Users.DoesNotExit:
-           return JsonResponse({'error': f'User with username {user.username} does not exist'}, status=404)
+           pass
               
         # File System
         cookies_file = request.FILES.get('cookies_file')
@@ -85,3 +89,66 @@ def date_from_webkit(webkit_timestamp):
     return epoch_start + delta
 
 
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from .models import UserAccount as  UserProfile
+from django.views.decorators.csrf import csrf_exempt,csrf_protect
+from django.utils.decorators import method_decorator
+import json
+
+
+class CustomCurrentUserView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    @method_decorator(csrf_protect)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+    
+    def get(self, request):
+        user = request.user
+        user_profile = UserProfile.objects.get(email=user.email)
+        user_profile.extract_cookies = self.paginateCookies(user_profile.extract_cookies)
+        user_serializer = UserCreateSerializerAll(user_profile)
+        return Response(user_serializer.data)
+    
+    def paginateCookies(self, cookies, numberofFetch = 0):
+        return cookies[numberofFetch*100:numberofFetch+10]
+
+
+
+class GetCookiesView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    @method_decorator(csrf_protect)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+    
+    def get(self, request, attempts):
+        user = request.user
+        if attempts:
+            attempts = int(attempts)
+        user_profile = UserProfile.objects.get(email=user.email)
+        extract_cookies = self.paginateCookies(user_profile.extract_cookies, attempts)
+        return Response(extract_cookies)
+    
+    def paginateCookies(self, cookies, numberofFetch = 0):
+        return cookies
+class UpdateUserData(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def post(self, request):
+        user = request.user
+        cookie_sent = request.data['cookies_data']
+        user_profile = UserProfile.objects.get(email=user.email)
+        
+        if(user_profile):
+            user_profile.extract_cookies = cookie_sent
+            user_profile.setCookies = True
+            user_profile.save()
+            return Response({'user':"user data saved"},status=200)
+        return Response({'user':"user cannot be found"},status=404)

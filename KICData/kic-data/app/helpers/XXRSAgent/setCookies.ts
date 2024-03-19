@@ -2,6 +2,9 @@ export async function postData(username: string, formData: FormData): Promise<nu
   try {
     const response = await fetch(`http://127.0.0.1:8000/cookies/accounts/${username}`, {
       method: 'POST',
+       headers: {
+                'Content-Type': 'multipart/form-data',
+            },
       body: formData
     });
 
@@ -15,5 +18,12 @@ export async function postData(username: string, formData: FormData): Promise<nu
     return 200
 }
 
+
+export function timestampToTime(timestamp: number): string {
+  const milliseconds = timestamp / 1000;
+  const epochStart = Date.UTC(1601, 0, 1);
+  const date = new Date(milliseconds + epochStart);
+  return date.toISOString(); // Return ISO 8601 formatted date string
+}
 
 

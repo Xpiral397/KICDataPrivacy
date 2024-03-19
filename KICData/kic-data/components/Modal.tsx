@@ -133,7 +133,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
                 color="primary"
                 onClick={() => {
                   onSendActivationLink();
-                  onOpen();
+                  onClose();
                 }}
               >
                 {" "}
@@ -216,7 +216,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
                 Closec
               </Button>
               <Button color="primary" onPress={onSendActivationLink}>
-                <Link href={"/dashboard"}>Login</Link>
+                <Link href={"/auth/login"}>Login</Link>
               </Button>
             </>
           ),

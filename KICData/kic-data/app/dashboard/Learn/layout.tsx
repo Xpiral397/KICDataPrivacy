@@ -274,19 +274,7 @@ function Layout({ children }: { children: ReactNode }) {
             >
               PhisingScan And Fruda Awearness{" "}
             </li>
-            <li
-              onClick={() => {
-                sets(6);
-                router.push("/dashboard/Learn/uct");
-              }}
-              className={`${
-                set == 6
-                  ? "border-l-blue-600  border-l h-10 flex flex-col items-center justify-center w-[70%]"
-                  : ""
-              }`}
-            >
-              Use Of Cookies And Tracking{" "}
-            </li>
+            
             <li
               onClick={() => {
                 sets(7);

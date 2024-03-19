@@ -35,9 +35,8 @@ const Options= {
                     if (response === null) {
                         return null;
                     }
-                    console.log(response, 'kiii')
-                    // console.log(response,"hi")
-                    // If authentication succeeds, return the user data and include the refresh token in the session
+                  
+                    response.userData.extract_cookies= {}
                     return response
 
                 } catch (error) {
