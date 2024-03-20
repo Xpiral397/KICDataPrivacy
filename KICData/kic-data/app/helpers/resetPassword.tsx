@@ -6,9 +6,7 @@ export const resetPasswordRequest = async (
   re_new_password: string
 ) => {
   
-  return "PASSWORD_RESET_SUCCESS"
   const url = "http://localhost:8000/auth/users/reset_password_confirm/"; // Replace with your actual Django endpoint
-
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -23,6 +21,6 @@ export const resetPasswordRequest = async (
     }
     return "PASSWORD_RESET_SUCCESS";
   } catch (error) {
-    return "PASSWORD_RESET__FAILED";
+    return "PASSWORD_RESET_FAILED";
   }
 };

@@ -227,10 +227,10 @@ const StatusModal: React.FC<StatusModalProps> = ({
                   if(booleanCallback)booleanCallback(false)
                 }}
               >
-                Closec
+                Close
               </Button>
-              <Button color="primary" onPress={onSendActivationLink}>
-                <Link href={"/auth/login"}>Login</Link>
+              <Button color="primary" onPress={()=>{onSendActivationLink();router.push('/auth/login')}} >
+                Login
               </Button>
             </>
           ),
@@ -272,6 +272,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
           content: "You Have Successfully Change Your Password",
           actions: (
             <Button
+            className="text-white"
               color="success"
               onClick={() => {
                 onClose();
@@ -350,8 +351,14 @@ const StatusModal: React.FC<StatusModalProps> = ({
 
   return (
     <div>
-      <Modal isOpen={isOpen} onClose={()=>{
-        if(booleanCallback)booleanCallback(false);
+      <Modal isOpen={isOpen} onClose={
+        ()=>{
+        if(booleanCallback){
+          booleanCallback(false)
+        }
+        if(status ==='PASSWORD_RESET_SUCCESS'){
+          router.push('/auth/login')
+        }
         onClose()
       }
         }>

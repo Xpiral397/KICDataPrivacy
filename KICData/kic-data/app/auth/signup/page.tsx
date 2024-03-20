@@ -284,7 +284,7 @@ export default function Login() {
                       <Tab key="data" title="How Your Data Will be Used">
                         <Card>
                           <CardBody>
-                            our data will be used for the following purposes: -
+                            Our data will be used for the following purposes: -
                             Analysis to achieve the objectives of the study. -
                             Publication of research findings in academic
                             journals or presentations. - [Any other intended
@@ -303,15 +303,7 @@ export default function Login() {
                           </CardBody>
                         </Card>
                       </Tab>
-                      <Tab key="videos" title="Videos">
-                        <Card>
-                          <CardBody>
-                            Excepteur sint occaecat cupidatat non proident, sunt
-                            in culpa qui officia deserunt mollit anim id est
-                            laborum.
-                          </CardBody>
-                        </Card>
-                      </Tab>
+                     
                     </Tabs>
                   </div>
                 </ModalBody>

@@ -489,7 +489,7 @@ export default function Accounts() {
                 color="secondary"
               />
                 <Button onClick={fetchData} className=" text-white font-[700] px-10 py-2" color="secondary">
-               You have {Math.floor(totalPage/100)} synchronized on your web browser
+                  You have {Math.floor(totalPage/100)} synchronized account on your web browser
                 </Button>
               </div>
               </div>

@@ -18,13 +18,14 @@ export default function ResetPassword(param: any) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    
     const handleResetPassword = async () => {
       if (!password.length || !confirmPassword.length) {
         setError("Please enter both password and confirm password.");
         return;
       }
       else{
-        setError('')
+        setError(' ')
       }
 
       if (password !== confirmPassword) {
@@ -32,7 +33,7 @@ export default function ResetPassword(param: any) {
         return;
       }
       else{
-      setError('')
+      setError(' ')
       }
 
       // Make the reset password request
@@ -52,15 +53,16 @@ export default function ResetPassword(param: any) {
       setLoading(true)
       handleResetPassword().then((e)=>{
       setLoading(false)
+      setFired(false)
     })}
-  }, [fired, password, confirmPassword, error]);
+  }, [fired, password, confirmPassword, error,loading]);
 
   return (
     <div
       className="relative flex flex-row items-center justify-between w-full h-full bg-white"
       data-label="reset-password"
     >
-    {loading && (
+    {loading ? (
         <div className="flex items-center justify-center top-0 right-0 absolute w-full h-full z-[1000]">
           <div className="bg-white shadow-2xl shadow-blue-900   rounded-md w-full  max-w-[450px] sm:w-[500px] flex space-x-5 items-center place-items-center justify-center h-[300px]">
             <Spinner color="secondary" />
@@ -69,7 +71,7 @@ export default function ResetPassword(param: any) {
             </h1>
           </div>
         </div>
-      )}
+      ):''}
 
       {error == "PASSWORD_RESET_FAILED" ? (
         <StatusModal
@@ -151,10 +153,12 @@ export default function ResetPassword(param: any) {
               </div>
 
               {error  && (
-                <div className={`mb-3 font-bold ${error !== "PASSWORD_RESET__SUCCESS" ?"text-red-600":"text-success-500"}`}>{error}</div>
+                <div className={`mb-3 font-bold ${error !== "PASSWORD_RESET_SUCCESS" ?"text-red-600":"text-success-500"}`}>{error}</div>
               )}
 
               <Button
+              isDisabled = {fired}
+              isLoading={fired}
                 className="bg-purple-500 rounded-md text-slate-100"
                 onClick={()=>setFired(true)}
               >

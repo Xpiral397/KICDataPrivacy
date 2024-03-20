@@ -13,7 +13,7 @@ export default function ResetPassword() {
   const [email, setEmail] = useState("");
   const [fired, setFired] = useState<boolean>(false);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(false)
   const [number, setNumber] = useState<number>(0)
 
   useEffect(() => {
@@ -34,13 +34,14 @@ export default function ResetPassword() {
           setNumber(number + 1);
         }
         setError(response);
+        setFired(false)
       });
     };
     handleResetPassword().then(result=>{
       setLoading(false)
-      setFired(false)
     });
     }
+    else{setFired(false)}
   }, [fired]);
 
   return (
@@ -141,6 +142,8 @@ export default function ResetPassword() {
               )}
 
               <Button
+              isDisabled= {fired}
+              isLoading = {fired}
                 className="mt-10 bg-purple-500 rounded-md text-slate-100"
                 onClick={() => setFired(true)}
               >
