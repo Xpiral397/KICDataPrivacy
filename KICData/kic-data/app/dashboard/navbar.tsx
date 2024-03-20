@@ -82,7 +82,7 @@ export default function Navbar() {
                   {data?.user?.userData?.email ?? data?.user?.email ?? ""}
                 </p>
               </DropdownItem>
-              <DropdownItem key="settings">My Settings</DropdownItem>
+              {/* <DropdownItem key="settings">My Settings</DropdownItem>
               <DropdownItem key="team_settings">Activity Log</DropdownItem>
               <DropdownItem key="team_settings">Notfications</DropdownItem>
               <DropdownItem key="analytics">Analytics</DropdownItem>
@@ -90,7 +90,7 @@ export default function Navbar() {
               <DropdownItem key="configurations">Configurations</DropdownItem>
               <DropdownItem key="help_and_feedback">
                 Help & Feedback
-              </DropdownItem>
+              </DropdownItem> */}
               <DropdownItem
                 onClick={() => {
                   signOut();

@@ -262,48 +262,131 @@ export default function Login() {
                 <ModalBody>
                   <div className="flex w-full flex-col">
                     <Tabs aria-label="Options">
-                      <Tab key="photos" title="Photos">
+                      <Tab key="Basic Contact Information" title="Basic Contact Information:">
                         <Card>
-                          <CardBody className="text-[monospace]">
-                            # Data Consent Form ## Introduction Thank you for
-                            participating in our research study. Before
-                            proceeding, we need your consent to collect and use
-                            your data. Please read the following informatio
-                            before agreeing. ## Purpose of the Study This study
-                            aims to [brief description of the study purpose). #
-                            bala Collecion We will collect the following data
-                            from you: - Personal information such as name, age,
-                            and contact details. - Responses to survey
-                            questions. - Behavioral data collected through
-                            [describe methods, e.g., tracking website usage,
-                            recording interactions, etc.]. • Any ower relevant
-                            data types"
+                          <CardBody className="text-[monospace] overflow-scroll max-h-[50vh] max-w-md mx-auto bg-white rounded-xl shadow-md  md:max-w-2xl">
+                          Do you consent to us sharing the following information to second-party sites? 
+                          <div className="max-w-md">
+                              <ul className="divide-y divide-gray-200">
+                                
+                                <li className="py-4">
+                                  <h3 className="text-lg font-semibold">Basic Contact Information:</h3>
+                                  <ul className="mt-2">
+                                    <li>Full Name</li>
+                                    <li>Email Address</li>
+                                    <li>Phone Number</li>
+                                  </ul>
+                                </li>
+
+                                
+                                <li className="py-4">
+                                  <h3 className="text-lg font-semibold">Demographic Information:</h3>
+                                  <ul className="mt-2">
+                                    <li>Age</li>
+                                    <li>Gender</li>
+                                    <li>Location (City, State, Country)</li>
+                                  </ul>
+                                </li>
+
+                                <li className="py-4">
+                                  <h3 className="text-lg font-semibold">Account Information:</h3>
+                                  <ul className="mt-2">
+                                    <li>Username</li>
+                                    <li>Password (only if necessary for authentication on the second-party site)</li>
+                                  </ul>
+                                </li>
+
+                                
+                                <li className="py-4">
+                                  <h3 className="text-lg font-semibold">Transaction Data:</h3>
+                                  <ul className="mt-2">
+                                    <li>Purchase history</li>
+                                    <li>Order details</li>
+                                    <li>Payment information (only if necessary for transactions on the second-party site)</li>
+                                  </ul>
+                                </li>
+
+                                
+                                <li className="py-4">
+                                  <h3 className="text-lg font-semibold">Preferences and Interests:</h3>
+                                  <ul className="mt-2">
+                                    <li>Product preferences</li>
+                                    <li>Interests or hobbies</li>
+                                    <li>Favorite categories or brands</li>
+                                  </ul>
+                                </li>
+                                <li className="py-4">
+                                  <h3 className="text-lg font-semibold">Communication Preferences:</h3>
+                                  <ul className="mt-2">
+                                    <li>Opt-in preferences for marketing communications</li>
+                                    <li>Preferred communication channels (e.g., email, SMS)</li>
+                                  </ul>
+                                </li>
+                                <li className="py-4">
+                                  <h3 className="text-lg font-semibold">Social Media Information (if applicable):</h3>
+                                  <ul className="mt-2">
+                                    <li>Social media handle</li>
+                                    <li>Connections or friends list (if relevant for social sharing features)</li>
+                                  </ul>
+                                </li>
+                              </ul>
+                            </div>
+                         </CardBody>
+                        </Card>
+                      </Tab>
+                      <Tab key="Device Info" title="Device Information:">
+                        <Card>
+                          <CardBody className="overflow-scroll max-h-[50vh] max-w-md mx-auto bg-white rounded-xl shadow-md md:max-w-2xl">
+                          <div>
+                            <div className="">
+                              <ul className="divide-y divide-gray-200">
+                                <li>
+                                  <h3 className="text-lg font-semibold">Device Information:</h3>
+                                  <ul className="mt-2">
+                                    <li>Device type (e.g., mobile, desktop)</li>
+                                    <li>Browser type and version</li>
+                                  </ul>
+                                </li>
+
+                                <li>
+                                  <h3 className="text-lg font-semibold">Behavioral Data:</h3>
+                                  <ul className="mt-2">
+                                    <li>Browsing history</li>
+                                    <li>Clickstream data</li>
+                                    <li>Interaction with advertisements or promotions</li>
+                                  </ul>
+                                </li>
+
+                                <li>
+                                  <h3 className="text-lg font-semibold">Third-Party Integrations:</h3>
+                                  <ul className="mt-2">
+                                    <li>Information shared with third-party services or platforms integrated with the second-party site (e.g., social media plugins, analytics tools)</li>
+                                  </ul>
+                                </li>
+
+                                <li>
+                                  <h3 className="text-lg font-semibold">Feedback and Reviews:</h3>
+                                  <ul className="mt-2">
+                                    <li>Product reviews or feedback submitted on the second-party site</li>
+                                  </ul>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+
                           </CardBody>
                         </Card>
                       </Tab>
-                      <Tab key="data" title="How Your Data Will be Used">
+                     <Tab key="data" title="How Your Data Will be Used">
                         <Card>
                           <CardBody>
-                            Our data will be used for the following purposes: -
-                            Analysis to achieve the objectives of the study. -
-                            Publication of research findings in academic
-                            journals or presentations. - [Any other intended
-                            use, e.g., informing product development, policy
-                            recommendations, etc.]. ## Confidentiality and
-                            Anonymity - Your data will be kept confidential and
-                            stored securely. - We will anonymize your data
-                            before analysis and publication to protect your
-                            identity. - Only authorized researchers will have
-                            access to your data. ## Voluntary Participation and
-                            Withdrawal - Participation in this study is
-                            voluntary, and you can withdraw at any time without
-                            penalty. - If you withdraw, any data collected up to
-                            that point will still be used, unless you explicitly
-                            request otherwise.
+                            We believe in fostering collaborative partnerships to enrich your experience. 
+                            By sharing select user information with our trusted second-party site, we aim
+                             to personalize your journey, tailor recommendations, and streamline transactions, 
+                             ensuring a seamless and rewarding interaction tailored to your preferences and needs."
                           </CardBody>
                         </Card>
                       </Tab>
-                     
                     </Tabs>
                   </div>
                 </ModalBody>

@@ -108,7 +108,7 @@ class CustomCurrentUserView(APIView):
     def get(self, request):
         user = request.user
         user_profile = UserProfile.objects.get(email=user.email)
-        user_profile.extract_cookies = self.paginateCookies(user_profile.extract_cookies)
+        user_profile.extract_cookies = {}
         user_serializer = UserCreateSerializerAll(user_profile)
         return Response(user_serializer.data)
     

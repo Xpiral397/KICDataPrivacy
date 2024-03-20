@@ -89,6 +89,7 @@ export default function Accounts() {
       formData.append("file", file);
       const cookies = await uploadFileAndProcessCookies(formData);
       setCookies(cookies?cookies:[]);
+      console.log([1,2,3,4,5])
       setHost((host:string[])=>{return cookies.map((cookies_)=>{return cookies_.host_key.replace("www", "")})})
       setPage(page+1)
       setPage(cookies.length)
@@ -103,21 +104,23 @@ export default function Accounts() {
   };
 
   const Group = (_Cookies:Cookie[])=>{
+    console.log(_Cookies.cookies,'lkop');
     const host: string[]= []
-    for (let _cookies of _Cookies){
+    for (let _cookies of _Cookies.cookies){
       if(_cookies.host_key.startsWith('.'))continue;
       if(host.includes(_cookies.host_key.replace("www", "") ?? '')){
         continue
       }
       host.push(_cookies.host_key.replace("www", "")??'')
     }
+    console.log(host, typeof host ,'plege')
     return host
   }
   useEffect(() => {
     setLoading(true)
     if (localStorage.getItem('cookie')??false) {
       const _Cookies:Cookie[] = JSON.parse(localStorage.getItem('cookie')??'[]')
-      setCookies(_Cookies);
+      setCookies(_Cookies.cookies);
       setHost(e=>Group(_Cookies))
       setTotalPage(_Cookies.length)
       console.log(Cookies,Host,'pop',JSON.parse(localStorage.getItem('cookie')??'[]'))
@@ -489,7 +492,7 @@ export default function Accounts() {
                 color="secondary"
               />
                 <Button onClick={fetchData} className=" text-white font-[700] px-10 py-2" color="secondary">
-                  You have {Math.floor(totalPage/100)} synchronized account on your web browser
+                  You have {Math.floor(totalPage/100)} different phase unsynchronized account on your web browser
                 </Button>
               </div>
               </div>
