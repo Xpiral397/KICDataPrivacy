@@ -2,7 +2,7 @@
 export async function ResendActivateEmailLink(email:string,code_send_if_failed?:string)  {
   try {
     // Replace the URL with your actual signup endpoint
-    const apiUrl = "http://127.0.0.1:8000/auth/users/resend_activation/";
+    const apiUrl = "https://xpiral.pythonanywhere.com/auth/users/resend_activation/";
 
     // Adjust the payload based on your API requirements
   

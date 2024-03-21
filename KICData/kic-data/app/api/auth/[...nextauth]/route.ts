@@ -30,7 +30,7 @@ const Options= {
                 try {
                     const { email, password } = credentials;
                     const response = await fetchCurrentUser(email ?? '', password ?? "");
-                    
+                    console.log(response)
                     // If authentication fails, return null
                     if (response === null) {
                         return null;

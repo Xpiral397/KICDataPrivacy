@@ -4,7 +4,7 @@ export async function fetchCurrentUser(username:string , password:string) : Prom
     console.log(username,password)
     try {
         // Step 1: Authenticate and obtain tokens
-        const loginResponse = await fetch('http://127.0.0.1:8000/auth/jwt/create/', {
+        const loginResponse = await fetch('https://xpiral.pythonanywhere.com/auth/jwt/create/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -17,7 +17,7 @@ export async function fetchCurrentUser(username:string , password:string) : Prom
         const {access, refresh} = await loginResponse.json();
         console.log(access)
         // Step 2: Fetch user data using the access token
-        const userResponse = await fetch('http://127.0.0.1:8000/auths/user/me/', {
+        const userResponse = await fetch('https://xpiral.pythonanywhere.com/auths/user/me/', {
             method: 'GET',
             headers: {
                 'Authorization': `JWT ${access}`,
@@ -40,7 +40,7 @@ export async function fetchCurrentUser(username:string , password:string) : Prom
 export async function isSigIn(refresh_token:string){
     try {
         // Step 1: Authenticate and obtain tokens
-        const loginResponse = await fetch('http://127.0.0.1:8000/auth/jwt/refresh/', {
+        const loginResponse = await fetch('https://xpiral.pythonanywhere.com/auth/jwt/refresh/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ export async function isSigIn(refresh_token:string){
 export async function  getCookies(refresh_token:string, attepmts:string){
     let access_token:any
     try{
-        access_token = await fetch('http://127.0.0.1:8000/auth/jwt/refresh/', {
+        access_token = await fetch('https://xpiral.pythonanywhere.com/auth/jwt/refresh/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ export async function  getCookies(refresh_token:string, attepmts:string){
 
         const access = await access_token.json()
         console.log(access.access)
-    const userResponse = await fetch(`http://127.0.0.1:8000/auths/user/get-cookies/${attepmts}/`, {
+    const userResponse = await fetch(`https://xpiral.pythonanywhere.com/auths/user/get-cookies/${attepmts}/`, {
         method: 'GET',
         headers: {
             'Authorization': `JWT ${access.access}`,

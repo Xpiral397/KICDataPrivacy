@@ -6,7 +6,7 @@ export interface EmailActivationPayLoad{
 export async function ActivateEmail(params:EmailActivationPayLoad) {
   try {
     // Replace the URL with your actual signup endpoint
-    const apiUrl = "http://127.0.0.1:8000/auth/users/activation/";
+    const apiUrl = "https://xpiral.pythonanywhere.com/auth/users/activation/";
     console.log
 
     // Adjust the payload based on your API requirements
