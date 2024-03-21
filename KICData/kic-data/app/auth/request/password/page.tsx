@@ -1,7 +1,7 @@
 // ResetPassword.tsx
 'use client'
 import { useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 
@@ -51,7 +51,7 @@ const ResetPassword = () => {
     <div className="w-full bg-cyan-50 text-slate-900">
       {resetStatus.success ? (
         <div>
-          <h1 className="bg-slate-900 text-2xl mb-2">Password Reset</h1>
+          <h1 className="mb-2 text-2xl bg-slate-900">Password Reset</h1>
           <label>Email:</label>
           <Input
             type="email"
