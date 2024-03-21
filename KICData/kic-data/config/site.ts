@@ -1,8 +1,8 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-	name: "Next.js + NextUI",
-	description: "Make beautiful websites regardless of your design experience.",
+	name: "KICData Privacy",
+	description: "Secure Your Data And Learn How To Protect Your Data",
 	navItems: [
 		{
 			label: "Home",

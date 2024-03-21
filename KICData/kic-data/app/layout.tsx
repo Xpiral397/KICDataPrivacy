@@ -1,4 +1,4 @@
-'use client'
+
 import "@/styles/globals.css";
 import { Metadata } from "next";
 import { siteConfig } from "@/config/site";
@@ -10,8 +10,8 @@ import clsx from "clsx";
 
 export const metadata: Metadata = {
   title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
+    default: 'KICData Privacy',
+    template: `%s - KICData Privacy`,
   },
   description: siteConfig.description,
   themeColor: [
