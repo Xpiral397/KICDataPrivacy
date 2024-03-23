@@ -6,7 +6,7 @@ export const resetPasswordRequest = async (
   re_new_password: string
 ) => {
   
-  const url = "http://localhost:8000/auth/users/reset_password_confirm/"; // Replace with your actual Django endpoint
+  const url = "https://xpiral.pythonanywhere.com/auth/users/reset_password_confirm/"; // Replace with your actual Django endpoint
   try {
     const response = await fetch(url, {
       method: "POST",

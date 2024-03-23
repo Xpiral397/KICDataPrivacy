@@ -11,7 +11,7 @@ export default function LoginActivation(params: {
   uid: string;
   token: string;
 }) {
-  const { uid, token } = params.params;
+  const { uid, token } = (params as any).params;
   const [email, setEmail] = useState("");
   const [sucessModal, setSuccessModal] = useState<boolean>(false);
   const [NotSucessModal, setNotSuccessModal] = useState<boolean>(false);
@@ -40,8 +40,8 @@ export default function LoginActivation(params: {
         <div className="relative w-full h-full overflow-hidden bg-purple-900 lg:hidden">
           <div className="absolute top-0 left-0 w-full ">
             <DotGrid
-              gridSize={100}
-              spacing={10}
+              gridSize={25}
+              spacing={3}
               dotRadius={1}
               dotColor="white"
             />
@@ -106,7 +106,7 @@ export default function LoginActivation(params: {
 
       <div className="hidden w-full h-full overflow-hidden lg:block ">
         <div className="relative w-full h-full overflow-hidden bg-purple-900">
-          <div className=" rounded-md px-10  w-full h-full flex flex-col items-center right-0  mt-[20%] absolute z-[1000]">
+          <div className=" rounded-md px-10  w-full h-full flex flex-col items-center right-0  mt-[20%] absolute z-[2]">
             <div className="w-[500px] space-y-2 flex flex-col items-center shadow-2xl shadow-purple-600 bg-white px-5 py-2 rounded-md">
               <h1 className="font-[600] text-purple-900 ">
                 Keep your data safe
@@ -141,7 +141,7 @@ export default function LoginActivation(params: {
           </div>
           <div className="absolute top-0 right-0 hidden w-full lg:flex">
             <DotGrid
-              gridSize={150}
+              gridSize={10}
               spacing={15}
               dotRadius={0.51}
               dotColor="white"
@@ -149,8 +149,8 @@ export default function LoginActivation(params: {
           </div>
           <div className="absolute top-0 right-0 ">
             <DotGrid
-              gridSize={225}
-              spacing={15}
+              gridSize={10}
+              spacing={1}
               dotRadius={0.51}
               dotColor="yellow"
             />
@@ -160,16 +160,16 @@ export default function LoginActivation(params: {
         <div className="relative w-full bg-purple-900">
           <div className="absolute bottom-0 left-0 hidden w-full lg:flex">
             <DotGrid
-              gridSize={150}
-              spacing={20}
+              gridSize={10}
+              spacing={12}
               dotRadius={0.51}
               dotColor="blue"
             />
           </div>
           <div className="absolute bottom-0 left-1 ">
             <DotGrid
-              gridSize={125}
-              spacing={20}
+              gridSize={12}
+              spacing={10}
               dotRadius={0.69}
               dotColor="orange"
             />

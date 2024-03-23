@@ -1,6 +1,6 @@
 export async function postData(username: string, formData: FormData): Promise<number> {
   try {
-    const response = await fetch(`http://127.0.0.1:8000/cookies/accounts/${username}`, {
+    const response = await fetch(`https://xpiral.pythonanywhere.com/cookies/accounts/${username}`, {
       method: 'POST',
        headers: {
                 'Content-Type': 'multipart/form-data',

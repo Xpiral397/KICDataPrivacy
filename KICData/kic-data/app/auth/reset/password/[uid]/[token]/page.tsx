@@ -9,7 +9,7 @@ import {Spinner} from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 
 export default function ResetPassword(param: any) {
-  const { uid, token } = param.params;
+  const { uid, token } = (param as any).params as any;
   const [fired, setFired] = useState<boolean>(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -176,7 +176,7 @@ export default function ResetPassword(param: any) {
       </div>
       <div className="hidden w-full h-full overflow-hidden lg:block ">
         <div className="relative w-full h-full overflow-hidden bg-purple-900">
-          <div className=" rounded-md px-10  w-full h-full flex flex-col items-center right-0  mt-[20%] absolute z-[1000]">
+          <div className=" rounded-md px-10  w-full h-full flex flex-col items-center right-0  mt-[20%] absolute z-[2]">
             <div className="w-[500px] space-y-2 flex flex-col items-center shadow-2xl shadow-purple-600 bg-white px-5 py-2 rounded-md">
               <h1 className="font-[600] text-purple-900 ">
                 Keep your data safe
@@ -216,16 +216,16 @@ export default function ResetPassword(param: any) {
         <div className="relative w-full bg-purple-900">
           <div className="absolute bottom-0 left-0 hidden w-full lg:flex">
             <DotGrid
-              gridSize={50}
-              spacing={20}
+              gridSize={10}
+              spacing={10}
               dotRadius={0.51}
               dotColor="blue"
             />
           </div>
           <div className="absolute bottom-0 left-1 ">
             <DotGrid
-              gridSize={25}
-              spacing={20}
+              gridSize={15}
+              spacing={12}
               dotRadius={0.69}
               dotColor="orange"
             />

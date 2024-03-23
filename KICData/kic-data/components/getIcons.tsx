@@ -10,3 +10,4 @@ export function ensureHttps(url: string): string {
 export function getIconUrl(websiteUrl: string): string {
   return ensureHttps(`${websiteUrl}/favicon.ico`);
 }
+

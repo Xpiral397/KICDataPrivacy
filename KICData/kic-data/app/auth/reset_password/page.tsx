@@ -50,7 +50,7 @@ export default function ResetPassword() {
       data-label="reset-password"
     >
        {loading && (
-        <div className="flex items-center justify-center top-0 right-0 absolute w-full h-full z-[1000]">
+        <div className="flex items-center justify-center top-0 right-0 absolute w-full h-full z-[8]">
           <div className="bg-white shadow-2xl shadow-blue-900   rounded-md w-full  max-w-[450px] sm:w-[500px] flex space-x-5 items-center place-items-center justify-center h-[300px]">
             <Spinner color="secondary" />
             <h1 className="text-purple-800 font-[600]">
@@ -211,7 +211,7 @@ export default function ResetPassword() {
         <div className="relative w-full bg-purple-900">
           <div className="absolute bottom-0 left-0 hidden w-full lg:flex">
             <DotGrid
-              gridSize={150}
+              gridSize={50}
               spacing={20}
               dotRadius={0.51}
               dotColor="blue"
@@ -219,7 +219,7 @@ export default function ResetPassword() {
           </div>
           <div className="absolute bottom-0 left-1 ">
             <DotGrid
-              gridSize={125}
+              gridSize={50}
               spacing={20}
               dotRadius={0.69}
               dotColor="orange"
