@@ -8,6 +8,9 @@ import {isSigIn} from "../helpers/authenticate";
 import {Button, Card, CardBody, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Spinner, Tab, Tabs, useDisclosure} from "@nextui-org/react";
 import {get} from "https";
 
+ export function clearConsent() {
+    return localStorage.removeItem('consent')
+  }
 
 export default function SidebarBoardLayout({
   children,
@@ -26,9 +29,7 @@ export default function SidebarBoardLayout({
     function addConsent() {
     localStorage.setItem('consent', 'true')
   }
-  function clearConsent() {
-    return localStorage.removeItem('consent')
-  }
+ 
   useEffect(() => {
     if(accepted || getConsent()) {  
 
@@ -64,7 +65,7 @@ export default function SidebarBoardLayout({
       })();
     }
    
-  }, [accepted, (session as any)?.consent]);
+  }, [accepted, session.status]);
   if(session.status === "authenticated" ){
     return <div className="h-full flex flex-col">
       <div className="w-full">
@@ -76,7 +77,8 @@ export default function SidebarBoardLayout({
           <Modal
           isOpen={isOpen}
           onOpenChange={onOpenChange}
-          isDismissable={false}
+              isDismissable={false}
+              onClose={()=>{signOut()}}
           isKeyboardDismissDisabled={true}
           size="4xl"
         >

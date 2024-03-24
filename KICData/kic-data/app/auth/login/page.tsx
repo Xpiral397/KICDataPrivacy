@@ -118,6 +118,7 @@ export default function Login() {
                     (async () => {
                       setAuth(true);
                       error(false);
+                      console.log('hi')
                       await signIn("credentials", {
                         email,
                         password,

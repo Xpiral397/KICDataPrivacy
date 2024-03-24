@@ -43,10 +43,12 @@ export default function Login() {
   const [accept, setAccept] = useState<boolean>(false);
   const [showPolicy, setPolicy] = useState<boolean>(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [modalError, setModalError] = useState<boolean>();
+  const [show, setShowError] = useState<boolean>(false);
+ const [modalError, setModalError] = useState<boolean>();
   useEffect(() => {
+    if(show){
     setDisabled(false);
-    if (formData?.othername == "") {
+    if(formData?.othername == "") {
       setDisabled(true);
       setError((prev) => {
         return {
@@ -55,7 +57,7 @@ export default function Login() {
         };
       });
     }
-    if ((formData?.surname ?? "")?.length < 3) {
+    if((formData?.surname ?? "")?.length < 3) {
       setDisabled(true);
       setError((prev) => {
         return {
@@ -72,7 +74,7 @@ export default function Login() {
         };
       });
     }
-    if ((formData?.othername ?? "")?.length < 3) {
+    if((formData?.othername ?? "")?.length < 3) {
       setDisabled(true);
       setError((prev) => {
         return {
@@ -89,7 +91,7 @@ export default function Login() {
         };
       });
     }
-    if (
+    if(
       (formData?.email ?? "")?.length < 10 ||
       !formData?.email?.includes("gmail.com")
     ) {
@@ -110,11 +112,12 @@ export default function Login() {
       });
     }
 
-    if (
+    if(
       (formData && formData?.password !== formData?.rePassword) ||
       !formData?.password
     ) {
       setDisabled(true);
+       setLoading(false)
       setError((prev) => {
         return {
           ...prev,
@@ -131,14 +134,16 @@ export default function Login() {
           rePassword: "",
         };
       });
-    }
-    if (formData && !formData.country && !formData.gender) {
+      }
+      console.log(formData?.country, formData?.gender)
+    if(formData && (!formData.country || !formData.gender)) {
       setDisabled(true);
+       setLoading(false)
       setError((prev) => {
         return {
           ...prev,
-          gender: "Gender require",
-          country: "Country  required",
+          gender: formData.gender?"":"Gender require",
+          country:formData.country?"": "Country  required",
         };
       });
     } else {
@@ -152,7 +157,7 @@ export default function Login() {
       });
       checkPasswordStrength(formData?.password ?? "")
         .then((result) => {
-          if (result == "Password is strong") {
+          if(result == "Password is strong") {
             setError((prev) => {
               return {
                 ...prev,
@@ -162,6 +167,7 @@ export default function Login() {
             });
           } else {
             setDisabled(true);
+            setLoading(false)
             setError((prev) => {
               return {
                 ...prev,
@@ -175,30 +181,32 @@ export default function Login() {
           setModalError(true);
         });
     }
+  }
   
-  }, [
-    formData?.surname,
+  }, [formData?.surname,
     formData?.othername,
     formData?.password,
     formData?.rePassword,
     formData?.country,
     formData?.gender,
+    show
+    ]
   
-  ]);
+  );
   const handleSubmit = async (e: any) => {
-    // const confirm = (
-    //   password: string,
-    //   re_password: string,
-    //   surname,
-    //   othername,
-    //   email
-    // ) => {};
+    setShowError(true)
+    if(isdisabled || !accept) {
+      setLoading(false)
+      return 
+    } 
     console.log('Parsing');
+    
     setLoading(true);
     e.preventDefault();
     setError({});
 
-    if (formData && formData.password != formData.rePassword) {
+    if(formData && formData.password != formData.rePassword && formData.password) {
+      setDisabled(true)
       setError((prev) => {
         return {
           ...prev,
@@ -206,6 +214,7 @@ export default function Login() {
           rePassword: "Password Didnt Match",
         };
       });
+      return
     }
 
     const response = await signup(formData as UserData);
@@ -458,8 +467,8 @@ export default function Login() {
         <div className="lg:hidden bg-purple-900 overflow-hidden relative w-full h-full">
           <div className="w-full absolute left-0 top-0 ">
             <DotGrid
-              gridSize={100}
-              spacing={10}
+              gridSize={103}
+              spacing={15}
               dotRadius={1}
               dotColor="white"
             />
@@ -724,14 +733,14 @@ export default function Login() {
                     <input
                       checked={accept}
                       type="checkbox"
-                      onChange={(e: any) =>{
+                      onChange={(e: any) => {
                         e.preventDefault()
                         setFormData((prev) => ({
                           ...prev,
                           keepLoggedIn: e.target.value,
                         }))
                       }
-                    }
+                      }
                     />
                     <label
                       onClick={() => onOpen()}
@@ -748,7 +757,7 @@ export default function Login() {
                     onClick={() => {
                       onOpen();
                     }}
-                    className="pointer text-[12px] text-red-500 font-[600] font-[Helvetica]"
+                    className={`${show && "animate-pulse"} pointer text-[12px] text-red-500 font-[600] font-[Helvetica]`}
                   >
                     Read and agree to this website Privacy & Policy
                   </label>
@@ -817,7 +826,7 @@ export default function Login() {
           </div>
           <div className="w-full absolute right-0 top-0   hidden lg:flex">
             <DotGrid
-              gridSize={25}
+              gridSize={10}
               spacing={15}
               dotRadius={0.51}
               dotColor="white"
@@ -826,7 +835,7 @@ export default function Login() {
 
           <div className="right-0 top-0 absolute ">
             <DotGrid
-              gridSize={25}
+              gridSize={15}
               spacing={15}
               dotRadius={0.51}
               dotColor="yellow"
@@ -837,16 +846,16 @@ export default function Login() {
         <div className="bg-purple-900 relative w-full">
           <div className="w-full absolute left-0 bottom-0 hidden lg:flex">
             <DotGrid
-              gridSize={25}
-              spacing={20}
+              gridSize={10}
+              spacing={10}
               dotRadius={0.51}
               dotColor="blue"
             />
           </div>
           <div className="left-1  bottom-0 absolute ">
             <DotGrid
-              gridSize={25}
-              spacing={20}
+              gridSize={15}
+              spacing={10}
               dotRadius={0.69}
               dotColor="orange"
             />

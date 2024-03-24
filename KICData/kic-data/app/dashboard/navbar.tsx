@@ -15,6 +15,7 @@ import {
 import { signIn, signOut, useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
+import {clearConsent} from "./layout";
 
 export default function Navbar() {
   const router = useRouter();
@@ -94,6 +95,8 @@ export default function Navbar() {
               <DropdownItem
                 onClick={() => {
                   signOut();
+                    clearConsent()
+                  router.push('/auth/login')
                 }}
                 key="logout"
                 color="danger"
@@ -101,7 +104,8 @@ export default function Navbar() {
                 <Button
                   onClick={() => {
                     signOut();
-                    localStorage.setItem('consent','{}')
+                    clearConsent();
+                    router.push('/auth/login')
                   }}
                   className="px-2 w-full bg-danger-300 text-white font-[600]"
                 >
