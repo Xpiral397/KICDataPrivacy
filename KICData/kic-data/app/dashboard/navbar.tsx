@@ -56,7 +56,7 @@ export default function Navbar() {
           <li
           className="pointer"
             onClick={() => {
-              router.push("Learn");
+              router.push("/dashboard/Learn");
             }}
           >
             Learn
@@ -69,17 +69,17 @@ export default function Navbar() {
                 isBordered
                 as="button"
                 className="transition-transform"
-                src={data?.user?.image ?? ""}
+                src={(data as any)?.user?.image ?? ""}
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat">
               <DropdownItem key="profile" className="h-14 gap-2">
                 <p className="font-semibold">Signed in as</p>
                 <p className="font-semibold">
-                  {data?.user?.userData?.name ?? data?.user?.name ?? ""}
+                  {(data as any)?.user?.userData?.name ?? data?.user?.name ?? ""}
                 </p>
                 <p className="font-semibold">
-                  {data?.user?.userData?.email ?? data?.user?.email ?? ""}
+                  {(data as any)?.user?.userData?.email ?? data?.user?.email ?? ""}
                 </p>
               </DropdownItem>
               {/* <DropdownItem key="settings">My Settings</DropdownItem>
@@ -101,6 +101,7 @@ export default function Navbar() {
                 <Button
                   onClick={() => {
                     signOut();
+                    localStorage.setItem('consent','{}')
                   }}
                   className="px-2 w-full bg-danger-300 text-white font-[600]"
                 >

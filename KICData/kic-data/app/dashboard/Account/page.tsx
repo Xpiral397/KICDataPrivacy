@@ -176,7 +176,7 @@ export default function Accounts() {
   };
 
 
-  const  FilterCookies = (type: "Search" | "Host" | "Date" |"Filter",key:string|number)=>{
+  const  FilterCookies = (type: "Search" | "Host" | "Date" |"Filter" | 'filter',key:string|number)=>{
     console.log(key,'pops')
     setFilter(()=>{
       return {
@@ -444,7 +444,7 @@ export default function Accounts() {
                   <label className="font-[600] text-[12px]">
                     Filter by date:
                   </label>
-                  <Input onChange={(key)=>FilterCookies('Date', Date.parse(key.target.valueAsDate))} color = 'success' type="date" size = 'md'/>
+                  <Input onChange={(key)=>FilterCookies('Date', Date.parse((key as any)?.target?.valueAsDate))} color = 'success' type="date" size = 'md'/>
                 </div>
 
                 <div className="w-full flex flex-col">
@@ -509,14 +509,7 @@ export default function Accounts() {
         >
           <Add /> Set Enviroment Cookies
         </Button>
-        <Button
-          onClick={() => {
-            onOpen();
-            setScreen(4);
-          }}
-        >
-          <Add /> Next Website Account
-        </Button>
+        
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import {isSigIn} from "../helpers/authenticate";
 import {Button, Card, CardBody, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Spinner, Tab, Tabs, useDisclosure} from "@nextui-org/react";
+import {get} from "https";
 
 
 export default function SidebarBoardLayout({
@@ -15,29 +16,45 @@ export default function SidebarBoardLayout({
 }) {
   const session = useSession();
   const router = useRouter();
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
   const [accepted, setAccepted] = useState<boolean>(false);                               
   const [loading, setLoading] = useState<boolean>(false);
+
+  function getConsent() {
+    return  JSON.parse((localStorage.getItem('consent')??'')?localStorage.getItem('consent')??'false':"false")
+  }
+    function addConsent() {
+    localStorage.setItem('consent', 'true')
+  }
+  function clearConsent() {
+    return localStorage.removeItem('consent')
+  }
   useEffect(() => {
-    if(accepted) {
-     session.update({consent:true,...session})
+    if(accepted || getConsent()) {  
+
+      router.push("/dashboard/Account");
+      onClose();
+      return 
    }
     setLoading(true)
     
-    if (session.status !== "authenticated") {
+    if(session.status !== "authenticated") {
+      if(getConsent()) {
+         clearConsent()
+      }
       router.push("/auth/login");
       setLoading(false)
     } 
     else if(session.status == "authenticated") {
       (async ()=>{
         const response = await isSigIn((session.data.user as any ).refreshToken)
-        if(response && ((session as  any)?.consent??false)){
+        if(response && getConsent()){
             router.push("/dashboard/Account");
             setLoading(false)
-            console.log('Kiolo',session.status)
         }
-        else if(response && ((!(session as any )?.consent)??true)) {
+        else if(response && !getConsent()) {
           onOpen();
+          
         }
         else{
           signOut()
@@ -216,6 +233,7 @@ export default function SidebarBoardLayout({
                     color="primary"
                     onPress={() => {
                       onClose()
+                      addConsent()
                       setAccepted(true)
                       
                     }}
@@ -248,7 +266,7 @@ export default function SidebarBoardLayout({
    <div className="bg-white shadow-2xl shadow-blue-900   rounded-md w-full  max-w-[450px] sm:w-[500px] flex space-x-5 items-center place-items-center justify-center h-[300px]">
      <Spinner color="secondary" />
      <h1 className="text-purple-800 font-[600]">
-      Loading Template
+      Processing...
      </h1>
    </div>
  </div>
