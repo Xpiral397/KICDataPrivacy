@@ -78,7 +78,12 @@ export default function SidebarBoardLayout({
           isOpen={isOpen}
           onOpenChange={onOpenChange}
               isDismissable={false}
-              onClose={()=>{if(!accepted)signOut()}}
+              onClose={() => {
+                if(!accepted) {
+                  signOut()
+                  router.push('/auth/signin')
+                }
+              }}
           isKeyboardDismissDisabled={true}
           size="4xl"
         >
