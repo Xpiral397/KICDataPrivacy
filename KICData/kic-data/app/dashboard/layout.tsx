@@ -31,6 +31,7 @@ export default function SidebarBoardLayout({
   }
  
   useEffect(() => {
+     setLoading(true)
     if(accepted || getConsent()) {  
 
       router.push("/dashboard/Account");
@@ -38,9 +39,8 @@ export default function SidebarBoardLayout({
       onClose();
       
    }
-    setLoading(true)
-    
-    if(session.status !== "authenticated") {
+       
+    else if(session.status !== "authenticated") {
       if(getConsent()) {
          clearConsent()
       }
