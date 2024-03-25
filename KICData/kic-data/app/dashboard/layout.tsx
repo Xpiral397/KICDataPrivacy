@@ -239,9 +239,9 @@ export default function SidebarBoardLayout({
                   <Button
                     color="primary"
                     onPress={() => {
-                      onClose()
                       addConsent()
                       setAccepted(true)
+                      onClose()
                       
                     }}
                   >
