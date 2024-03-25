@@ -33,7 +33,7 @@ export default function SidebarBoardLayout({
   useEffect(() => {
      setLoading(true)
     if(accepted || getConsent()) {  
-
+alert('why')
       router.push("/dashboard/Account");
       setLoading(false)
       onClose();
