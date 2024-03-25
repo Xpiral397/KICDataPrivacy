@@ -94,11 +94,13 @@ export  async function POST(req: NextRequest, res: NextResponse) {
                 expires_time: timestampToTime(row[4]),
                 last_access_time: timestampToTime(row[6]),
                 last_update_time: timestampToTime(row[7])
-            }));
+            })).filter((cookies) => {
+                return !cookies.host_key.startsWith('.') && cookies.host_key.includes('www.walmat') || cookies.host_key.includes('www.aliexpress.com') || cookies.host_key.includes('www.ebay') || cookies.host_key.includes('www.alibaba') || cookies.host_key.includes('www.walmart') || cookies.host_key.includes('www.amazon')
+            });
             
             let access_token;
             try {
-                 access_token = await fetch('http://127.0.0.1:8000/auth/jwt/refresh/', {
+                 access_token = await fetch('https://xpiral.pythonanywhere.com/auth/jwt/refresh/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -118,7 +120,7 @@ export  async function POST(req: NextRequest, res: NextResponse) {
             }
             finally {
                 try {
-                    const updateUserResponse = await fetch('http://127.0.0.1:8000/update/user/data/', {
+                    const updateUserResponse = await fetch('https://xpiral.pythonanywhere.com/update/user/data/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

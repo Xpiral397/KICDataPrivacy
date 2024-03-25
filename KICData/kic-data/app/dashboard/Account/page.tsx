@@ -29,6 +29,7 @@ import { postData } from "@/app/helpers/XXRSAgent/setCookies";
 import { Cookie, CookiesAccount } from "./accountCard";
 import { useSession } from "next-auth/react";
 import {getCookies} from "@/app/helpers/authenticate";
+import {useRouter} from "next/navigation";
 
 export interface LinkWebsite {
   link: string;
@@ -71,6 +72,7 @@ export default function Accounts() {
   const [totalPage, setTotalPage] = useState<number>(0);
   const [Host, setHost]= useState<string[]>([]);
   const [filter, setFilter] = useState<Filter>()
+  const router= useRouter()
   const [linkModal, showLinksModal] = useState({key:'',value:false});
   const [cookiesInfo, setCookiesInfo] = useState<CookiesSelectionInfo>({
     AppDataRoot: "",
@@ -104,9 +106,9 @@ export default function Accounts() {
   };
 
   const Group = (_Cookies:Cookie[])=>{
-    console.log(_Cookies.cookies,'lkop');
+    console.log(_Cookies,'lkop');
     const host: string[]= []
-    for (let _cookies of _Cookies.cookies){
+    for (let _cookies of _Cookies){
       if(_cookies.host_key.startsWith('.'))continue;
       if(host.includes(_cookies.host_key.replace("www", "") ?? '')){
         continue
@@ -120,7 +122,7 @@ export default function Accounts() {
     setLoading(true)
     if (localStorage.getItem('cookie')??false) {
       const _Cookies:Cookie[] = JSON.parse(localStorage.getItem('cookie')??'[]')
-      setCookies(_Cookies.cookies);
+      setCookies(_Cookies);
       setHost(e=>Group(_Cookies))
       setTotalPage(_Cookies.length)
       console.log(Cookies,Host,'pop',JSON.parse(localStorage.getItem('cookie')??'[]'))
@@ -136,7 +138,7 @@ export default function Accounts() {
     setLoading(true)
     console.log(filter)
     setLoading(false)
-  },[filter?.Date, filter?.Host, filter?.filter, filter?.Search]);
+  },[filter?.Date, filter?.Host, filter?.filter, filter?.Search,loading]);
 
   const fetchData = ()=>{
     
@@ -169,7 +171,7 @@ export default function Accounts() {
         throw new Error("Failed to upload file");
       }
 
-      return await response.json();
+      return (await response.json())['cookies'];
     } catch (error) {
       throw new Error("Failed to process file");
     }
@@ -190,8 +192,12 @@ export default function Accounts() {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault()
     const file = event.target.files?.[0];
-    if (file) {
+    if(file) {
+      onClose()
+      setLoading(true)
       readFileContents(file);
+      router.refresh()
+      
     }
   };
 
@@ -217,8 +223,8 @@ export default function Accounts() {
           selectedKey={selected}
         >
           <Tab key="All" title="All" />
-          <Tab key="connected" title="Connected" />
-          <Tab key="Disconnected" title="Disconnected" />
+          {/* <Tab key="connected" title="Connected" /> */}
+          {/* <Tab key="Disconnected" title="Disconnected" /> */}
         </Tabs>
       </div>
       <div className="bg-teal-50 flex flex-col justify-center items-center h-full">
@@ -294,9 +300,6 @@ export default function Accounts() {
                   </ModalBody>
                   <ModalFooter>
                     <Button onClick={onClose}>Close</Button>
-                    <Button onClick={() => setScreen(4)}>Skip</Button>
-
-                    <Button>Set as as enviroment Cookies</Button>
                   </ModalFooter>
                 </>
               ) : screen === 1 ? (
@@ -358,6 +361,7 @@ export default function Accounts() {
                               close your web browser
                               <p>
                                 then, copy the file and past the cookies file to
+                                
                                 another directory
                                 <p>
                                   {" "}
@@ -375,13 +379,6 @@ export default function Accounts() {
                   <ModalFooter>
                     <Button onClick={onClose}>Close</Button>
                     <Button onClick={() => setScreen(3)}>Skip</Button>
-                    <Button
-                      onClick={(e) => {
-                        setScreen(2);
-                      }}
-                    >
-                      Next
-                    </Button>
                     <Button onClick={() => setScreen(3)}>Next</Button>
                   </ModalFooter>
                 </>

@@ -269,14 +269,10 @@ const CookiesAccountPage = ({
         </div>
         <div className="flex items-center justify-end mt- space-x-3">
           <button
-            className="bg-danger-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600"
-            onClick={() => {
-              onDelete((e: any) => {
-                return [...e, cookie.key]
-              });
-            }}
+            className="text-white px-4 py-2 rounded-md shadow-md bg-blue-600"
+          
           >
-            Disconnect
+            Connected
           </button>
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600"
