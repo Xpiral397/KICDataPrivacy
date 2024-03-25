@@ -34,6 +34,7 @@ export default function SidebarBoardLayout({
     if(accepted || getConsent()) {  
 
       router.push("/dashboard/Account");
+      setLoading(false)
       onClose();
       return 
    }
