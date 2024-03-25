@@ -78,7 +78,7 @@ export default function SidebarBoardLayout({
           isOpen={isOpen}
           onOpenChange={onOpenChange}
               isDismissable={false}
-              onClose={()=>{signOut()}}
+              onClose={()=>{if(!accepted)signOut()}}
           isKeyboardDismissDisabled={true}
           size="4xl"
         >
