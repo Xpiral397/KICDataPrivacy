@@ -74,6 +74,7 @@ export default function Accounts() {
   const [filter, setFilter] = useState<Filter>()
   const router= useRouter()
   const [linkModal, showLinksModal] = useState({key:'',value:false});
+  const [firsts, setFirst] = useState(true)
   const [cookiesInfo, setCookiesInfo] = useState<CookiesSelectionInfo>({
     AppDataRoot: "",
     computer: "Mac",
@@ -91,14 +92,12 @@ export default function Accounts() {
       formData.append("file", file);
       const cookies = await uploadFileAndProcessCookies(formData);
       setCookies(cookies?cookies:[]);
-      console.log([1,2,3,4,5])
       setHost((host:string[])=>{return cookies.map((cookies_)=>{return cookies_.host_key.replace("www", "")})})
       setPage(page+1)
       setPage(cookies.length)
       if (data && data.user)
         localStorage.setItem("cookie", JSON.stringify(cookies))
     } catch (error) {
-      console.error("Error processing file:", error);
       setError("Failed to process cookies file");
     } finally {
       setLoading(false);
@@ -106,7 +105,6 @@ export default function Accounts() {
   };
 
   const Group = (_Cookies:Cookie[])=>{
-    console.log(_Cookies,'lkop');
     const host: string[]= []
     for (let _cookies of _Cookies){
       if(_cookies.host_key.startsWith('.'))continue;
@@ -120,12 +118,15 @@ export default function Accounts() {
   }
   useEffect(() => {
     setLoading(true)
+    if(localStorage.getItem('consent') && firsts) {
+      onOpen()
+      setFirst(false)
+    }
     if (localStorage.getItem('cookie')??false) {
       const _Cookies:Cookie[] = JSON.parse(localStorage.getItem('cookie')??'[]')
       setCookies(_Cookies);
       setHost(e=>Group(_Cookies))
       setTotalPage(_Cookies.length)
-      console.log(Cookies,Host,'pop',JSON.parse(localStorage.getItem('cookie')??'[]'))
     }
     else{
       fetchData()
