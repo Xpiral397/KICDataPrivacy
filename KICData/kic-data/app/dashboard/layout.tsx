@@ -32,14 +32,14 @@ export default function SidebarBoardLayout({
  
   useEffect(() => {
      setLoading(true)
-    if(accepted || getConsent()) {
-      throw 'why'
+    if(accepted || getConsent()) { 
       router.push("/dashboard/Account");
       setLoading(false)
       onClose();
-      
+    
    }
-       
+   
+    
     else if(session.status !== "authenticated") {
       if(getConsent()) {
          clearConsent()
