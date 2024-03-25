@@ -239,10 +239,9 @@ export default function SidebarBoardLayout({
                   <Button
                     color="primary"
                     onPress={() => {
-                      addConsent()
-                      setAccepted(true)
-                      onClose()
                       
+                      setAccepted(true)                   
+                      addConsent( )
                     }}
                   >
                     Accept Policy
