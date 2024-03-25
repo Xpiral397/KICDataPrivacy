@@ -36,7 +36,7 @@ export default function SidebarBoardLayout({
       router.push("/dashboard/Account");
       setLoading(false)
       onClose();
-      return 
+      
    }
     setLoading(true)
     
@@ -56,7 +56,6 @@ export default function SidebarBoardLayout({
         }
         else if(response && !getConsent()) {
           onOpen();
-          
         }
         else{
           signOut()
