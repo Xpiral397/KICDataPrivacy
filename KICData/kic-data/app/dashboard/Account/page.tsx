@@ -447,12 +447,17 @@ export default function Accounts() {
                           <div className="w-full items-center flex justify-end">
                             <Button
                               isExternal
-                              href={`https://www${
-                                linksList ? linksList[linksList.length - 1] : ""
-                              }/`}
                               className="bg-blue-500 text-slate-100 w-[150px]"
                             >
-                              Connected
+                              <a
+                                href={`https://www${
+                                  linksList
+                                    ? linksList[linksList.length - 1]
+                                    : ""
+                                }/`}
+                              >
+                                Connect
+                              </a>
                             </Button>
                           </div>
                         </div>
