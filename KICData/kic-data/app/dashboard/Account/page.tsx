@@ -85,6 +85,7 @@ export default function Accounts() {
   const [linkModal, showLinksModal] = useState({ key: "", value: false });
   const [firsts, setFirst] = useState(true);
   const [linksList, setNewLinkList] = useState<string[]>();
+  const [renderList, setRenderedList] = useState<string[]>([]);
   const [cookiesInfo, setCookiesInfo] = useState<CookiesSelectionInfo>({
     AppDataRoot: "",
     computer: "Mac",
@@ -368,7 +369,7 @@ export default function Accounts() {
                             width={"28"}
                           />
                         }
-                        value={"aliexpress.com"}
+                        value={"www.aliexpress.com"}
                         key="aliexpress.com"
                       >
                         AllExpress
@@ -377,7 +378,7 @@ export default function Accounts() {
                         startContent={
                           <img src={"https://www.alibaba.com/favicon.ico"} />
                         }
-                        value={"alibaba.com"}
+                        value={"www.alibaba.com"}
                         key="www.alibaba.com"
                       >
                         Alibaba
@@ -386,7 +387,7 @@ export default function Accounts() {
                         startContent={
                           <img src={"https://www.walmart.com/favicon.ico"} />
                         }
-                        value={"walmart.com"}
+                        value={"www.walmart.com"}
                         key="www.walmart.com"
                       >
                         Walmart
@@ -644,7 +645,9 @@ export default function Accounts() {
                             deleted={Delete}
                             selected={selected}
                             onDelete={setDelete}
+                            setRenderList={setRenderedList}
                             onAddFav={setFav}
+                            renderList={renderList}
                             linkModal={linkModal}
                             setLinkModal={showLinksModal}
                           />

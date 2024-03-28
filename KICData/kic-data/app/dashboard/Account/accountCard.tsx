@@ -16,9 +16,9 @@ import {
 
 import { ensureHttps, getIconUrl } from "@/components/getIcons";
 import { Button, Code, Image } from "@nextui-org/react";
-import {Filter} from "./page";
-import {fuzzyDomainMatch} from "@/app/helpers/XXRSAgent/matcher";
-import {timestampToTime} from "@/app/helpers/XXRSAgent/setCookies";
+import { Filter } from "./page";
+import { fuzzyDomainMatch } from "@/app/helpers/XXRSAgent/matcher";
+import { timestampToTime } from "@/app/helpers/XXRSAgent/setCookies";
 
 export interface Cookie {
   key: string;
@@ -37,6 +37,7 @@ export interface Cookie {
 export interface CookieFilter {
   creation_utc?: number;
   host_key?: string;
+
   name?: string;
   value?: string;
   expires_utc?: number | string;
@@ -54,12 +55,14 @@ interface CookiesAccountProps {
   filter?: Filter;
   isFavorite: boolean;
   keys: string;
-  disbaleTouch?:()=>boolean;
-  linkModal:any;
-  setLinkModal :any
+  disbaleTouch?: () => boolean;
+  linkModal: any;
+  renderList: string[];
+  setRenderList: any;
+  setLinkModal: any;
   onAddFav: React.Dispatch<React.SetStateAction<string[] | undefined>>;
   onDelete: any;
-  selected:"All" | "Connected" | "Disconnected"
+  selected: "All" | "Connected" | "Disconnected";
 }
 
 const CookiesAccountPage = ({
@@ -71,12 +74,12 @@ const CookiesAccountPage = ({
   disbaleTouch,
   onAddFav,
   keys,
-  linkModal ,
+  linkModal,
   setLinkModal,
-  selected
+  setRenderList,
+  renderList,
+  selected,
 }: CookiesAccountProps) => {
-  
-  
   const router = useRouter();
 
   const [updatedCookies, setUpdatedCookies] = useState<Cookie>({
@@ -84,7 +87,6 @@ const CookiesAccountPage = ({
   });
 
   useEffect(() => {
-  
     const updateExpiryTime = () => {
       setUpdatedCookies((cookies: Cookie) => {
         return {
@@ -96,7 +98,7 @@ const CookiesAccountPage = ({
     updateExpiryTime();
     const intervalId = setInterval(updateExpiryTime, 1000);
     return () => clearInterval(intervalId);
-  }, [cookie,filter?.Date,filter?.Search,filter?.Host,filter?.filter]);
+  }, [cookie, filter?.Date, filter?.Search, filter?.Host, filter?.filter]);
 
   const calculateExpiryTime = (expiryUtc: string) => {
     const expirationDate = Date.parse(expiryUtc); // Convert expiry timestamp to milliseconds
@@ -137,42 +139,52 @@ const CookiesAccountPage = ({
 
     return expiryTime;
   };
-  if(selected == 'Connected' && deleted?.includes(cookie.key)){
-    return 
-  }
-  if(selected == 'Disconnected' && !deleted?.includes(cookie.key)){
-    return 
-  }
-  if(selected !== 'Disconnected'  && deleted && deleted.includes(cookie.key)){
-    return 
-  }
-  if(filter?.filter == 'Watch Cookies' && !isFavorite){
-    return null
-     
-  }
-  else if(filter?.filter == 'Before Date' && !(parseFloat(filter.Date) > Date.parse(cookie.last_access_time))){
-    // console.log(parseFloat(filter.Date) , Date.parse(cookie.last_access_time),'After')
-    return null
-    
-  }
-  else if(filter?.filter == 'After Date' && (parseFloat(filter.Date) < Date.parse(cookie.last_access_time))){
-    // console.log(parseFloat(filter.Date) , Date.parse(cookie.last_access_time),'After beofre')
-    return null
-      
-  }
-  else if (filter?.filter == 'Host'  && !fuzzyDomainMatch(filter.Host??"" , cookie.host_key??"")){
-    // console.log(filter.Host , keys)
-    return null
-  }
-  else if (filter?.filter == 'Search'  && !(cookie.host_key.includes(filter.Search))){
-    console.log(filter.Search ,cookie.host_key ,fuzzyDomainMatch(filter.Search ??'', cookie.host_key??""))
-    return   null
-  }
+
+  // if(!(renderList ? renderList : []).includes(cookie.host_key) && setRenderList(e=>([...e,cookie.host_key]))) return
+  // if (selected == "Connected" && deleted?.includes(cookie.key)) {
+  //   return;
+  // }
+  // if (selected == "Disconnected" && !deleted?.includes(cookie.key)) {
+  //   return;
+  // }
+  // if (selected !== "Disconnected" && deleted && deleted.includes(cookie.key)) {
+  //   return;
+  // }
+  // if (filter?.filter == "Watch Cookies" && !isFavorite) {
+  //   return null;
+  // } else if (
+  //   filter?.filter == "Before Date" &&
+  //   !(parseFloat(filter.Date) > Date.parse(cookie.last_access_time))
+  // ) {
+  //   // console.log(parseFloat(filter.Date) , Date.parse(cookie.last_access_time),'After')
+  //   return null;
+  // } else if (
+  //   filter?.filter == "After Date" &&
+  //   parseFloat(filter.Date) < Date.parse(cookie.last_access_time)
+  // ) {
+  //   // console.log(parseFloat(filter.Date) , Date.parse(cookie.last_access_time),'After beofre')
+  //   return null;
+  // } else if (
+  //   filter?.filter == "Host" &&
+  //   !fuzzyDomainMatch(filter.Host ?? "", cookie.host_key ?? "")
+  // ) {
+  //   // console.log(filter.Host , keys)
+  //   return null;
+  // } else if (
+  //   filter?.filter == "Search" &&
+  //   !cookie.host_key.includes(filter.Search)
+  // ) {
+  //   console.log(
+  //     filter.Search,
+  //     cookie.host_key,
+  //     fuzzyDomainMatch(filter.Search ?? "", cookie.host_key ?? "")
+  //   );
+  //   return null;
+  // }
   if (!cookie.host_key.startsWith(".")) {
     return (
       <div className="relative duration-75  hover:scale-[95%] bg-white p-4 mt-4 rounded-lg shadow-lg w-96">
         <div className="flex space-x-3 top-0 right-0 mx-72">
-
           <div
             onClick={() => {
               onAddFav((e: any) => {
@@ -186,7 +198,7 @@ const CookiesAccountPage = ({
           >
             {isFavorite ? <Star color="warning" /> : <Star color="disabled" />}
           </div>
-          <div className="rotate-[0deg] text-amber-500" >
+          <div className="rotate-[0deg] text-amber-500">
             <OutboundRounded />
           </div>
         </div>
@@ -195,18 +207,19 @@ const CookiesAccountPage = ({
             <div className="bg-white shadow-2xl  shadow-blue-900   rounded-lg w-full  max-w-[450px] sm:w-[500px] py-10 px-5 flex flex-col space-x-5 items-center place-items-center justify-center h-[300px]">
               <div className="text-[14px] text-blue-600 font-[500] ">
                 <h1>
-                  You are about to sign out, we will redirect you to <Code color="danger">{cookie.host_key}</Code>
-                  For security reasons, we recommend signing out manually.
-                 
-                  This action is necessary due to third-party data policies. Please note that we can't sign you out without explicit consent from their database.
-
+                  You are about to sign out, we will redirect you to{" "}
+                  <Code color="danger">{cookie.host_key}</Code>
+                  For security reasons, we recommend signing out manually. This
+                  action is necessary due to third-party data policies. Please
+                  note that we can't sign you out without explicit consent from
+                  their database.
                 </h1>
               </div>
               <div className="w-full space-x-5 flex mt-24">
                 <Button
                   className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 w-full "
                   onClick={() => {
-                    setLinkModal({key:cookie.key, value:false});
+                    setLinkModal({ key: cookie.key, value: false });
                   }}
                 >
                   cancel
@@ -214,7 +227,7 @@ const CookiesAccountPage = ({
                 <Button
                   className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 w-full"
                   onClick={() => {
-                    setLinkModal({key:cookie.key, value:false});
+                    setLinkModal({ key: cookie.key, value: false });
                   }}
                 >
                   <a href={ensureHttps(cookie.host_key)}>Sign Out</a>
@@ -243,41 +256,61 @@ const CookiesAccountPage = ({
         <div className="flex items-center mb-2">
           <Update sx={{ fontSize: 20 }} className="text-blue-500 mr-2" />
           <p className="text-blue-500 text-[14px]">
-            Time Sigin: {timestampToTime(cookie.creation_utc).replaceAll('T'," ").replace('Z','').split('.')[0]}
+            Time Sigin:{" "}
+            {
+              timestampToTime(cookie.creation_utc)
+                .replaceAll("T", " ")
+                .replace("Z", "")
+                .split(".")[0]
+            }
           </p>
         </div>
         <div className="flex items-center mb-2">
           <AccessTime sx={{ fontSize: 20 }} className="text-blue-500 mr-2" />
           <p className="text-blue-500 text-[12px]">
-            Expires Time: {calculateExpiryTime(cookie.expires_time).replaceAll('T'," ").replace('Z','').split('.')[0]}
+            Expires Time:{" "}
+            {
+              calculateExpiryTime(cookie.expires_time)
+                .replaceAll("T", " ")
+                .replace("Z", "")
+                .split(".")[0]
+            }
           </p>
         </div>
-      
+
         <div className="flex items-center mb-2">
           <Update sx={{ fontSize: 20 }} className="text-blue-500 mr-2" />
           <p className="text-blue-500 text-[14px]">
-            Last Time Updated: {cookie.last_update_time.replaceAll('T'," ").replace('Z','').split('.')[0]}
+            Last Time Updated:{" "}
+            {
+              cookie.last_update_time
+                .replaceAll("T", " ")
+                .replace("Z", "")
+                .split(".")[0]
+            }
           </p>
         </div>
-         
-       
+
         <div className="flex items-center mb-2">
           <Update sx={{ fontSize: 20 }} className="text-blue-500 mr-2" />
           <Code color="success" className="text-blue-500">
-            Last Time Accessed: {cookie.last_access_time.replaceAll('T'," ").replace('Z','').split('.')[0]}
+            Last Time Accessed:{" "}
+            {
+              cookie.last_access_time
+                .replaceAll("T", " ")
+                .replace("Z", "")
+                .split(".")[0]
+            }
           </Code>
         </div>
         <div className="flex items-center justify-end mt- space-x-3">
-          <button
-            className="text-white px-4 py-2 rounded-md shadow-md bg-blue-600"
-          
-          >
+          <button className="text-white px-4 py-2 rounded-md shadow-md bg-blue-600">
             Connected
           </button>
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600"
             onClick={() => {
-              setLinkModal({key:cookie.key,value:true});
+              setLinkModal({ key: cookie.key, value: true });
             }}
           >
             Sign Out
