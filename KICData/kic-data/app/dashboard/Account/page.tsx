@@ -339,6 +339,10 @@ export default function Accounts() {
                           setNewLinkList((e: any) => {
                             return [...(e ? e : []), values];
                           });
+                        } else {
+                          const index = linksList.indexOf(values);
+                          linksList.slice(index, index + 1);
+                          linksList.push(values);
                         }
                       }}
                       defaultSelectedKeys={["www.amazon.com"]}
