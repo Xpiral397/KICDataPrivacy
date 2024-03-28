@@ -28,8 +28,11 @@ import { postData } from "@/app/helpers/XXRSAgent/setCookies";
 
 import { Cookie, CookiesAccount } from "./accountCard";
 import { useSession } from "next-auth/react";
-import {getCookies} from "@/app/helpers/authenticate";
-import {useRouter} from "next/navigation";
+import { getCookies } from "@/app/helpers/authenticate";
+import { useRouter } from "next/navigation";
+import { prev } from "cheerio/lib/api/traversing";
+import next from "next";
+import { randomUUID } from "crypto";
 
 export interface LinkWebsite {
   link: string;
@@ -46,11 +49,17 @@ interface CookiesSelectionInfo {
   cookies: File | "";
 }
 
-export interface Filter{
-  Search?: any
-  Host?: any
+export interface Filter {
+  Search?: any;
+  Host?: any;
   Date?: any;
-  filter?: "Search" | "Host" | "Date" | 'Watch Cookies'| "Before Date" | "After Date"
+  filter?:
+    | "Search"
+    | "Host"
+    | "Date"
+    | "Watch Cookies"
+    | "Before Date"
+    | "After Date";
 }
 export default function Accounts() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -70,11 +79,12 @@ export default function Accounts() {
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<number>(0);
   const [totalPage, setTotalPage] = useState<number>(0);
-  const [Host, setHost]= useState<string[]>([]);
-  const [filter, setFilter] = useState<Filter>()
-  const router= useRouter()
-  const [linkModal, showLinksModal] = useState({key:'',value:false});
-  const [firsts, setFirst] = useState(true)
+  const [Host, setHost] = useState<string[]>([]);
+  const [filter, setFilter] = useState<Filter>();
+  const router = useRouter();
+  const [linkModal, showLinksModal] = useState({ key: "", value: false });
+  const [firsts, setFirst] = useState(true);
+  const [linksList, setNewLinkList] = useState<string[]>();
   const [cookiesInfo, setCookiesInfo] = useState<CookiesSelectionInfo>({
     AppDataRoot: "",
     computer: "Mac",
@@ -91,12 +101,16 @@ export default function Accounts() {
       const formData = new FormData();
       formData.append("file", file);
       const cookies = await uploadFileAndProcessCookies(formData);
-      setCookies(cookies?cookies:[]);
-      setHost((host:string[])=>{return cookies.map((cookies_)=>{return cookies_.host_key.replace("www", "")})})
-      setPage(page+1)
-      setPage(cookies.length)
+      setCookies(cookies ? cookies : []);
+      setHost((host: string[]) => {
+        return cookies.map((cookies_) => {
+          return cookies_.host_key.replace("www", "");
+        });
+      });
+      setPage(page + 1);
+      setPage(cookies.length);
       if (data && data.user)
-        localStorage.setItem("cookie", JSON.stringify(cookies))
+        localStorage.setItem("cookie", JSON.stringify(cookies));
     } catch (error) {
       setError("Failed to process cookies file");
     } finally {
@@ -104,53 +118,91 @@ export default function Accounts() {
     }
   };
 
-  const Group = (_Cookies:Cookie[])=>{
-    const host: string[]= []
-    for (let _cookies of _Cookies){
-      if(_cookies.host_key.startsWith('.'))continue;
-      if(host.includes(_cookies.host_key.replace("www", "") ?? '')){
-        continue
+  const Group = (_Cookies: Cookie[]) => {
+    console.log(_Cookies);
+    const host: string[] = [];
+    for (let _cookies of _Cookies ? _Cookies : []) {
+      if (_cookies.host_key.startsWith(".")) continue;
+      if (host.includes(_cookies.host_key.replace("www", "") ?? "")) {
+        continue;
       }
-      host.push(_cookies.host_key.replace("www", "")??'')
+      host.push(_cookies.host_key.replace("www", "") ?? "");
     }
-    console.log(host, typeof host ,'plege')
-    return host
-  }
+    console.log(host, typeof host, "plege");
+    return host;
+  };
   useEffect(() => {
-    setLoading(true)
-    if(localStorage.getItem('consent') && firsts) {
-      onOpen()
-      setFirst(false)
+    setLoading(true);
+    if (localStorage.getItem("consent") && firsts) {
+      onOpen();
+      setScreen(1);
+      setFirst(false);
     }
-    if (localStorage.getItem('cookie')??false) {
-      const _Cookies:Cookie[] = JSON.parse(localStorage.getItem('cookie')??'[]')
-      setCookies(_Cookies);
-      setHost(e=>Group(_Cookies))
-      setTotalPage(_Cookies.length)
+    if (localStorage.getItem("cookie") ?? false) {
+      const _Cookies: Cookie[] =
+        JSON.parse(localStorage.getItem("cookie") ?? "[]") ?? [];
+      setCookies(_Cookies ?? []);
+      setHost((e) => Group(_Cookies ? _Cookies : []));
+      setTotalPage(_Cookies?.length);
+    } else {
+      fetchData();
+      setHost((host: string[]) => {
+        return Cookies?.map((cookies_) => {
+          return cookies_?.host_key?.replace("www", "");
+        });
+      });
+      console.log(Cookies, Host, "pop205");
     }
-    else{
-      fetchData()
-      setHost((host:string[])=>{return Cookies.map((cookies_)=>{return cookies_.host_key.replace("www", "")})})
-      console.log(Cookies,Host,'pop205')
-    }
-    setLoading(false)
-  },[]);
+    setLoading(false);
+  }, [localStorage.getItem("consent")]);
   useEffect(() => {
-    setLoading(true)
-    console.log(filter)
-    setLoading(false)
-  },[filter?.Date, filter?.Host, filter?.filter, filter?.Search,loading]);
+    linksList?.map((cookies_) => {
+      console.log(cookies_);
+      setCookies([
+        ...Cookies,
+        {
+          key: "ASEDFRIMOPIENSJSWPSOSIJENMJSJSJJFEBUWMWLKDUEIDHSJHFGWJCBCNIDOPPNJQabedrghjijsomnapooiqasedrfxvnhghuvivoplsJ".slice(
+            Math.floor(Math.random() * 50),
+            Math.floor(Math.random() * 50)
+          ),
+          creation_utc: NaN,
+          host_key: "Not connected",
+          name: `www${cookies_}`,
+          value: "None",
+          expires_utc: NaN,
+          encrypted_value: "",
+          last_access_utc: NaN,
+          last_update_utc: NaN,
+          expires_time: "",
+          last_access_time: "",
+          last_update_time: "",
+        },
+      ]);
+      console.log(cookies_);
+    });
+  }, [
+    filter?.Date,
+    filter?.Host,
+    filter?.filter,
+    filter?.Search,
+    loading,
+    linksList,
+    Cookies,
+  ]);
 
-  const fetchData = ()=>{
-    
-    getCookies((data as any).user.refreshToken, page.toString()).then((cookies_:Array<Cookie>)=>{
-      if(!cookies_.length){return }
-      const new_cookies = [...cookies_]
-      setCookies(new_cookies?new_cookies:[]);
-      setTotalPage(new_cookies.length)
-      localStorage.setItem('cookie', JSON.stringify(new_cookies))
-    })
-  }
+  const fetchData = () => {
+    getCookies((data as any).user.refreshToken, page.toString()).then(
+      (cookies_: Array<Cookie>) => {
+        if (!cookies_.length) {
+          return;
+        }
+        const new_cookies = [...cookies_];
+        setCookies(new_cookies ? new_cookies : []);
+        setTotalPage(new_cookies.length);
+        localStorage.setItem("cookie", JSON.stringify(new_cookies));
+      }
+    );
+  };
   const uploadFileAndProcessCookies = async (
     fileBuffer: FormData
   ): Promise<Cookie[]> => {
@@ -159,46 +211,49 @@ export default function Accounts() {
         method: "POST",
         body: fileBuffer,
         headers: {
-          attempts:page as unknown as string,
+          attempts: page as unknown as string,
           authorization: `JWT ${
             (data && data.user && (data?.user as any).refreshToken) || null
           }`,
         },
       });
 
-      console.log((data && data.user && (data?.user as any).refreshToken) || null);
+      console.log(
+        (data && data.user && (data?.user as any).refreshToken) || null
+      );
 
       if (!response.ok) {
         throw new Error("Failed to upload file");
       }
 
-      return (await response.json())['cookies'];
+      return (await response.json())["cookies"];
     } catch (error) {
       throw new Error("Failed to process file");
     }
   };
 
-
-  const  FilterCookies = (type: "Search" | "Host" | "Date" |"Filter" | 'filter',key:string|number)=>{
-    console.log(key,'pops')
-    setFilter(()=>{
+  const FilterCookies = (
+    type: "Search" | "Host" | "Date" | "Filter" | "filter",
+    key: string | number
+  ) => {
+    console.log(key, "pops");
+    setFilter(() => {
       return {
-     ...filter,
-     filter: type,
-        [type]:key
-      }
-    })
-  }
+        ...filter,
+        filter: type,
+        [type]: key,
+      };
+    });
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault()
+    event.preventDefault();
     const file = event.target.files?.[0];
-    if(file) {
-      onClose()
-      setLoading(true)
+    if (file) {
+      setScreen(9);
+      setLoading(true);
       readFileContents(file);
-      router.refresh()
-      
+      router.refresh();
     }
   };
 
@@ -233,6 +288,8 @@ export default function Accounts() {
           size="5xl"
           onClose={onClose}
           isOpen={isOpen}
+          isDismissable={false}
+          isKeyboardDismissDisabled={true}
           onOpenChange={onOpen}
         >
           <ModalContent>
@@ -247,7 +304,6 @@ export default function Accounts() {
                       <Code color="warning">
                         Change the path to your cookies enviroment
                         <Input
-                       
                           type="file"
                           placeholder="Name of the website"
                           onChange={handleFileChange}
@@ -277,8 +333,8 @@ export default function Accounts() {
                     Can't Set Cookies Successfully On Your System
                   </ModalHeader>
                   <ModalBody className="flex w-full h-full justify-center items-center">
-                    You Have Are Unable To Successfully Set the Cookies
-                    Enviroment for your system
+                    You Are Unable To Successfully Set the Cookies Enviroment
+                    for your system
                   </ModalBody>
                   <ModalFooter>
                     <Button color="success" onClick={() => onClose()}>
@@ -303,6 +359,109 @@ export default function Accounts() {
                     <Button onClick={onClose}>Close</Button>
                   </ModalFooter>
                 </>
+              ) : screen == 9 ? (
+                <>
+                  <ModalHeader className="bg-ble-600 text-white font-[600] text-2xl">
+                    {" "}
+                    Step 4
+                  </ModalHeader>
+                  <ModalBody className="w-full">
+                    <Select
+                      onSelectionChange={(value: string) => {
+                        let values = new Set(value)?.entries().next()?.value[0];
+                        if (!linksList?.includes(values)) {
+                          setNewLinkList((e: any) => {
+                            return [...(e ? e : []), values];
+                          });
+                        }
+                      }}
+                      defaultSelectedKeys={["www.amazon.com"]}
+                      placeholder="Select Your E-commerce Website"
+                      description="E-commerce websites"
+                    >
+                      <SelectItem
+                        startContent={
+                          <img
+                            src={"https://www.amazon.com/favicon.ico"}
+                            width={"28"}
+                          />
+                        }
+                        value={"amazon.com"}
+                        key="www.amazon.com"
+                      >
+                        Amazon
+                      </SelectItem>
+                      <SelectItem
+                        startContent={
+                          <img
+                            src={"https://www.aliexpress.com/favicon.ico"}
+                            width={"28"}
+                          />
+                        }
+                        value={"aliexpress.com"}
+                        key="aliexpress.com"
+                      >
+                        AllExpress
+                      </SelectItem>
+                      <SelectItem
+                        startContent={
+                          <img src={"https://www.alibaba.com/favicon.ico"} />
+                        }
+                        value={"alibaba.com"}
+                        key="www.alibaba.com"
+                      >
+                        Alibaba
+                      </SelectItem>
+                      <SelectItem
+                        startContent={
+                          <img src={"https://www.walmart.com/favicon.ico"} />
+                        }
+                        value={"walmart.com"}
+                        key="www.walmart.com"
+                      >
+                        Walmart
+                      </SelectItem>
+                      <SelectItem
+                        startContent={
+                          <img src={"https://www.ebay.com/favicon.ico"} />
+                        }
+                        value={"ebay.com"}
+                        key="www.ebays.com"
+                      >
+                        Ebay
+                      </SelectItem>
+                    </Select>
+                    {Cookies &&
+                      linksList &&
+                      linksList.length !== 0 &&
+                      Cookies?.filter((cookies) => {
+                        return linksList[linksList.length - 1]?.includes(
+                          cookies.host_key
+                        );
+                      }).length === 0 && (
+                        <div className="text-red-500">
+                          <p>
+                            {" "}
+                            We notice you have not signed in on this account{" "}
+                          </p>
+                          <div className="w-full items-center flex justify-end">
+                            <Button
+                              isExternal
+                              href={`https://www${
+                                linksList ? linksList[linksList.length - 1] : ""
+                              }/`}
+                              className="bg-blue-500 text-slate-100 w-[150px]"
+                            >
+                              Connected
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button onClick={onClose}>Close</Button>
+                  </ModalFooter>
+                </>
               ) : screen === 1 ? (
                 <>
                   <ModalHeader className="bg-ble-600 text-white font-[600] text-2xl">
@@ -313,6 +472,8 @@ export default function Accounts() {
                     <Select
                       onSelectionChange={setBrowser}
                       defaultSelectedKeys={["Chrome"]}
+                      isDismissable={false}
+                      isKeyboardDismissDisabled={true}
                     >
                       <SelectItem value={"Chrome"} key="chrome">
                         Chrome
@@ -362,7 +523,6 @@ export default function Accounts() {
                               close your web browser
                               <p>
                                 then, copy the file and past the cookies file to
-                                
                                 another directory
                                 <p>
                                   {" "}
@@ -407,92 +567,135 @@ export default function Accounts() {
           {
             <div className="w-full">
               <div className="w-full flex justify-end ">
-              <div className="place-content-end  gap-10  grid grid-cols-2 lg:grid-cols-4 ">
-                <div className="w-full  items-center">
-                  <h1 className="text-[12px] font-[600]">Search:</h1>
-                  <div>
-                    <Input
-                    onChange = {(e)=>{FilterCookies('Search', e.target.value)}}
+                <div className="place-content-end  gap-10  grid grid-cols-2 lg:grid-cols-4 ">
+                  <div className="w-full  items-center">
+                    <h1 className="text-[12px] font-[600]">Search:</h1>
+                    <div>
+                      <Input
+                        onChange={(e) => {
+                          FilterCookies("Search", e.target.value);
+                        }}
+                        className="w-[250px]"
+                        color="success"
+                        size="sm"
+                        type="search"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col w-full">
+                    <label className="font-[600] text-[12px] ">Hosts:</label>
+                    <Select
+                      onSelectionChange={(key) =>
+                        FilterCookies(
+                          "Host",
+                          new Set(key).entries().next().value[0]
+                        )
+                      }
+                      size="md"
                       className="w-[250px]"
                       color="success"
-                      size="sm"
-                      type="search"
+                    >
+                      {(Host.length ? Host : ["No Host Found"])?.map(
+                        (cookies) => {
+                          return (
+                            <SelectItem key={cookies} value={cookies}>
+                              {cookies}
+                            </SelectItem>
+                          );
+                        }
+                      )}
+                    </Select>
+                  </div>
+
+                  <div className="w-full flex flex-col ">
+                    <label className="font-[600] text-[12px]">
+                      Filter by date:
+                    </label>
+                    <Input
+                      onChange={(key) =>
+                        FilterCookies(
+                          "Date",
+                          Date.parse((key as any)?.target?.valueAsDate)
+                        )
+                      }
+                      color="success"
+                      type="date"
+                      size="md"
                     />
                   </div>
-                </div>
 
-                <div className="flex flex-col w-full">
-                  <label className="font-[600] text-[12px] ">Hosts:</label>
-                  <Select onSelectionChange={(key)=>FilterCookies('Host',new  Set(key).entries().next().value[0])} size="md" className="w-[250px]" color="success">
-                    {(Host.length ? Host :['No Host Found'])?.map((cookies) => {
-                      return (
-                        <SelectItem
-                          key={cookies}
-                          value={cookies}
-                          
-                        >
-                          {cookies}
-                        </SelectItem>
-                      );
-                    })}
-                  </Select>
-                </div>
-
-                <div className="w-full flex flex-col ">
-                  <label className="font-[600] text-[12px]">
-                    Filter by date:
-                  </label>
-                  <Input onChange={(key)=>FilterCookies('Date', Date.parse((key as any)?.target?.valueAsDate))} color = 'success' type="date" size = 'md'/>
-                </div>
-
-                <div className="w-full flex flex-col">
-                  <label className="font-[600] text-[12px] ">Filter by:</label>
-                  <Select onSelectionChange={(key)=>FilterCookies('filter',new  Set(key).entries().next().value[0])} size="md" className="w-[250px]" color="success">
-                    {["Watch Cookies","Search", "Date", "Host",  ].map(
-                      (cookies) => {
-                        return (
-                          <SelectItem key={cookies} value={cookies}>
-                            {cookies}
-                          </SelectItem>
-                        );
+                  <div className="w-full flex flex-col">
+                    <label className="font-[600] text-[12px] ">
+                      Filter by:
+                    </label>
+                    <Select
+                      onSelectionChange={(key) =>
+                        FilterCookies(
+                          "filter",
+                          new Set(key).entries().next().value[0]
+                        )
                       }
-                    )}
-                  </Select>
+                      size="md"
+                      className="w-[250px]"
+                      color="success"
+                    >
+                      {["Watch Cookies", "Search", "Date", "Host"].map(
+                        (cookies) => {
+                          return (
+                            <SelectItem key={cookies} value={cookies}>
+                              {cookies}
+                            </SelectItem>
+                          );
+                        }
+                      )}
+                    </Select>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="w-full h-full">
-               <div className="mt-10 py-20 rounded-md flex flex-wrap gap-4 justify-center">
-                {Cookies && Cookies?.map((cookies: Cookie, index: number) => {
-                  return (
-                    <CookiesAccount
-                      cookie={cookies}
-                      isFavorite={fav?.includes(cookies.key) ?? false}
-                      keys={cookies.key}
-                      filter = {filter}
-                      deleted={Delete}
-                      selected = {selected}
-                      onDelete={setDelete}
-                      onAddFav={setFav}
-                      linkModal = {linkModal}
-                      setLinkModal = {showLinksModal}
-                    />
-                  );
-                }).filter((element)=>{
-                  return element !== null && element !==undefined}).slice(page*100,(page*100) + 100)}
-              </div>
-              <div className="mt-10 w-full flex justify-center space-x-10">
-              <Pagination
-        
-                total={Math.floor(totalPage/100)}
-                onChange = {setPage}
-                boundaries={2}
-                color="secondary"
-              />
-                <Button onClick={fetchData} className=" text-white font-[700] px-10 py-2" color="secondary">
-                  You have {Math.floor(totalPage/100)} different phase unsynchronized account on your web browser
-                </Button>
-              </div>
+              <div className="w-full h-full">
+                <div className="mt-10 py-20 rounded-md flex flex-wrap gap-4 justify-center">
+                  {Cookies &&
+                    Cookies?.filter((cookies) => {
+                      return linksList?.includes(cookies.host_key);
+                    })
+                      .map((cookies: Cookie, index: number) => {
+                        return (
+                          <CookiesAccount
+                            cookie={cookies}
+                            isFavorite={fav?.includes(cookies.key) ?? false}
+                            keys={cookies.key}
+                            filter={filter}
+                            deleted={Delete}
+                            selected={selected}
+                            onDelete={setDelete}
+                            onAddFav={setFav}
+                            linkModal={linkModal}
+                            setLinkModal={showLinksModal}
+                          />
+                        );
+                      })
+                      .filter((element) => {
+                        return element !== null && element !== undefined;
+                      })
+                      .slice(page * 100, page * 100 + 100)}
+                </div>
+                <div className="mt-10 w-full flex justify-center space-x-10">
+                  <Pagination
+                    total={Math.floor(totalPage / 100)}
+                    onChange={setPage}
+                    boundaries={2}
+                    color="secondary"
+                  />
+                  <Button
+                    onClick={fetchData}
+                    className=" text-white font-[700] px-10 py-2"
+                    color="secondary"
+                  >
+                    You have {Math.floor(totalPage / 100)} different phase
+                    unsynchronized account on your web browser
+                  </Button>
+                </div>
               </div>
             </div>
           }
@@ -507,7 +710,14 @@ export default function Accounts() {
         >
           <Add /> Set Enviroment Cookies
         </Button>
-        
+        <Button
+          onClick={() => {
+            onOpen();
+            setScreen(9);
+          }}
+        >
+          <Add /> Add E-commerce Website
+        </Button>
       </div>
     </div>
   );
