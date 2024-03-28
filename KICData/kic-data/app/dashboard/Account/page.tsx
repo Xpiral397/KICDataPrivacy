@@ -154,41 +154,7 @@ export default function Accounts() {
       console.log(Cookies, Host, "pop205");
     }
     setLoading(false);
-  }, [localStorage.getItem("consent")]);
-  useEffect(() => {
-    linksList?.map((cookies_) => {
-      console.log(cookies_);
-      setCookies([
-        ...Cookies,
-        {
-          key: "ASEDFRIMOPIENSJSWPSOSIJENMJSJSJJFEBUWMWLKDUEIDHSJHFGWJCBCNIDOPPNJQabedrghjijsomnapooiqasedrfxvnhghuvivoplsJ".slice(
-            Math.floor(Math.random() * 50),
-            Math.floor(Math.random() * 50)
-          ),
-          creation_utc: NaN,
-          host_key: "Not connected",
-          name: `www${cookies_}`,
-          value: "None",
-          expires_utc: NaN,
-          encrypted_value: "",
-          last_access_utc: NaN,
-          last_update_utc: NaN,
-          expires_time: "",
-          last_access_time: "",
-          last_update_time: "",
-        },
-      ]);
-      console.log(cookies_);
-    });
-  }, [
-    filter?.Date,
-    filter?.Host,
-    filter?.filter,
-    filter?.Search,
-    loading,
-    linksList,
-    Cookies,
-  ]);
+  }, [localStorage.getItem("consent"), linksList]);
 
   const fetchData = () => {
     getCookies((data as any).user.refreshToken, page.toString()).then(

@@ -90,7 +90,7 @@ export default function SidebarBoardLayout({
                 onClose={() => {
                   if (!accepted) {
                     signOut();
-                    router.push("/auth/signin");
+                    router.push("/auth/login");
                   }
                 }}
                 isDismissable={false}
