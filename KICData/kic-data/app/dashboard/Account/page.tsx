@@ -450,7 +450,7 @@ export default function Accounts() {
                               className="bg-blue-500 text-slate-100 w-[150px]"
                             >
                               <a
-                                href={`https://www${
+                                href={`https://${
                                   linksList
                                     ? linksList[linksList.length - 1]
                                     : ""
