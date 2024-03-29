@@ -275,7 +275,7 @@ function Layout() {
                     : ""
                 }`}
               >
-                PhisingScan And Fruda Awearness{" "}
+                PhisingScan And Fraud Awearness{" "}
               </li>
 
               <li

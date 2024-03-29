@@ -22,6 +22,6 @@ export default function Home() {
     }
   });
   return (
-    <div className="flex items-center justify-center top-0 right-0 absolute w-full h-full z-[1000]"></div>
+    <div className="flex items-center justify-center top-0 right-0 absolute w-full h-full z-[1]"></div>
   );
 }
