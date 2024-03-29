@@ -1,10 +1,10 @@
 "use client";
 import { SingleSidebarBoardLayout } from "@/components/sidebar";
 import { ReactNode, useEffect, useState, useContext } from "react";
-import Navbar from "../dashboard/navbar";
+import Navbar from "../../dashboard/navbar";
 import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
-import { isSigIn } from "../helpers/authenticate";
+import { isSigIn } from "../../helpers/authenticate";
 import {
   Button,
   Card,
