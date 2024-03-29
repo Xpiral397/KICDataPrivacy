@@ -26,7 +26,7 @@ function Layout() {
   const [expand, setExpand] = useState<boolean>(false);
   const router = useRouter();
   useEffect(() => {
-    router.push("/Learn/pis");
+    router.push("/Learn/Learn/pis");
   }, []);
   return (
     <>
