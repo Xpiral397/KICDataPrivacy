@@ -51,7 +51,7 @@ export default function SidebarBoardLayout({
   useEffect(() => {
     setLoading(true);
     if (accepted || getConsent()) {
-      router.push("/dashboard/Account");
+      router.push("/Learn");
       setLoading(false);
       onClose();
       router.refresh();
@@ -66,7 +66,7 @@ export default function SidebarBoardLayout({
       (async () => {
         const response = await isSigIn((session.data.user as any).refreshToken);
         if (response && getConsent()) {
-          router.push("/dashboard/Account");
+          router.push("/Learn");
           setLoading(false);
         } else if (response && !getConsent()) {
           onOpen();
@@ -79,11 +79,11 @@ export default function SidebarBoardLayout({
   }, [accepted, session.status]);
   if (session.status === "authenticated") {
     return (
-      <div className="h-full flex flex-col">
+      <div className="flex flex-col h-full">
         <div className="w-full">
           <Navbar />
         </div>
-        <div className="flex justify-center w-full h-full items-center place-items-center">
+        <div className="flex items-center justify-center w-full h-full place-items-center">
           <main className="w-full h-full">
             {
               <Modal
@@ -106,7 +106,7 @@ export default function SidebarBoardLayout({
                         Modal Title
                       </ModalHeader>
                       <ModalBody>
-                        <div className="flex w-full flex-col">
+                        <div className="flex flex-col w-full">
                           <Tabs aria-label="Options">
                             <Tab
                               key="Basic Contact Information"
@@ -329,7 +329,7 @@ export default function SidebarBoardLayout({
       </div>
     );
   } else if (loading) {
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="flex items-center justify-center w-full h-full">
       <Progress
         size="sm"
         isIndeterminate
