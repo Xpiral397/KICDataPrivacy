@@ -1,6 +1,6 @@
 "use client";
 import DotGrid from "@/design/dot";
-import {InputRounded, SearchRounded} from "@mui/icons-material";
+import { InputRounded, SearchRounded } from "@mui/icons-material";
 import {
   Avatar,
   Button,
@@ -15,7 +15,7 @@ import {
 import { signIn, signOut, useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
-import {clearConsent} from "./layout";
+import { clearConsent } from "./layout";
 
 export default function Navbar() {
   const router = useRouter();
@@ -52,15 +52,17 @@ export default function Navbar() {
 
       <ul className="flex items-center justify-center space-x-10 ">
         <ul className="flex items-center  text-white font-[500] space-x-10 text-sm  ">
-          <Input  startContent=<SearchRounded color="secondary"/> size="sm" className="lg:block hidden  w-[300px]" endContent={<InputRounded color="secondary"/>}/>
-          <a href = '/dashboard/Account' className=" pointer">Account</a>
-          <li
-          className="pointer"
-            onClick={() => {
-              router.push("/dashboard/Learn");
-            }}
-          >
-            Learn
+          <Input
+            startContent=<SearchRounded color="secondary" />
+            size="sm"
+            className="lg:block hidden  w-[300px]"
+            endContent={<InputRounded color="secondary" />}
+          />
+          <a href="/dashboard/Account" className=" pointer">
+            Account
+          </a>
+          <li className="pointer">
+            <a href="/Learn">Learn</a>
           </li>
         </ul>
         <div className="flex items-center gap-4">
@@ -77,10 +79,14 @@ export default function Navbar() {
               <DropdownItem key="profile" className="h-14 gap-2">
                 <p className="font-semibold">Signed in as</p>
                 <p className="font-semibold">
-                  {(data as any)?.user?.userData?.name ?? data?.user?.name ?? ""}
+                  {(data as any)?.user?.userData?.name ??
+                    data?.user?.name ??
+                    ""}
                 </p>
                 <p className="font-semibold">
-                  {(data as any)?.user?.userData?.email ?? data?.user?.email ?? ""}
+                  {(data as any)?.user?.userData?.email ??
+                    data?.user?.email ??
+                    ""}
                 </p>
               </DropdownItem>
               {/* <DropdownItem key="settings">My Settings</DropdownItem>
@@ -95,8 +101,8 @@ export default function Navbar() {
               <DropdownItem
                 onClick={() => {
                   signOut();
-                    clearConsent()
-                  router.push('/auth/login')
+                  clearConsent();
+                  router.push("/auth/login");
                 }}
                 key="logout"
                 color="danger"
@@ -105,7 +111,7 @@ export default function Navbar() {
                   onClick={() => {
                     signOut();
                     clearConsent();
-                    router.push('/auth/login')
+                    router.push("/auth/login");
                   }}
                   className="px-2 w-full bg-danger-300 text-white font-[600]"
                 >

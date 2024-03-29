@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   const router = useRouter();
   useEffect(() => {
     if (session.status == "authenticated") {
-      router.push("/dashboard/Account");
+      router.push("/Learn");
     }
   });
   return <>{session.status === "authenticated" ? "" : children}</>;

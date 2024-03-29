@@ -114,22 +114,21 @@ export default function Login() {
             <Button
               onClick={(e) => {
                 if (email && password) {
-                  
-                    (async () => {
-                      setAuth(true);
-                      error(false);
-                      console.log('hi')
-                      await signIn("credentials", {
-                        email,
-                        password,
-                        redirect: false,
-                      });
-                      setAuth(false);
-                      error(true);
-                    })().catch((e) =>{
+                  (async () => {
+                    setAuth(true);
+                    error(false);
+                    console.log("hi");
+                    await signIn("credentials", {
+                      email,
+                      password,
+                      redirect: false,
+                    });
+                    setAuth(false);
+                    error(true);
+                  })().catch((e) => {
                     error(true);
                     setAuth(false);
-                    })
+                  });
                 }
               }}
               className="bg-purple-500 rounded-md text-slate-100 "
@@ -138,7 +137,7 @@ export default function Login() {
             </Button>
             <div className="flex flex-col items-center space-y-5">
               <h1 className="space-x-2 text-purple-900">
-                <span>Don't heve an account?</span>
+                <span>Don't have an account?</span>
                 <span
                   className="text-purple-800 font-[600] pointer"
                   onClick={() => {

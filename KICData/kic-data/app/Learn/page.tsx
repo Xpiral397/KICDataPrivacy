@@ -1,7 +1,7 @@
 "use client";
 import { SingleSidebarBoardLayout } from "@/components/sidebar";
 import { ReactNode, useEffect, useState, useContext } from "react";
-import Navbar from "./navbar";
+import Navbar from "../dashboard/navbar";
 import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { isSigIn } from "../helpers/authenticate";
@@ -14,6 +14,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Progress,
   Spinner,
   Tab,
   Tabs,
@@ -50,7 +51,6 @@ export default function SidebarBoardLayout({
   useEffect(() => {
     setLoading(true);
     if (accepted || getConsent()) {
-      router.push("/dashboard/Account");
       setLoading(false);
       onClose();
       router.refresh();
@@ -65,7 +65,6 @@ export default function SidebarBoardLayout({
       (async () => {
         const response = await isSigIn((session.data.user as any).refreshToken);
         if (response && getConsent()) {
-          router.push("/dashboard/Account");
           setLoading(false);
         } else if (response && !getConsent()) {
           onOpen();
@@ -328,11 +327,13 @@ export default function SidebarBoardLayout({
       </div>
     );
   } else if (loading) {
-    <div className="flex items-center justify-center top-0 right-0 absolute w-full h-full z-[1000]">
-      <div className="bg-white shadow-2xl shadow-blue-900   rounded-md w-full  max-w-[450px] sm:w-[500px] flex space-x-5 items-center place-items-center justify-center h-[300px]">
-        <Spinner color="secondary" />
-        <h1 className="text-purple-800 font-[600]">Loading...</h1>
-      </div>
+    <div className="w-full h-full flex items-center justify-center">
+      <Progress
+        size="sm"
+        isIndeterminate
+        aria-label="Loading..."
+        className="max-w-md"
+      />
     </div>;
   }
   return (

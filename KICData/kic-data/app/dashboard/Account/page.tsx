@@ -108,11 +108,12 @@ export default function Accounts() {
           return cookies_.host_key.replace("www", "");
         });
       });
-      setPage(page + 1);
+      throw cookies;
       setPage(cookies.length);
       if (data && data.user)
         localStorage.setItem("cookie", JSON.stringify(cookies));
     } catch (error) {
+      throw error;
       setError("Failed to process cookies file");
     } finally {
       setLoading(false);
@@ -163,6 +164,7 @@ export default function Accounts() {
         if (!cookies_.length) {
           return;
         }
+        throw cookies_;
         const new_cookies = [...cookies_];
         setCookies(new_cookies ? new_cookies : []);
         setTotalPage(new_cookies.length);
@@ -186,6 +188,7 @@ export default function Accounts() {
       });
 
       console.log(
+        response,
         (data && data.user && (data?.user as any).refreshToken) || null
       );
 
@@ -195,7 +198,7 @@ export default function Accounts() {
 
       return (await response.json())["cookies"];
     } catch (error) {
-      throw new Error("Failed to process file");
+      throw error;
     }
   };
 
@@ -220,7 +223,7 @@ export default function Accounts() {
       setScreen(9);
       setLoading(true);
       readFileContents(file);
-      router.refresh();
+      // router.refresh();
     }
   };
 
@@ -344,6 +347,8 @@ export default function Accounts() {
                           const index = linksList.indexOf(values);
                           linksList.slice(index, index + 1);
                           linksList.push(values);
+                          const D = linksList;
+                          setNewLinkList((e) => D);
                         }
                       }}
                       defaultSelectedKeys={["www.amazon.com"]}
@@ -358,7 +363,7 @@ export default function Accounts() {
                           />
                         }
                         value={"amazon.com"}
-                        key="www.amazon.com"
+                        key=".amazon.com"
                       >
                         Amazon
                       </SelectItem>
@@ -370,7 +375,7 @@ export default function Accounts() {
                           />
                         }
                         value={"www.aliexpress.com"}
-                        key="aliexpress.com"
+                        key=".aliexpress.com"
                       >
                         AllExpress
                       </SelectItem>
@@ -379,7 +384,7 @@ export default function Accounts() {
                           <img src={"https://www.alibaba.com/favicon.ico"} />
                         }
                         value={"www.alibaba.com"}
-                        key="www.alibaba.com"
+                        key=".alibaba.com"
                       >
                         Alibaba
                       </SelectItem>
@@ -388,7 +393,7 @@ export default function Accounts() {
                           <img src={"https://www.walmart.com/favicon.ico"} />
                         }
                         value={"www.walmart.com"}
-                        key="www.walmart.com"
+                        key=".walmart.com"
                       >
                         Walmart
                       </SelectItem>
@@ -397,19 +402,17 @@ export default function Accounts() {
                           <img src={"https://www.ebay.com/favicon.ico"} />
                         }
                         value={"ebay.com"}
-                        key="www.ebays.com"
+                        key=".ebay.com"
                       >
                         Ebay
                       </SelectItem>
                     </Select>
-                    {Cookies &&
-                      linksList &&
-                      linksList.length !== 0 &&
-                      Cookies?.filter((cookies) => {
-                        return linksList[linksList.length - 1]?.includes(
-                          cookies.host_key
-                        );
-                      }).length === 0 && (
+                    {linksList &&
+                      linksList.length > 0 &&
+                      !Host.some((e) => {
+                        console.log(e, linksList[linksList?.length - 1]);
+                        return e == linksList[linksList?.length - 1];
+                      }) && (
                         <div className="text-red-500">
                           <p>
                             {" "}
@@ -632,8 +635,9 @@ export default function Accounts() {
               <div className="w-full h-full">
                 <div className="mt-10 py-20 rounded-md flex flex-wrap gap-4 justify-center">
                   {Cookies &&
+                    linksList &&
                     Cookies?.filter((cookies) => {
-                      return linksList?.includes(cookies.host_key);
+                      return linksList.includes(cookies.host_key);
                     })
                       .map((cookies: Cookie, index: number) => {
                         return (

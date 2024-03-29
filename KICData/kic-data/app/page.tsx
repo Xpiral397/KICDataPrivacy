@@ -16,7 +16,12 @@ export default function Home() {
   const router = useRouter();
   useEffect(() => {
     if (session.status == "authenticated") {
-      router.push("/dashboard/Learn");
+      if (
+        window.location.pathname === "/auth/login/" ||
+        window.location.pathname == "/auth/signup"
+      ) {
+        router.push("/Learnq");
+      }
     } else {
       router.push("/auth/login");
     }

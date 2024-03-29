@@ -181,7 +181,7 @@ const CookiesAccountPage = ({
   //   );
   //   return null;
   // }
-  if (!cookie.host_key.startsWith(".")) {
+  if (!cookie.host_key.startsWith(".i")) {
     return (
       <div className="relative duration-75  hover:scale-[95%] bg-white p-4 mt-4 rounded-lg shadow-lg w-96">
         <div className="flex space-x-3 top-0 right-0 mx-72">
@@ -230,7 +230,7 @@ const CookiesAccountPage = ({
                     setLinkModal({ key: cookie.key, value: false });
                   }}
                 >
-                  <a href={ensureHttps(cookie.host_key)}>Sign Out</a>
+                  <a href={ensureHttps("www" + cookie.host_key)}>Sign Out</a>
                 </Button>
               </div>
             </div>
