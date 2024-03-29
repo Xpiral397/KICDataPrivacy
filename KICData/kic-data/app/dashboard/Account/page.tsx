@@ -108,12 +108,10 @@ export default function Accounts() {
           return cookies_.host_key.replace("www", "");
         });
       });
-      throw cookies;
       setPage(cookies.length);
       if (data && data.user)
         localStorage.setItem("cookie", JSON.stringify(cookies));
     } catch (error) {
-      throw error;
       setError("Failed to process cookies file");
     } finally {
       setLoading(false);
@@ -188,7 +186,6 @@ export default function Accounts() {
       });
 
       console.log(
-        response,
         (data && data.user && (data?.user as any).refreshToken) || null
       );
 
@@ -198,7 +195,7 @@ export default function Accounts() {
 
       return (await response.json())["cookies"];
     } catch (error) {
-      throw error;
+      throw new Error("Failed to process file");
     }
   };
 
@@ -223,7 +220,7 @@ export default function Accounts() {
       setScreen(9);
       setLoading(true);
       readFileContents(file);
-      // router.refresh();
+      router.refresh();
     }
   };
 

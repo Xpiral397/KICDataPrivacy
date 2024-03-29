@@ -62,7 +62,7 @@ export default function Navbar() {
             Account
           </a>
           <li className="pointer">
-            <a href="/Learn">Learn</a>
+            <a href="/Learns">Learn</a>
           </li>
         </ul>
         <div className="flex items-center gap-4">
