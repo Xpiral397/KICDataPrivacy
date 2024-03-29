@@ -80,9 +80,6 @@ export default function SidebarBoardLayout({
   if (session.status === "authenticated") {
     return (
       <div className="flex flex-col h-full">
-        <div className="w-full">
-          <Navbar />
-        </div>
         <div className="flex items-center justify-center w-full h-full place-items-center">
           <main className="w-full h-full">
             {

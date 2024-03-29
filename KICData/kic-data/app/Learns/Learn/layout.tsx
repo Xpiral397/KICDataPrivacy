@@ -26,13 +26,13 @@ function Layout({ children }: { children: ReactNode }) {
   const [expand, setExpand] = useState<boolean>(false);
   const router = useRouter();
   useEffect(() => {
-    router.push("/Learn/pis");
+    router.push("/Learns/Learn/pis");
   }, []);
   return (
     <>
       <Navbar />
-      <div className="flex w-full h-full justify-center items-start">
-        <div className="flex flex-row justify-around items-start">
+      <div className="flex items-start justify-center w-full h-full">
+        <div className="flex flex-row items-start justify-around">
           <div className="lg:hidden">
             <div onClick={() => onOpen()} className="text-black">
               <ListAltTwoTone />
@@ -170,7 +170,7 @@ function Layout({ children }: { children: ReactNode }) {
               ""
             )}
           </div>
-          <div className="lg:block hidden">
+          <div className="hidden lg:block">
             <ul className="md:block flex md:space-x-0 space-x-10 list rounded-lg space-y-10 bg-slate-50  py-20 px-3 text-sm font-[500]">
               <li
                 onClick={() => {
