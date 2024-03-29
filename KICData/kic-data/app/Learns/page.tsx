@@ -22,14 +22,6 @@ export default function Home() {
     }
   });
   return (
-    <div className="flex items-center justify-center top-0 right-0 absolute w-full h-full z-[1000]">
-      <div className="bg-white shadow-2xl shadow-blue-900   rounded-md w-full  max-w-[450px] sm:w-[500px] flex space-x-5 items-center place-items-center justify-center h-[300px]">
-        <Spinner color="secondary" />
-        <h1 className="text-purple-800 font-[600] w-[300px] px-10">
-          KICDataPrivacy ensures safety and security by thoroughly checking for
-          vulnerabilities and securing internet connections
-        </h1>
-      </div>
-    </div>
+    <div className="flex items-center justify-center top-0 right-0 absolute w-full h-full z-[1000]"></div>
   );
 }
