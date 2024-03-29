@@ -18,7 +18,7 @@ import {
 import { useRouter } from "next/navigation";
 import { Input } from "postcss";
 import React, { ReactNode, useEffect, useState } from "react";
-import Navbar from "./../dashboard/navbar";
+import Navbar from "../../dashboard/navbar";
 
 function Layout({ children }: { children: ReactNode }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
