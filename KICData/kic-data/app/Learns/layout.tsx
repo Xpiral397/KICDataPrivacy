@@ -51,7 +51,7 @@ export default function SidebarBoardLayout({
   useEffect(() => {
     setLoading(true);
     if (accepted || getConsent()) {
-      router.push("/Learn");
+      router.push("/Learns/Learn");
       setLoading(false);
       onClose();
       router.refresh();
@@ -66,7 +66,7 @@ export default function SidebarBoardLayout({
       (async () => {
         const response = await isSigIn((session.data.user as any).refreshToken);
         if (response && getConsent()) {
-          router.push("/Learn");
+          router.push("/Learns/Learn");
           setLoading(false);
         } else if (response && !getConsent()) {
           onOpen();
