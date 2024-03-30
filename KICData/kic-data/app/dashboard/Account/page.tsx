@@ -176,16 +176,19 @@ export default function Accounts() {
     fileBuffer: FormData
   ): Promise<Cookie[]> => {
     try {
-      const response = await fetch("/api/post/", {
-        method: "POST",
-        body: fileBuffer,
-        headers: {
-          attempts: page as unknown as string,
-          authorization: `JWT ${
-            (data && data.user && (data?.user as any).refreshToken) || null
-          }`,
-        },
-      });
+      const response = await fetch(
+        "https://kic-data-privacy.vercel.app/api/post/",
+        {
+          method: "POST",
+          body: fileBuffer,
+          headers: {
+            attempts: page as unknown as string,
+            authorization: `JWT ${
+              (data && data.user && (data?.user as any).refreshToken) || null
+            }`,
+          },
+        }
+      );
 
       console.log(
         "qweKiop",
