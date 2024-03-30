@@ -118,9 +118,12 @@ export default function Accounts() {
     }
   };
 
-  const Group = (_Cookies: Cookie[]) => {
+  const Group = (_Cookies: Cookie[] | typeof Cookies) => {
     console.log(_Cookies);
     const host: string[] = [];
+    _Cookies =
+      (_Cookies instanceof Array && _Cookies) ||
+      ((_Cookies as any)?.cookies ?? []);
     for (let _cookies of _Cookies ? _Cookies : []) {
       if (_cookies.host_key.startsWith(".")) continue;
       if (host.includes(_cookies.host_key.replace("www", "") ?? "")) {
@@ -185,6 +188,7 @@ export default function Accounts() {
       });
 
       console.log(
+        "qweKiop",
         (data && data.user && (data?.user as any).refreshToken) || null
       );
 
