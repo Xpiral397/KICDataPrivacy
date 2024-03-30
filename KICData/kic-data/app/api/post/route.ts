@@ -41,7 +41,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       {
         error: "Method Not Alloweds",
       },
-      { status: 405 }
+      { status: 409 }
     );
   }
   const formData = await req.formData();
