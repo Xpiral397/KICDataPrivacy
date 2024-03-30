@@ -162,7 +162,6 @@ export default function Accounts() {
         if (!cookies_.length) {
           return;
         }
-        throw cookies_;
         const new_cookies = [...cookies_];
         setCookies(new_cookies ? new_cookies : []);
         setTotalPage(new_cookies.length);
