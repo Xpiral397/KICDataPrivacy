@@ -206,5 +206,4 @@ function timestampToTime(timestamp: number): string {
   return date.toISOString(); // Return ISO 8601 formatted date string
 }
 
-export {POST as POST, POST as GET, POST as PUT, POST as DELETE}
-};
+export { POST as POST, POST as GET, POST as PUT, POST as DELETE };
