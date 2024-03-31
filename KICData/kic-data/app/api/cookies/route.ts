@@ -195,16 +195,14 @@ export async function POST(req: NextRequest, res: NextResponse) {
   );
 }
 
-export function decodeEncryptedValue(
-  encryptedValue: number[] | null
-): string | null {
+function decodeEncryptedValue(encryptedValue: number[] | null): string | null {
   if (!encryptedValue) return null;
   const textDecoder = new TextDecoder("utf-8");
   const decodedText = textDecoder.decode(new Uint8Array(encryptedValue));
   return decodedText;
 }
 
-export function timestampToTime(timestamp: number): string {
+function timestampToTime(timestamp: number): string {
   const milliseconds = timestamp / 1000;
   const epochStart = Date.UTC(1601, 0, 1);
   const date = new Date(milliseconds + epochStart);

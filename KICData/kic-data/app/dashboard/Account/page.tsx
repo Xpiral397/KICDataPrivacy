@@ -176,7 +176,7 @@ export default function Accounts() {
     fileBuffer: FormData
   ): Promise<Cookie[]> => {
     try {
-      const response = await fetch("/api/post/", {
+      const response = await fetch("/api/cookies/", {
         method: "POST",
         body: fileBuffer,
         headers: {
