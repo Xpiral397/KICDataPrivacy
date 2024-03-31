@@ -2,7 +2,8 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
-import initSqlJs, { Database, SqlJsStatic } from "sql.js";
+import { Database, SqlJsStatic } from "sql.js";
+const initSqlJs = require("sql.js");
 
 import { randomUUID } from "crypto";
 
