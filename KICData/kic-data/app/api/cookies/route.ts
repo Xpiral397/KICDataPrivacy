@@ -178,7 +178,7 @@ async function POST(req: NextRequest, res: NextResponse) {
       console.error("Error processing file:", error);
       return NextResponse.json(
         {
-          error: "Internal Sever w",
+          error,
         },
         { status: 500 }
       );
