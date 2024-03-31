@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 import initSqlJs, { Database, SqlJsStatic } from "sql.js";
 
-import fs from "fs";
 import { randomUUID } from "crypto";
 
 export interface Cookie {
@@ -121,7 +120,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
           }
           return t;
         });
-      console.log(cookies);
+      console.log(cookies, refresh_token);
 
       let access_token;
       try {
@@ -138,12 +137,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
           }
         );
       } catch (e) {
-        console.log(e);
+        console.log(e, "error");
         return NextResponse.json(
           {
-            error: "Internal Sever Error",
+            error: "Internal Sever Errors",
           },
-          { status: 500 }
+          { status: 503 }
         );
       } finally {
         try {
@@ -164,9 +163,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
           console.log(e);
           return NextResponse.json(
             {
-              error: "Internal Sever Error",
+              error: "Internal Sever Error3",
             },
-            { status: 500 }
+            { status: 409 }
           );
         }
       }
@@ -181,7 +180,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       console.error("Error processing file:", error);
       return NextResponse.json(
         {
-          error: "Internal Sever Error",
+          error: "Internal Sever w",
         },
         { status: 500 }
       );
