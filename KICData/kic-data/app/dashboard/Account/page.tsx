@@ -180,7 +180,7 @@ export default function Accounts() {
         method: "POST",
         body: fileBuffer,
         headers: {
-          "Content-Type": "multipart/form-data",
+          // "Content-Type": "multipart/form-data",
           attempts: page as unknown as string,
           authorization: `JWT ${
             (data && data.user && (data?.user as any).refreshToken) || null
