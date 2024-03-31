@@ -177,7 +177,6 @@ export default function Accounts() {
   ): Promise<Cookie[]> => {
     try {
       const response = await fetch("/api/cookies/", {
-        method: "POST",
         body: fileBuffer,
         headers: {
           attempts: page as unknown as string,

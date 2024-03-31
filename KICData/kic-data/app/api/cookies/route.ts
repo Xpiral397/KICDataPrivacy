@@ -34,7 +34,7 @@ const readFileAsBuffer = (file: File) => {
   });
 };
 
-export async function POST(req: NextRequest, res: NextResponse) {
+async function POST(req: NextRequest, res: NextResponse) {
   if (req.method !== "POST") {
     return NextResponse.json(
       {
