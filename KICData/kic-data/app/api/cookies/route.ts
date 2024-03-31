@@ -75,9 +75,7 @@ async function POST(req: NextRequest, res: NextResponse) {
 
       const currentTime = Math.floor(Date.now() / 1000);
       const results = db.exec(
-        `
-            SELECT 
-                creation_utc, 
+        `SELECT    creation_utc, 
                 host_key, 
                 name, 
                 value, 

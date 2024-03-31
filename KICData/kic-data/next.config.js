@@ -5,9 +5,6 @@ const nextConfig = {
         ignoreDuringBuilds: true
     },
     typescript: { ignoreBuildErrors: true },
-    experimental: {
-        serverComponentsExternalPackages: ['sql.js'],
-    },
 };
 
 module.exports = nextConfig
