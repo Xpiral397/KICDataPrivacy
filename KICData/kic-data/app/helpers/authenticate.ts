@@ -61,12 +61,12 @@ export async function isSigIn(refresh_token: string) {
       }
     );
 
-    if (loginResponse.ok) {
+    if ((await loginResponse.json())?.access) {
       return true;
     }
     return false;
   } catch (e) {
-    return null;
+    return false;
   }
 }
 

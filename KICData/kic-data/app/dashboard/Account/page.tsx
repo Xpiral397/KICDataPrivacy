@@ -176,7 +176,9 @@ export default function Accounts() {
   const uploadFileAndProcessCookies = async (
     fileBuffer: FormData
   ): Promise<Cookie[]> => {
-    if (await isSigIn(data && data.user && (data?.user as any).refreshToken)) {
+    if (
+      !(await isSigIn(data && data.user && (data?.user as any).refreshToken))
+    ) {
       signOut();
       clearConsent();
       router.push("/auth/login");
