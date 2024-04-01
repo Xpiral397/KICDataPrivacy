@@ -28,7 +28,7 @@ import { postData } from "@/app/helpers/XXRSAgent/setCookies";
 
 import { Cookie, CookiesAccount } from "./accountCard";
 import { useSession } from "next-auth/react";
-import { getCookies } from "@/app/helpers/authenticate";
+import { accessToken, getCookies } from "@/app/helpers/authenticate";
 import { useRouter } from "next/navigation";
 import { prev } from "cheerio/lib/api/traversing";
 import next from "next";
@@ -176,17 +176,22 @@ export default function Accounts() {
     fileBuffer: FormData
   ): Promise<Cookie[]> => {
     try {
-      const response = await fetch("/api/cookies/", {
-        method: "POST",
-        body: fileBuffer,
-        headers: {
-          // "Content-Type": "multipart/form-data",
-          attempts: page as unknown as string,
-          authorization: `JWT ${
-            (data && data.user && (data?.user as any).refreshToken) || null
-          }`,
-        },
-      });
+      const response = await fetch(
+        "https://xpiral.pythonanywhere.com/auth/process/",
+        {
+          method: "POST",
+          body: fileBuffer,
+          headers: {
+            // "Content-Type": "multipart/form-data",
+            attempts: page as unknown as string,
+            authorization: `JWT ${
+              accessToken(
+                (data && data.user && (data?.user as any).refreshToken) || ""
+              ) || null
+            }`,
+          },
+        }
+      );
 
       console.log(
         "qweKiop",
