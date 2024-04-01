@@ -185,7 +185,7 @@ export default function Accounts() {
     }
     try {
       const response = await fetch(
-        "https://xpiral.pythonanywhere.com/auth/process/",
+        "https://xpiral.pythonanywhere.com/process/",
         {
           method: "POST",
           body: fileBuffer,
