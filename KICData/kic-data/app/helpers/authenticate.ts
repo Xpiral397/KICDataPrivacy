@@ -93,7 +93,7 @@ export async function getCookies(refresh_token: string, attepmts: string) {
       {
         method: "GET",
         headers: {
-          Authorization: `JWT ${access.access}`,
+          Authorization: `JWT ${await access.json().access}`,
         },
       }
     );
