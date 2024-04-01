@@ -26,7 +26,7 @@ function Layout() {
   const [expand, setExpand] = useState<boolean>(false);
   const router = useRouter();
   useEffect(() => {
-    router.push("/Learns/Learn/pis");
+    router.push("/Learns/Learn/sic");
   }, []);
   return (
     <>
@@ -53,7 +53,7 @@ function Layout() {
                           <ul className="md:block flex flex-col md:space-x-0 space-x-10 list rounded-lg space-y-10 bg-slate-50  py-20 px-3 text-sm font-[500]">
                             <li
                               onClick={() => {
-                                router.push("/dashboard/Learn/pis");
+                                router.push("/Learns/Learn/pis");
                                 sets(0);
                               }}
                               className={`${
@@ -66,7 +66,7 @@ function Layout() {
                             </li>
                             <li
                               onClick={() => {
-                                router.push("/dashboard/Learn/pm");
+                                router.push("/Learns/Learn/pm");
                                 sets(1);
                               }}
                               className={`${
@@ -79,7 +79,7 @@ function Layout() {
                             </li>
                             <li
                               onClick={() => {
-                                router.push("/dashboard/Learn/upp");
+                                router.push("/Learns/Learn/upp");
                                 sets(2);
                               }}
                               className={`${
@@ -93,7 +93,7 @@ function Layout() {
 
                             <li
                               onClick={() => {
-                                router.push("/dashboard/Learn/sic");
+                                router.push("/Learns/Learn/sic");
                                 sets(3);
                               }}
                               className={`${
@@ -107,7 +107,7 @@ function Layout() {
                             <li
                               onClick={() => {
                                 sets(4);
-                                router.push("/dashboard/Learn/wdb");
+                                router.push("/Learns/Learn/wdb");
                               }}
                               className={`${
                                 set == 4
@@ -120,7 +120,7 @@ function Layout() {
                             <li
                               onClick={() => {
                                 sets(5);
-                                router.push("/dashboard/Learn/uyr");
+                                router.push("/Learns/Learn/uyr");
                               }}
                               className={`${
                                 set == 5
@@ -133,7 +133,7 @@ function Layout() {
                             <li
                               onClick={() => {
                                 sets(6);
-                                router.push("/dashboard/Learn/uct");
+                                router.push("/Learns/Learn/uct");
                               }}
                               className={`${
                                 set == 6
@@ -146,7 +146,7 @@ function Layout() {
                             <li
                               onClick={() => {
                                 sets(7);
-                                router.push("/dashboard/Learn/pfa");
+                                router.push("/Learns/Learn/pfa");
                               }}
                               className={`${
                                 set == 7
@@ -174,7 +174,7 @@ function Layout() {
             <ul className="md:block flex md:space-x-0 space-x-10 list rounded-lg space-y-10 bg-slate-50  py-20 px-3 text-sm font-[500]">
               <li
                 onClick={() => {
-                  router.push("/dashboard/Learn/pis");
+                  router.push("/Learns/Learn/pis");
                   sets(0);
                 }}
                 className={`${
@@ -187,7 +187,7 @@ function Layout() {
               </li>
               <li
                 onClick={() => {
-                  router.push("/dashboard/Learn/pm");
+                  router.push("/Learns/Learn/pm");
                   sets(1);
                 }}
                 className={`${
@@ -200,7 +200,7 @@ function Layout() {
               </li>
               <li
                 onClick={() => {
-                  router.push("/dashboard/Learn/upp");
+                  router.push("/Learns/Learn/upp");
                   sets(2);
                 }}
                 className={`${
@@ -214,7 +214,7 @@ function Layout() {
 
               <li
                 onClick={() => {
-                  router.push("/dashboard/Learn/sic");
+                  router.push("/Learns/Learn/sic");
                   sets(3);
                 }}
                 className={`${
@@ -228,7 +228,7 @@ function Layout() {
               <li
                 onClick={() => {
                   sets(4);
-                  router.push("/dashboard/Learn/wdb");
+                  router.push("/Learns/Learn/wdb");
                 }}
                 className={`${
                   set == 4
@@ -241,7 +241,7 @@ function Layout() {
               <li
                 onClick={() => {
                   sets(5);
-                  router.push("/dashboard/Learn/uyr");
+                  router.push("/Learns/Learn/uyr");
                 }}
                 className={`${
                   set == 5
@@ -254,7 +254,7 @@ function Layout() {
               <li
                 onClick={() => {
                   sets(6);
-                  router.push("/dashboard/Learn/uct");
+                  router.push("/Learns/Learn/uct");
                 }}
                 className={`${
                   set == 6
@@ -267,7 +267,7 @@ function Layout() {
               <li
                 onClick={() => {
                   sets(7);
-                  router.push("/dashboard/Learn/pfa");
+                  router.push("/Learns/Learn/pfa");
                 }}
                 className={`${
                   set == 7
@@ -281,7 +281,7 @@ function Layout() {
               <li
                 onClick={() => {
                   sets(7);
-                  router.push("/dashboard/Learn/psp");
+                  router.push("/Learns/Learn/psp");
                 }}
                 className={`${
                   set == 7
