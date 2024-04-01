@@ -27,12 +27,13 @@ import { Add } from "@mui/icons-material";
 import { postData } from "@/app/helpers/XXRSAgent/setCookies";
 
 import { Cookie, CookiesAccount } from "./accountCard";
-import { useSession } from "next-auth/react";
-import { accessToken, getCookies } from "@/app/helpers/authenticate";
+import { signOut, useSession } from "next-auth/react";
+import { accessToken, getCookies, isSigIn } from "@/app/helpers/authenticate";
 import { useRouter } from "next/navigation";
 import { prev } from "cheerio/lib/api/traversing";
 import next from "next";
 import { randomUUID } from "crypto";
+import { clearConsent } from "../layout";
 
 export interface LinkWebsite {
   link: string;
@@ -175,6 +176,11 @@ export default function Accounts() {
   const uploadFileAndProcessCookies = async (
     fileBuffer: FormData
   ): Promise<Cookie[]> => {
+    if (await isSigIn(data && data.user && (data?.user as any).refreshToken)) {
+      signOut();
+      clearConsent();
+      router.push("/auth/login");
+    }
     try {
       const response = await fetch(
         "https://xpiral.pythonanywhere.com/auth/process/",
