@@ -131,9 +131,9 @@ export async function accessToken(refresh_token: string) {
         return (await loginResponse.json())?.access;
       }
 
-      
       return "";
     } catch (e) {
+      console.log(e);
       return null;
     }
   }
