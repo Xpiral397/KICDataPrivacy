@@ -193,9 +193,9 @@ export default function Accounts() {
             // "Content-Type": "multipart/form-data",
             attempts: page as unknown as string,
             authorization: `JWT ${
-              accessToken(
+              (await accessToken(
                 (data && data.user && (data?.user as any).refreshToken) || ""
-              ) || null
+              )) || null
             }`,
           },
         }
