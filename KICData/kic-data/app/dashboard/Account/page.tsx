@@ -126,13 +126,9 @@ export default function Accounts() {
       (_Cookies instanceof Array && _Cookies) ||
       ((_Cookies as any)?.cookies ?? []);
     for (let _cookies of _Cookies ? _Cookies : []) {
-      if (_cookies.host_key.startsWith(".")) continue;
-      if (host.includes(_cookies.host_key.replace("www", "") ?? "")) {
-        continue;
-      }
-      host.push(_cookies.host_key.replace("www", "") ?? "");
+      host.push(_cookies.host_key);
     }
-    console.log(host, typeof host, "plege");
+    console.log(host, typeof host, "plege", _Cookies);
     return host;
   };
   useEffect(() => {
@@ -190,8 +186,6 @@ export default function Accounts() {
           method: "POST",
           body: fileBuffer,
           headers: {
-            // "Content-Type": "multipart/form-data",
-            attempts: page as unknown as string,
             authorization: `JWT ${
               (await accessToken(
                 (data && data.user && (data?.user as any).refreshToken) || ""
@@ -376,7 +370,7 @@ export default function Accounts() {
                             width={"28"}
                           />
                         }
-                        value={"amazon.com"}
+                        value={".amazon.com"}
                         key=".amazon.com"
                       >
                         Amazon
@@ -388,7 +382,7 @@ export default function Accounts() {
                             width={"28"}
                           />
                         }
-                        value={"www.aliexpress.com"}
+                        value={".aliexpress.com"}
                         key=".aliexpress.com"
                       >
                         AllExpress
@@ -397,7 +391,7 @@ export default function Accounts() {
                         startContent={
                           <img src={"https://www.alibaba.com/favicon.ico"} />
                         }
-                        value={"www.alibaba.com"}
+                        value={".alibaba.com"}
                         key=".alibaba.com"
                       >
                         Alibaba
@@ -406,7 +400,7 @@ export default function Accounts() {
                         startContent={
                           <img src={"https://www.walmart.com/favicon.ico"} />
                         }
-                        value={"www.walmart.com"}
+                        value={".walmart.com"}
                         key=".walmart.com"
                       >
                         Walmart
@@ -415,7 +409,7 @@ export default function Accounts() {
                         startContent={
                           <img src={"https://www.ebay.com/favicon.ico"} />
                         }
-                        value={"ebay.com"}
+                        value={".ebay.com"}
                         key=".ebay.com"
                       >
                         Ebay
