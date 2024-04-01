@@ -87,6 +87,7 @@ export default function Accounts() {
   const [firsts, setFirst] = useState(true);
   const [linksList, setNewLinkList] = useState<string[]>();
   const [renderList, setRenderedList] = useState<string[]>([]);
+  const [value, setValue] = useState<string>("");
   const [cookiesInfo, setCookiesInfo] = useState<CookiesSelectionInfo>({
     AppDataRoot: "",
     computer: "Mac",
@@ -154,7 +155,7 @@ export default function Accounts() {
       console.log(Cookies, Host, "pop205");
     }
     setLoading(false);
-  }, [localStorage.getItem("consent"), linksList]);
+  }, [localStorage.getItem("consent"), linksList, value]);
 
   const fetchData = () => {
     getCookies((data as any).user.refreshToken, page.toString()).then(
@@ -347,6 +348,7 @@ export default function Accounts() {
                     <Select
                       onSelectionChange={(value: string) => {
                         let values = new Set(value)?.entries().next()?.value[0];
+                        setValue(values);
                         if (!linksList?.includes(values)) {
                           setNewLinkList((e: any) => {
                             return [...(e ? e : []), values];
@@ -356,6 +358,7 @@ export default function Accounts() {
                           linksList.slice(index, index + 1);
                           linksList.push(values);
                           const D = linksList;
+                          console.log(D, "prince");
                           setNewLinkList((e) => D);
                         }
                       }}
