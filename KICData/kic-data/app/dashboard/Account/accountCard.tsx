@@ -181,7 +181,7 @@ const CookiesAccountPage = ({
   //   );
   //   return null;
   // }
-  if (!linkModal.deleted) {
+  if (true) {
     return (
       <div className="relative duration-75  hover:scale-[95%] bg-white p-4 mt-4 rounded-lg shadow-lg w-96">
         <div className="flex space-x-3 top-0 right-0 mx-72">
@@ -227,10 +227,19 @@ const CookiesAccountPage = ({
                 <Button
                   className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 w-full"
                   onClick={() => {
-                    setLinkModal({
-                      key: cookie.key,
-                      value: false,
-                      delete: true,
+                    setLinkModal(() => {
+                      const cookies: any[] = JSON.parse(
+                        localStorage.getItem("cookie") ?? "[])"
+                      );
+                      let cok = cookies.filter(
+                        (cookie_) => cookie.key != cookie_.key
+                      );
+                      localStorage.setItem("cookie", JSON.stringify(cok));
+                      return {
+                        key: cookie.key,
+                        value: false,
+                        delete: true,
+                      };
                     });
                   }}
                 >

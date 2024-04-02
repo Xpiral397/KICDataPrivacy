@@ -214,7 +214,6 @@ export default function Accounts() {
       throw new Error("Failed to process file");
     }
   };
-
   const FilterCookies = (
     type: "Search" | "Host" | "Date" | "Filter" | "filter",
     key: string | number
