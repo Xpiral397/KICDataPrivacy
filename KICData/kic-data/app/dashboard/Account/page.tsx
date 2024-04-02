@@ -83,7 +83,11 @@ export default function Accounts() {
   const [Host, setHost] = useState<string[]>([]);
   const [filter, setFilter] = useState<Filter>();
   const router = useRouter();
-  const [linkModal, showLinksModal] = useState({ key: "", value: false });
+  const [linkModal, showLinksModal] = useState({
+    key: "",
+    value: false,
+    delete: false,
+  });
   const [firsts, setFirst] = useState(true);
   const [linksList, setNewLinkList] = useState<string[]>();
   const [renderList, setRenderedList] = useState<string[]>([]);
