@@ -129,7 +129,7 @@ export async function accessToken(refresh_token: string) {
       if (loginResponse.ok) {
         console.log((await loginResponse.json())?.access);
         return (await loginResponse.json())?.access;
-      }
+      } 
 
       return "";
     } catch (e) {

@@ -1,9 +1,11 @@
 "use client";
 import DotGrid from "@/design/dot";
-import { InputRounded, SearchRounded } from "@mui/icons-material";
+import { InputRounded, Person, SearchRounded } from "@mui/icons-material";
 import {
   Avatar,
   Button,
+  Code,
+  Divider,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -43,6 +45,7 @@ export default function Navbar() {
       router.push("/auth/login");
     }
   });
+  console.log(data);
   return (
     <nav className="h-16 px-10 flex items-center justify-between bg-blue-500 w-full">
       <div className="flex items-center space-x-5">
@@ -75,29 +78,79 @@ export default function Navbar() {
                 src={(data as any)?.user?.image ?? ""}
               />
             </DropdownTrigger>
-            <DropdownMenu aria-label="Profile Actions" variant="flat">
-              <DropdownItem key="profile" className="h-14 gap-2">
-                <p className="font-semibold">Signed in as</p>
-                <p className="font-semibold">
-                  {(data as any)?.user?.userData?.name ??
-                    data?.user?.name ??
-                    ""}
-                </p>
-                <p className="font-semibold">
-                  {(data as any)?.user?.userData?.email ??
-                    data?.user?.email ??
-                    ""}
-                </p>
+            <DropdownMenu
+              aria-label="Profile Actions"
+              variant="flat"
+              className="w-[350px]"
+            >
+              <DropdownItem key="profile" className=" bg-zinc-100 gap-2">
+                <div className="flex w-full justify-between items-center ">
+                  <Avatar
+                    isBordered
+                    as="button"
+                    className="mx-6"
+                    className="transition-transform"
+                    src={(data as any)?.user?.image ?? ""}
+                  />
+                  <div>
+                    <p className="font-semibold">Signed in as</p>
+                    <p className="font-semibold">
+                      {(data as any)?.user?.userData?.name ??
+                        data?.user?.name ??
+                        ""}
+                    </p>
+                    <p className="font-semibold">
+                      {(data as any)?.user?.userData?.email ??
+                        data?.user?.email ??
+                        ""}
+                    </p>
+                  </div>
+                </div>
               </DropdownItem>
-              {/* <DropdownItem key="settings">My Settings</DropdownItem>
-              <DropdownItem key="team_settings">Activity Log</DropdownItem>
-              <DropdownItem key="team_settings">Notfications</DropdownItem>
-              <DropdownItem key="analytics">Analytics</DropdownItem>
-              <DropdownItem key="system">Data Deletation</DropdownItem>
-              <DropdownItem key="configurations">Configurations</DropdownItem>
-              <DropdownItem key="help_and_feedback">
-                Help & Feedback
-              </DropdownItem> */}
+
+              <DropdownItem key="settings">
+                <h1 className="mt-8 flex  items-center justify-between">
+                  <span>
+                    <Person />
+                  </span>
+                  <p className="font-[500]">Account Personal Information</p>
+                </h1>
+                <Divider />
+
+                <div className="mt-5 flex justify-between items-center">
+                  <span className="font-[500]">Username:</span>
+                  <Code className="font-[500] min-w-[30px]">
+                    {(data as any).user?.userData?.username}
+                  </Code>
+                </div>
+                <div className="mt-5 flex justify-between items-center">
+                  <span className="font-[500]">Email:</span>
+                  <Code className="font-[500]" color="secondary">
+                    {JSON.parse((data as any).user?.userData?.has_confirm_email)
+                      ? "Confirmed"
+                      : "Not Confirmed"}
+                  </Code>
+                </div>
+                <div className="mt-5 flex justify-between items-center">
+                  <span className="font-[500]">Gender:</span>
+                  <Code className="font-[500]  text-center w-[50px]">
+                    {(data as any).user?.userData?.gender}
+                  </Code>
+                </div>
+                <div className="mt-5 flex justify-between items-center">
+                  <span className="font-[500]">Date Joined:</span>
+                  <Code className="font-[500]" color={"danger"}>
+                    {(data as any).user?.userData?.date_joined.split("T")[0]}
+                  </Code>
+                </div>
+                <div className="mt-5 flex justify-between items-center">
+                  <span className="font-[500]">Last Login:</span>
+                  <Code className="font-[500]" color="success">
+                    {(data as any).user?.userData?.last_login.split("T")[0]}
+                  </Code>
+                </div>
+              </DropdownItem>
+
               <DropdownItem
                 onClick={() => {
                   signOut();

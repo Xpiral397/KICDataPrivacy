@@ -196,7 +196,7 @@ function Layout({ children }: { children: ReactNode }) {
               Password Management
             </li>
             <li
-              onClick={() => {
+              onClick={() => {  
                 router.push("/Learns/Learn/upp");
                 sets(2);
               }}
