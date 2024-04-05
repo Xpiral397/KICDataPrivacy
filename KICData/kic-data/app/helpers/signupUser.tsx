@@ -1,4 +1,4 @@
-import {user} from "@nextui-org/theme";
+import { user } from "@nextui-org/theme";
 
 export interface UserData {
   country?: string;
@@ -40,7 +40,6 @@ export async function signup(userData: UserData): Promise<SignupResponse> {
     // Adjust the payload based on your API requirements
     const payload: UserData = {
       country: userData.country,
-      number: 
       username: userData.email,
       surname: userData.surname,
       othername: userData.othername,
