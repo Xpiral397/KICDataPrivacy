@@ -149,6 +149,20 @@ export default function Navbar() {
                   </Code>
                 </div>
                 <div className="mt-5 flex justify-between items-center">
+                  <span className="font-[500]">Email:</span>
+                  <Code className="font-[500]" color="secondary">
+                    {(data as any).user?.userData?.email}
+                  </Code>
+                </div>
+                <div className="mt-5 flex justify-between items-center">
+                  <span className="font-[500]">Email Verification:</span>
+                  <Code className="font-[500]" color="secondary">
+                    {(data as any).user?.userData?.email
+                      ? "Confirmed"
+                      : "Not Confirmed"}
+                  </Code>
+                </div>
+                <div className="mt-5 flex justify-between items-center">
                   <span className="font-[500]">Gender:</span>
                   <Code className="font-[500]  text-center w-[50px]">
                     {(data as any).user?.userData?.gender}
@@ -172,7 +186,8 @@ export default function Navbar() {
                   <Code className="font-[500]" color="success">
                     {
                       (
-                        (data as any).user?.userData?.last_login ?? "Today"
+                        (data as any).user?.userData?.last_login ??
+                        "First Login"
                       )?.split("T")[0]
                     }
                   </Code>
