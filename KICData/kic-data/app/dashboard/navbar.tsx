@@ -45,7 +45,6 @@ export default function Navbar() {
       router.push("/auth/login");
     }
   });
-  console.log(data);
   return (
     <nav className="h-16 px-10 flex items-center justify-between bg-blue-500 w-full">
       <div className="flex items-center space-x-5">
@@ -89,7 +88,6 @@ export default function Navbar() {
                     isBordered
                     as="button"
                     className="mx-6"
-                    className="transition-transform"
                     src={(data as any)?.user?.image ?? ""}
                   />
                   <div>
@@ -131,7 +129,7 @@ export default function Navbar() {
                 <div className="mt-5 flex justify-between items-center">
                   <span className="font-[500]">Other Names:</span>
                   <Code className="font-[500] min-w-[30px]">
-                                        {(data as any).user?.userData?.othername}
+                    {(data as any).user?.userData?.othername}
                   </Code>
                 </div>
                 <div className="mt-5 flex justify-between items-center">
@@ -161,10 +159,10 @@ export default function Navbar() {
                     {(data as any).user?.userData?.gender}
                   </Code>
                 </div>
-                div className="mt-5 flex justify-between items-center">
+                <div className="mt-5 flex justify-between items-center">
                   <span className="font-[500]">Curent Country:</span>
                   <Code className="font-[500]  text-center w-[50px]">
-                                      {(data as any).user?.userData?.country}
+                    {(data as any).user?.userData?.country}
                   </Code>
                 </div>
                 <h1 className="mt-8 flex  items-center justify-between">
