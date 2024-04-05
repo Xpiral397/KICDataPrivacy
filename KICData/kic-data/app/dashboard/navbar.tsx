@@ -131,7 +131,10 @@ export default function Navbar() {
                 <div className="mt-5 flex justify-between items-center">
                   <span className="font-[500]">Other Names:</span>
                   <Code className="font-[500] min-w-[30px]">
-                    {(data as any).user?.userData?.name?.split(" ", 1)[1]}
+                    {(data as any).user?.userData?.name?.replace(
+                      (data as any).user?.userData?.name.split(" ")[0],
+                      ""
+                    )}
                   </Code>
                 </div>
                 <div className="mt-5 flex justify-between items-center">
@@ -140,14 +143,7 @@ export default function Navbar() {
                     {(data as any).user?.userData?.username}
                   </Code>
                 </div>
-                <div className="mt-5 flex justify-between items-center">
-                  <span className="font-[500]">Email:</span>
-                  <Code className="font-[500]" color="secondary">
-                    {(data as any).user?.userData?.email
-                      ? "Confirmed"
-                      : "Not Confirmed"}
-                  </Code>
-                </div>
+
                 <div className="mt-5 flex justify-between items-center">
                   <span className="font-[500]">Email:</span>
                   <Code className="font-[500]" color="secondary">
