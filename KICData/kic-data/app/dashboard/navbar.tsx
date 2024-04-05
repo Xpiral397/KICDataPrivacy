@@ -125,16 +125,13 @@ export default function Navbar() {
                 <div className="mt-5 flex justify-between items-center">
                   <span className="font-[500]">Surname:</span>
                   <Code className="font-[500] min-w-[30px]">
-                    {(data as any).user?.userData?.name.split(" ")[0]}
+                    {(data as any).user?.userData?.surname}
                   </Code>
                 </div>
                 <div className="mt-5 flex justify-between items-center">
                   <span className="font-[500]">Other Names:</span>
                   <Code className="font-[500] min-w-[30px]">
-                    {(data as any).user?.userData?.name?.replace(
-                      (data as any).user?.userData?.name.split(" ")[0],
-                      ""
-                    )}
+                                        {(data as any).user?.userData?.othername}
                   </Code>
                 </div>
                 <div className="mt-5 flex justify-between items-center">
@@ -167,7 +164,7 @@ export default function Navbar() {
                 div className="mt-5 flex justify-between items-center">
                   <span className="font-[500]">Curent Country:</span>
                   <Code className="font-[500]  text-center w-[50px]">
-                    Nigerial
+                                      {(data as any).user?.userData?.country}
                   </Code>
                 </div>
                 <h1 className="mt-8 flex  items-center justify-between">
