@@ -164,6 +164,12 @@ export default function Navbar() {
                     {(data as any).user?.userData?.gender}
                   </Code>
                 </div>
+                div className="mt-5 flex justify-between items-center">
+                  <span className="font-[500]">Curent Country:</span>
+                  <Code className="font-[500]  text-center w-[50px]">
+                    Nigerial
+                  </Code>
+                </div>
                 <h1 className="mt-8 flex  items-center justify-between">
                   <span>
                     <Person />
@@ -177,7 +183,7 @@ export default function Navbar() {
                     {(data as any).user?.userData?.date_joined.split("T")[0]}
                   </Code>
                 </div>
-                <div className="mt-5 flex justify-between items-center">
+                {/* <div className="mt-5 flex justify-between items-center">
                   <span className="font-[500]">Last Login:</span>
                   <Code className="font-[500]" color="success">
                     {
@@ -187,7 +193,7 @@ export default function Navbar() {
                       )?.split("T")[0]
                     }
                   </Code>
-                </div>
+                </div> */}
               </DropdownItem>
 
               <DropdownItem
