@@ -44,169 +44,171 @@ export default function Login() {
   const [showPolicy, setPolicy] = useState<boolean>(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [show, setShowError] = useState<boolean>(false);
- const [modalError, setModalError] = useState<boolean>();
+  const [modalError, setModalError] = useState<boolean>();
   useEffect(() => {
-    if(show){
-    setDisabled(false);
-    if(formData?.othername == "") {
-      setDisabled(true);
-      setError((prev) => {
-        return {
-          ...prev,
-          othername: "othername length must be more than 2 or 3",
-        };
-      });
-    }
-    if((formData?.surname ?? "")?.length < 3) {
-      setDisabled(true);
-      setError((prev) => {
-        return {
-          ...prev,
-          surname: "surname  length must be more than 3",
-        };
-      });
-    } else {
+    if (show) {
       setDisabled(false);
-      setError((prev) => {
-        return {
-          ...prev,
-          surname: "",
-        };
-      });
-    }
-    if((formData?.othername ?? "")?.length < 3) {
-      setDisabled(true);
-      setError((prev) => {
-        return {
-          ...prev,
-          othername: "othername length must be more than 3",
-        };
-      });
-    } else {
-      setDisabled(false);
-      setError((prev) => {
-        return {
-          ...prev,
-          othername: "",
-        };
-      });
-    }
-    if(
-      (formData?.email ?? "")?.length < 10 ||
-      !formData?.email?.includes("gmail.com")
-    ) {
-      setDisabled(true);
-      setError((prev) => {
-        return {
-          ...prev,
-          email: "Enter valid gmail",
-        };
-      });
-    } else {
-      setDisabled(false);
-      setError((prev) => {
-        return {
-          ...prev,
-          email: "",
-        };
-      });
-    }
-
-    if(
-      (formData && formData?.password !== formData?.rePassword) ||
-      !formData?.password
-    ) {
-      setDisabled(true);
-       setLoading(false)
-      setError((prev) => {
-        return {
-          ...prev,
-          password: "Password Did'nt Match",
-          rePassword: "Password Didnt Match",
-        };
-      });
-    } else {
-      setDisabled(false);
-      setError((prev) => {
-        return {
-          ...prev,
-          password: "",
-          rePassword: "",
-        };
-      });
-      }
-      console.log(formData?.country, formData?.gender)
-    if(formData && (!formData.country || !formData.gender)) {
-      setDisabled(true);
-       setLoading(false)
-      setError((prev) => {
-        return {
-          ...prev,
-          gender: formData.gender?"":"Gender require",
-          country:formData.country?"": "Country  required",
-        };
-      });
-    } else {
-      setDisabled(false);
-      setError((prev) => {
-        return {
-          ...prev,
-          gender: "",
-          country: "",
-        };
-      });
-      checkPasswordStrength(formData?.password ?? "")
-        .then((result) => {
-          if(result == "Password is strong") {
-            setError((prev) => {
-              return {
-                ...prev,
-                password: "Password is strong",
-                rePassword: "Password is strong",
-              };
-            });
-          } else {
-            setDisabled(true);
-            setLoading(false)
-            setError((prev) => {
-              return {
-                ...prev,
-                password: result,
-                rePassword: result,
-              };
-            });
-          }
-        })
-        .catch(() => {
-          setModalError(true);
+      if (formData?.othername == "") {
+        setDisabled(true);
+        setError((prev) => {
+          return {
+            ...prev,
+            othername: "othername length must be more than 2 or 3",
+          };
         });
+      }
+      if ((formData?.surname ?? "")?.length < 3) {
+        setDisabled(true);
+        setError((prev) => {
+          return {
+            ...prev,
+            surname: "surname  length must be more than 3",
+          };
+        });
+      } else {
+        setDisabled(false);
+        setError((prev) => {
+          return {
+            ...prev,
+            surname: "",
+          };
+        });
+      }
+      if ((formData?.othername ?? "")?.length < 3) {
+        setDisabled(true);
+        setError((prev) => {
+          return {
+            ...prev,
+            othername: "othername length must be more than 3",
+          };
+        });
+      } else {
+        setDisabled(false);
+        setError((prev) => {
+          return {
+            ...prev,
+            othername: "",
+          };
+        });
+      }
+      if (
+        (formData?.email ?? "")?.length < 10 ||
+        !formData?.email?.includes("gmail.com")
+      ) {
+        setDisabled(true);
+        setError((prev) => {
+          return {
+            ...prev,
+            email: "Enter valid gmail",
+          };
+        });
+      } else {
+        setDisabled(false);
+        setError((prev) => {
+          return {
+            ...prev,
+            email: "",
+          };
+        });
+      }
+
+      if (
+        (formData && formData?.password !== formData?.rePassword) ||
+        !formData?.password
+      ) {
+        setDisabled(true);
+        setLoading(false);
+        setError((prev) => {
+          return {
+            ...prev,
+            password: "Password Did'nt Match",
+            rePassword: "Password Didnt Match",
+          };
+        });
+      } else {
+        setDisabled(false);
+        setError((prev) => {
+          return {
+            ...prev,
+            password: "",
+            rePassword: "",
+          };
+        });
+      }
+      console.log(formData?.country, formData?.gender);
+      if (formData && (!formData.country || !formData.gender)) {
+        setDisabled(true);
+        setLoading(false);
+        setError((prev) => {
+          return {
+            ...prev,
+            gender: formData.gender ? "" : "Gender require",
+            country: formData.country ? "" : "Country  required",
+          };
+        });
+      } else {
+        setDisabled(false);
+        setError((prev) => {
+          return {
+            ...prev,
+            gender: "",
+            country: "",
+          };
+        });
+        checkPasswordStrength(formData?.password ?? "")
+          .then((result) => {
+            if (result == "Password is strong") {
+              setError((prev) => {
+                return {
+                  ...prev,
+                  password: "Password is strong",
+                  rePassword: "Password is strong",
+                };
+              });
+            } else {
+              setDisabled(true);
+              setLoading(false);
+              setError((prev) => {
+                return {
+                  ...prev,
+                  password: result,
+                  rePassword: result,
+                };
+              });
+            }
+          })
+          .catch(() => {
+            setModalError(true);
+          });
+      }
     }
-  }
-  
-  }, [formData?.surname,
+  }, [
+    formData?.surname,
     formData?.othername,
     formData?.password,
     formData?.rePassword,
     formData?.country,
     formData?.gender,
-    show
-    ]
-  
-  );
+    show,
+  ]);
   const handleSubmit = async (e: any) => {
-    setShowError(true)
-    if(isdisabled || !accept) {
-      setLoading(false)
-      return 
-    } 
-    console.log('Parsing');
-    
+    setShowError(true);
+    if (isdisabled || !accept) {
+      setLoading(false);
+      return;
+    }
+    console.log("Parsing");
+
     setLoading(true);
     e.preventDefault();
     setError({});
 
-    if(formData && formData.password != formData.rePassword && formData.password) {
-      setDisabled(true)
+    if (
+      formData &&
+      formData.password != formData.rePassword &&
+      formData.password
+    ) {
+      setDisabled(true);
       setError((prev) => {
         return {
           ...prev,
@@ -214,7 +216,7 @@ export default function Login() {
           rePassword: "Password Didnt Match",
         };
       });
-      return
+      return;
     }
 
     const response = await signup(formData as UserData);
@@ -225,14 +227,13 @@ export default function Login() {
       setFailedsModal(true);
 
       console.log(UserDataError, "Ji");
-    } 
-    else if (response.status == 201) {
+    } else if (response.status == 201) {
       setLoading(false);
-      console.log('Success;', sucessModal)
-      setSuccessModal(false)
-      console.log('Success;', sucessModal)
+      console.log("Success;", sucessModal);
+      setSuccessModal(false);
+      console.log("Success;", sucessModal);
       setSuccessModal(true);
-      console.log('Success;', sucessModal)
+      console.log("Success;", sucessModal);
     }
     setLoading(false);
     // Handle form submission, e.g., send data to the server
@@ -271,15 +272,20 @@ export default function Login() {
                 <ModalBody>
                   <div className="flex w-full flex-col">
                     <Tabs aria-label="Options">
-                      <Tab key="Basic Contact Information" title="Basic Contact Information:">
+                      <Tab
+                        key="Basic Contact Information"
+                        title="Basic Contact Information:"
+                      >
                         <Card>
                           <CardBody className="text-[monospace] overflow-scroll max-h-[50vh] max-w-md mx-auto bg-white rounded-xl shadow-md  md:max-w-2xl">
-                          Do you consent to us sharing the following information to second-party sites? 
-                          <div className="max-w-md">
+                            Do you consent to us sharing the following
+                            information to second-party sites?
+                            <div className="max-w-md">
                               <ul className="divide-y divide-gray-200">
-                                
                                 <li className="py-4">
-                                  <h3 className="text-lg font-semibold">Basic Contact Information:</h3>
+                                  <h3 className="text-lg font-semibold">
+                                    Basic Contact Information:
+                                  </h3>
                                   <ul className="mt-2">
                                     <li>Full Name</li>
                                     <li>Email Address</li>
@@ -287,9 +293,10 @@ export default function Login() {
                                   </ul>
                                 </li>
 
-                                
                                 <li className="py-4">
-                                  <h3 className="text-lg font-semibold">Demographic Information:</h3>
+                                  <h3 className="text-lg font-semibold">
+                                    Demographic Information:
+                                  </h3>
                                   <ul className="mt-2">
                                     <li>Age</li>
                                     <li>Gender</li>
@@ -298,26 +305,36 @@ export default function Login() {
                                 </li>
 
                                 <li className="py-4">
-                                  <h3 className="text-lg font-semibold">Account Information:</h3>
+                                  <h3 className="text-lg font-semibold">
+                                    Account Information:
+                                  </h3>
                                   <ul className="mt-2">
                                     <li>Username</li>
-                                    <li>Password (only if necessary for authentication on the second-party site)</li>
+                                    <li>
+                                      Password (only if necessary for
+                                      authentication on the second-party site)
+                                    </li>
                                   </ul>
                                 </li>
 
-                                
                                 <li className="py-4">
-                                  <h3 className="text-lg font-semibold">Transaction Data:</h3>
+                                  <h3 className="text-lg font-semibold">
+                                    Transaction Data:
+                                  </h3>
                                   <ul className="mt-2">
                                     <li>Purchase history</li>
                                     <li>Order details</li>
-                                    <li>Payment information (only if necessary for transactions on the second-party site)</li>
+                                    <li>
+                                      Payment information (only if necessary for
+                                      transactions on the second-party site)
+                                    </li>
                                   </ul>
                                 </li>
 
-                                
                                 <li className="py-4">
-                                  <h3 className="text-lg font-semibold">Preferences and Interests:</h3>
+                                  <h3 className="text-lg font-semibold">
+                                    Preferences and Interests:
+                                  </h3>
                                   <ul className="mt-2">
                                     <li>Product preferences</li>
                                     <li>Interests or hobbies</li>
@@ -325,74 +342,110 @@ export default function Login() {
                                   </ul>
                                 </li>
                                 <li className="py-4">
-                                  <h3 className="text-lg font-semibold">Communication Preferences:</h3>
+                                  <h3 className="text-lg font-semibold">
+                                    Communication Preferences:
+                                  </h3>
                                   <ul className="mt-2">
-                                    <li>Opt-in preferences for marketing communications</li>
-                                    <li>Preferred communication channels (e.g., email, SMS)</li>
+                                    <li>
+                                      Opt-in preferences for marketing
+                                      communications
+                                    </li>
+                                    <li>
+                                      Preferred communication channels (e.g.,
+                                      email, SMS)
+                                    </li>
                                   </ul>
                                 </li>
                                 <li className="py-4">
-                                  <h3 className="text-lg font-semibold">Social Media Information (if applicable):</h3>
+                                  <h3 className="text-lg font-semibold">
+                                    Social Media Information (if applicable):
+                                  </h3>
                                   <ul className="mt-2">
                                     <li>Social media handle</li>
-                                    <li>Connections or friends list (if relevant for social sharing features)</li>
+                                    <li>
+                                      Connections or friends list (if relevant
+                                      for social sharing features)
+                                    </li>
                                   </ul>
                                 </li>
                               </ul>
                             </div>
-                         </CardBody>
+                          </CardBody>
                         </Card>
                       </Tab>
                       <Tab key="Device Info" title="Device Information:">
                         <Card>
                           <CardBody className="overflow-scroll max-h-[50vh] max-w-md mx-auto bg-white rounded-xl shadow-md md:max-w-2xl">
-                          <div>
-                            <div className="">
-                              <ul className="divide-y divide-gray-200">
-                                <li>
-                                  <h3 className="text-lg font-semibold">Device Information:</h3>
-                                  <ul className="mt-2">
-                                    <li>Device type (e.g., mobile, desktop)</li>
-                                    <li>Browser type and version</li>
-                                  </ul>
-                                </li>
+                            <div>
+                              <div className="">
+                                <ul className="divide-y divide-gray-200">
+                                  <li>
+                                    <h3 className="text-lg font-semibold">
+                                      Device Information:
+                                    </h3>
+                                    <ul className="mt-2">
+                                      <li>
+                                        Device type (e.g., mobile, desktop)
+                                      </li>
+                                      <li>Browser type and version</li>
+                                    </ul>
+                                  </li>
 
-                                <li>
-                                  <h3 className="text-lg font-semibold">Behavioral Data:</h3>
-                                  <ul className="mt-2">
-                                    <li>Browsing history</li>
-                                    <li>Clickstream data</li>
-                                    <li>Interaction with advertisements or promotions</li>
-                                  </ul>
-                                </li>
+                                  <li>
+                                    <h3 className="text-lg font-semibold">
+                                      Behavioral Data:
+                                    </h3>
+                                    <ul className="mt-2">
+                                      <li>Browsing history</li>
+                                      <li>Clickstream data</li>
+                                      <li>
+                                        Interaction with advertisements or
+                                        promotions
+                                      </li>
+                                    </ul>
+                                  </li>
 
-                                <li>
-                                  <h3 className="text-lg font-semibold">Third-Party Integrations:</h3>
-                                  <ul className="mt-2">
-                                    <li>Information shared with third-party services or platforms integrated with the second-party site (e.g., social media plugins, analytics tools)</li>
-                                  </ul>
-                                </li>
+                                  <li>
+                                    <h3 className="text-lg font-semibold">
+                                      Third-Party Integrations:
+                                    </h3>
+                                    <ul className="mt-2">
+                                      <li>
+                                        Information shared with third-party
+                                        services or platforms integrated with
+                                        the second-party site (e.g., social
+                                        media plugins, analytics tools)
+                                      </li>
+                                    </ul>
+                                  </li>
 
-                                <li>
-                                  <h3 className="text-lg font-semibold">Feedback and Reviews:</h3>
-                                  <ul className="mt-2">
-                                    <li>Product reviews or feedback submitted on the second-party site</li>
-                                  </ul>
-                                </li>
-                              </ul>
+                                  <li>
+                                    <h3 className="text-lg font-semibold">
+                                      Feedback and Reviews:
+                                    </h3>
+                                    <ul className="mt-2">
+                                      <li>
+                                        Product reviews or feedback submitted on
+                                        the second-party site
+                                      </li>
+                                    </ul>
+                                  </li>
+                                </ul>
+                              </div>
                             </div>
-                          </div>
-
                           </CardBody>
                         </Card>
                       </Tab>
-                     <Tab key="data" title="How Your Data Will be Used">
+                      <Tab key="data" title="How Your Data Will be Used">
                         <Card>
                           <CardBody>
-                            We believe in fostering collaborative partnerships to enrich your experience. 
-                            By sharing select user information with our trusted second-party site, we aim
-                             to personalize your journey, tailor recommendations, and streamline transactions, 
-                             ensuring a seamless and rewarding interaction tailored to your preferences and needs."
+                            We believe in fostering collaborative partnerships
+                            to enrich your experience. By sharing select user
+                            information with our trusted second-party site, we
+                            aim to personalize your journey, tailor
+                            recommendations, and streamline transactions,
+                            ensuring a seamless and rewarding interaction
+                            tailored to your preferences and needs."
                           </CardBody>
                         </Card>
                       </Tab>
@@ -431,25 +484,23 @@ export default function Login() {
         <div className=" flex items-center justify-center top-0 right-0 absolute w-full h-full">
           <StatusModal
             status="CREATED_SUCCESS"
-            booleanCallback = {setSuccessModal}
+            booleanCallback={setSuccessModal}
             onSendActivationLink={() => {
-              console.log('done')
+              console.log("done");
               setSuccessModal;
             }}
           />
         </div>
       )}
 
-      {
-      failedModal && (
+      {failedModal && (
         <div className=" flex items-center justify-center top-0 right-0 absolute w-full h-full ">
           <StatusModal
             status="LOGIN_FAILED"
             onSendActivationLink={setFailedsModal(false)}
           />
         </div>
-      )
-      }
+      )}
 
       {isLoading && (
         <div className="flex items-center justify-center top-0 right-0 absolute w-full h-full z-[1000]">
@@ -461,7 +512,6 @@ export default function Login() {
           </div>
         </div>
       )}
-
 
       <div className=" w-full h-full absolute  ">
         <div className="lg:hidden bg-purple-900 overflow-hidden relative w-full h-full">
@@ -528,14 +578,13 @@ export default function Login() {
                   <Input
                     type="text"
                     placeholder="Jessica"
-                    onChange={(e: any) =>{
-                      e.preventDefault()
+                    onChange={(e: any) => {
+                      e.preventDefault();
                       setFormData((prev) => ({
                         ...prev,
                         surname: e.target.value,
-                      }))
-                    }
-                    }
+                      }));
+                    }}
                     name="username"
                     classNames={{
                       inputWrapper: "py-2 rounded-md h-10 text-slate-900",
@@ -561,12 +610,12 @@ export default function Login() {
                   <Input
                     type="text"
                     placeholder="Your other name"
-                    onChange={(e: any) =>{
+                    onChange={(e: any) => {
                       e.preventDefault();
                       setFormData((prev) => ({
                         ...prev,
                         othername: e.target.value,
-                      }))
+                      }));
                     }}
                     name="othername"
                     classNames={{
@@ -591,12 +640,12 @@ export default function Login() {
                   type="email"
                   placeholder="joe@gmail.com"
                   name="email"
-                  onChange={(e: any) =>{
-                    e.preventDefault()
+                  onChange={(e: any) => {
+                    e.preventDefault();
                     setFormData((prev) => ({
                       ...prev,
                       email: e.target.value,
-                    }))
+                    }));
                   }}
                   classNames={{
                     inputWrapper: "py-2 rounded-md h-10 ",
@@ -626,12 +675,11 @@ export default function Login() {
                 </label>
                 <Input
                   type="password"
-                  onChange={(e: any) =>
-                    {
+                  onChange={(e: any) => {
                     setFormData((prev) => ({
                       ...prev,
                       password: e.target.value,
-                    }))
+                    }));
                   }}
                   name="password"
                   placeholder="At least 8 character"
@@ -664,12 +712,11 @@ export default function Login() {
                 <Input
                   type="password"
                   name="rePassword"
-                  onChange={(e: any) =>
-                    {
+                  onChange={(e: any) => {
                     setFormData((prev) => ({
                       ...prev,
                       rePassword: e.target.value,
-                    }))
+                    }));
                   }}
                   placeholder="Confirm Your Password "
                   classNames={{
@@ -682,11 +729,11 @@ export default function Login() {
                 <div className="w-full space-y-2">
                   <Code color="warning">{UserDataError.gender}</Code>
                   <Select
-                    onChange={(e: any) =>{
+                    onChange={(e: any) => {
                       setFormData((prev) => ({
                         ...prev,
                         gender: e.target.value,
-                      }))
+                      }));
                     }}
                     name="gender"
                     label="Select Your Genders"
@@ -707,12 +754,11 @@ export default function Login() {
                 <div className="w-full space-y-2">
                   <Code color="warning">{UserDataError.country}</Code>
                   <Select
-                    onChange={(e: any) =>{
-                    
+                    onChange={(e: any) => {
                       setFormData((prev) => ({
                         ...prev,
                         country: e.target.value,
-                      }))
+                      }));
                     }}
                     name="country"
                     label="Select Your Country"
@@ -734,13 +780,12 @@ export default function Login() {
                       checked={accept}
                       type="checkbox"
                       onChange={(e: any) => {
-                        e.preventDefault()
+                        e.preventDefault();
                         setFormData((prev) => ({
                           ...prev,
                           keepLoggedIn: e.target.value,
-                        }))
-                      }
-                      }
+                        }));
+                      }}
                     />
                     <label
                       onClick={() => onOpen()}
@@ -757,7 +802,9 @@ export default function Login() {
                     onClick={() => {
                       onOpen();
                     }}
-                    className={`${show && "animate-pulse"} pointer text-[12px] text-red-500 font-[600] font-[Helvetica]`}
+                    className={`${
+                      show && "animate-pulse"
+                    } pointer text-[12px] text-red-500 font-[600] font-[Helvetica]`}
                   >
                     Read and agree to this website Privacy & Policy
                   </label>

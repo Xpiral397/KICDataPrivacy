@@ -116,7 +116,24 @@ export default function Navbar() {
                   <p className="font-[500]">Account Personal Information</p>
                 </h1>
                 <Divider />
-
+                <div className="mt-5 flex justify-between items-center">
+                  <span className="font-[500]">Full Name:</span>
+                  <Code className="font-[500] min-w-[30px]">
+                    {(data as any).user?.userData?.name}
+                  </Code>
+                </div>
+                <div className="mt-5 flex justify-between items-center">
+                  <span className="font-[500]">Surname:</span>
+                  <Code className="font-[500] min-w-[30px]">
+                    {(data as any).user?.userData?.name.split(" ")[0]}
+                  </Code>
+                </div>
+                <div className="mt-5 flex justify-between items-center">
+                  <span className="font-[500]">Other Names:</span>
+                  <Code className="font-[500] min-w-[30px]">
+                    {(data as any).user?.userData?.name?.split(" ", 1)[1]}
+                  </Code>
+                </div>
                 <div className="mt-5 flex justify-between items-center">
                   <span className="font-[500]">Username:</span>
                   <Code className="font-[500] min-w-[30px]">
@@ -126,7 +143,7 @@ export default function Navbar() {
                 <div className="mt-5 flex justify-between items-center">
                   <span className="font-[500]">Email:</span>
                   <Code className="font-[500]" color="secondary">
-                    {JSON.parse((data as any).user?.userData?.has_confirm_email)
+                    {(data as any).user?.userData?.email
                       ? "Confirmed"
                       : "Not Confirmed"}
                   </Code>
@@ -137,6 +154,13 @@ export default function Navbar() {
                     {(data as any).user?.userData?.gender}
                   </Code>
                 </div>
+                <h1 className="mt-8 flex  items-center justify-between">
+                  <span>
+                    <Person />
+                  </span>
+                  <p className="font-[500]">Log in Details</p>
+                </h1>
+                <Divider />
                 <div className="mt-5 flex justify-between items-center">
                   <span className="font-[500]">Date Joined:</span>
                   <Code className="font-[500]" color={"danger"}>
@@ -146,7 +170,11 @@ export default function Navbar() {
                 <div className="mt-5 flex justify-between items-center">
                   <span className="font-[500]">Last Login:</span>
                   <Code className="font-[500]" color="success">
-                    {(data as any).user?.userData?.last_login.split("T")[0]}
+                    {
+                      (
+                        (data as any).user?.userData?.last_login ?? "Today"
+                      )?.split("T")[0]
+                    }
                   </Code>
                 </div>
               </DropdownItem>
