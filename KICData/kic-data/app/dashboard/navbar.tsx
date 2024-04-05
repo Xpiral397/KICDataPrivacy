@@ -160,8 +160,8 @@ export default function Navbar() {
                   </Code>
                 </div>
                 <div className="mt-5 flex justify-between items-center">
-                  <span className="font-[500]">Curent Country:</span>
-                  <Code className="font-[500]  text-center w-[50px]">
+                  <span className="font-[500]">Country:</span>
+                  <Code className="font-[500]  text-center w-[100px]">
                     {(data as any).user?.userData?.country}
                   </Code>
                 </div>
