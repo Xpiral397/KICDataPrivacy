@@ -12,6 +12,7 @@ import {
   ShareRounded,
   Outbound,
   OutboundRounded,
+  ConnectWithoutContact,
 } from "@mui/icons-material";
 
 import { ensureHttps, getIconUrl } from "@/components/getIcons";
@@ -318,7 +319,14 @@ const CookiesAccountPage = ({
         </div>
         <div className="flex items-center justify-end mt- space-x-3">
           <button className="text-white px-4 py-2 rounded-md shadow-md bg-blue-600">
-            Connected
+            <a
+              className="flex space-x-3 items-center "
+              href={ensureHttps("www" + cookie.host_key)}
+              color="white"
+            >
+              <Lock color="inherit" fontSize="small" />
+              <span>Connected</span>
+            </a>
           </button>
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600"
@@ -326,7 +334,9 @@ const CookiesAccountPage = ({
               setLinkModal({ key: cookie.key, value: true });
             }}
           >
-            Sign Out
+            <a href={ensureHttps("www" + cookie.host_key)} color="white">
+              Sign Out
+            </a>
           </button>
         </div>
       </div>

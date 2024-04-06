@@ -80,7 +80,7 @@ export default function Navbar() {
             <DropdownMenu
               aria-label="Profile Actions"
               variant="flat"
-              className="w-[350px]"
+              className="w-[350px] max-h-[80vh] overflow-scroll "
             >
               <DropdownItem key="profile" className=" bg-zinc-100 gap-2">
                 <div className="flex w-full justify-between items-center ">
@@ -165,19 +165,7 @@ export default function Navbar() {
                     {(data as any).user?.userData?.country}
                   </Code>
                 </div>
-                <h1 className="mt-8 flex  items-center justify-between">
-                  <span>
-                    <Person />
-                  </span>
-                  <p className="font-[500]">Log in Details</p>
-                </h1>
-                <Divider />
-                <div className="mt-5 flex justify-between items-center">
-                  <span className="font-[500]">Date Joined:</span>
-                  <Code className="font-[500]" color={"danger"}>
-                    {(data as any).user?.userData?.date_joined.split("T")[0]}
-                  </Code>
-                </div>
+
                 {/* <div className="mt-5 flex justify-between items-center">
                   <span className="font-[500]">Last Login:</span>
                   <Code className="font-[500]" color="success">

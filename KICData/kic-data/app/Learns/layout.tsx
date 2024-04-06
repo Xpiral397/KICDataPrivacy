@@ -320,7 +320,7 @@ export default function SidebarBoardLayout({
                 </ModalContent>
               </Modal>
             }
-            {children}
+            {!loading && children}
           </main>
         </div>
       </div>

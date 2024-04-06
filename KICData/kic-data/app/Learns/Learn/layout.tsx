@@ -254,7 +254,7 @@ function Layout({ children }: { children: ReactNode }) {
               <li
                 onClick={() => {
                   sets(6);
-                  router.push("/Learns/Learn/uct");
+                  router.push("/Learns/Learn/utc");
                 }}
                 className={`${
                   set == 6

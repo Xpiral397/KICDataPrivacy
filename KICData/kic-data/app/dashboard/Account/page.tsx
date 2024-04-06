@@ -331,9 +331,10 @@ export default function Accounts() {
                     Step 4
                   </ModalHeader>
                   <ModalBody className="grid grid-cols-2 gap-4">
-                    <Input
+                    <input
                       type="file"
                       placeholder="Select the cookies file"
+                      accept=""
                       onChange={handleFileChange}
                     />
                   </ModalBody>

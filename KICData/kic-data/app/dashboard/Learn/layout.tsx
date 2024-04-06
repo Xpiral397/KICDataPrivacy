@@ -130,7 +130,7 @@ function Layout({ children }: { children: ReactNode }) {
                           <li
                             onClick={() => {
                               sets(6);
-                              router.push("/Learns/Learn/uct");
+                              router.push("/Learns/Learn/utc");
                             }}
                             className={`${
                               set == 6
@@ -196,7 +196,7 @@ function Layout({ children }: { children: ReactNode }) {
               Password Management
             </li>
             <li
-              onClick={() => {  
+              onClick={() => {
                 router.push("/Learns/Learn/upp");
                 sets(2);
               }}
@@ -251,7 +251,7 @@ function Layout({ children }: { children: ReactNode }) {
             <li
               onClick={() => {
                 sets(6);
-                router.push("/Learns/Learn/uct");
+                router.push("/Learns/Learn/utc");
               }}
               className={`${
                 set == 6
@@ -263,11 +263,11 @@ function Layout({ children }: { children: ReactNode }) {
             </li>
             <li
               onClick={() => {
-                sets(7);
+                sets(6);
                 router.push("/Learns/Learn/pfa");
               }}
               className={`${
-                set == 7
+                set == 6
                   ? "border-l-blue-600  border-l h-10 flex flex-col items-center justify-center w-[70%]"
                   : ""
               }`}
