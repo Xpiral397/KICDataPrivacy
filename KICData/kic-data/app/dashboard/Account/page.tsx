@@ -21,11 +21,9 @@ import {
   Pagination,
 } from "@nextui-org/react";
 
-import { getIconUrl } from "@/components/getIcons"; // Ensure this function is correctly implemented.
-import { link } from "fs";
 import { Add } from "@mui/icons-material";
 import { postData } from "@/app/helpers/XXRSAgent/setCookies";
-
+import { ensureHttps, getIconUrl } from "@/components/getIcons";
 import { Cookie, CookiesAccount } from "./accountCard";
 import { signOut, useSession } from "next-auth/react";
 import { accessToken, getCookies, isSigIn } from "@/app/helpers/authenticate";
@@ -146,9 +144,9 @@ export default function Accounts() {
     if (localStorage.getItem("consent") && firsts) {
       // alert(localStorage.getItem("set-cookies") == "true");
       if (
-        localStorage.getItem("cookies") == "null" ||
-        localStorage.getItem("cookies") == null ||
-        localStorage.getItem("cookies") == "{}"
+        localStorage.getItem("cookie") == "null" ||
+        localStorage.getItem("cookie") == null ||
+        localStorage.getItem("cookie") == "{}"
       ) {
         onOpen();
         setScreen(1);
@@ -231,7 +229,7 @@ export default function Accounts() {
     key: string | number
   ) => {
     console.log(key, "pops");
-    setFilter(() => {
+    setFilter((k: any) => {
       return {
         ...filter,
         filter: type,
@@ -446,16 +444,21 @@ export default function Accounts() {
                             We notice you have not signed in on this account{" "}
                           </p>
                           <div className="flex items-center justify-end w-full">
-                            <Button
-                              isExternal
-                              className="bg-blue-500 text-slate-100 w-[150px]"
-                            >
+                            <Button className="bg-blue-500 text-slate-100 w-[150px]">
                               <a
                                 href={`https://${
                                   linksList
                                     ? linksList[linksList.length - 1]
                                     : ""
                                 }/`}
+                                className="flex items-center space-x-3"
+                                href={ensureHttps(
+                                  "www" + linksList
+                                    ? linksList[linksList.length - 1]
+                                    : ""
+                                )}
+                                target="_blank" // Add this attribute
+                                rel="noopener noreferrer"
                               >
                                 Connect
                               </a>
@@ -476,7 +479,7 @@ export default function Accounts() {
                   <ModalBody className="grid grid-cols-2 gap-4">
                     <label>Select your web browser</label>
                     <Select
-                      onSelectionChange={setBrowser}
+                      onSelectionChange={setBrowser as any}
                       defaultSelectedKeys={["Chrome"]}
                       isDismissable={false}
                       isKeyboardDismissDisabled={true}
