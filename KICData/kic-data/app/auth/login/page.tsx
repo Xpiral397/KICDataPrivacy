@@ -51,7 +51,7 @@ export default function Login() {
               <DotGrid gridSize={4} spacing={4} dotRadius={1} dotColor="blue" />
             </div>
             <h1 className="text-[14.5px]   font-[550] text-purple-600">
-              KICData Privacy
+              Data Privacy
             </h1>
           </div>
 
@@ -77,8 +77,7 @@ export default function Login() {
                 Log in.
               </h1>
               <h1 className="text-slate-600 font-[450] mb-5 mt-2 text-[15px]">
-                Log in with your KICData data that you entered during your
-                registration
+                Log in with data that you entered during your registration
               </h1>
 
               <div>

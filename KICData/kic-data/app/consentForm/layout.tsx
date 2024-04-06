@@ -38,7 +38,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                 </li>
                 <li>
                   <a
-                    href="/consentForm/forms/data"
+                    href="/consentForm/forms/Data"
                     className="text-[15px] hover:underline text-slate-800"
                   >
                     Data Information

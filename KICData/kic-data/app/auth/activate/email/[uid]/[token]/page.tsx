@@ -39,12 +39,7 @@ export default function LoginActivation(params: {
       <div className="absolute w-full h-full ">
         <div className="relative w-full h-full overflow-hidden bg-purple-900 lg:hidden">
           <div className="absolute top-0 left-0 w-full ">
-            <DotGrid
-              gridSize={25}
-              spacing={3}
-              dotRadius={1}
-              dotColor="white"
-            />
+            <DotGrid gridSize={25} spacing={3} dotRadius={1} dotColor="white" />
           </div>
         </div>
       </div>
@@ -65,12 +60,12 @@ export default function LoginActivation(params: {
               <DotGrid gridSize={4} spacing={4} dotRadius={1} dotColor="blue" />
             </div>
             <h1 className="text-[14.5px]   font-[550] text-purple-600">
-              KICData Privacy
+              Data Privacy
             </h1>
           </div>
           <div className="flex justify-center w-full text-center bg-white place-items-center">
             {sucessModal && (
-              <div className="absolute top-0 right-0 flex items-center justify-center w-full  h-fulL">
+              <div className="absolute top-0 right-0 flex items-center justify-center w-full h-fulL">
                 <StatusModal
                   status="ACTIVATION_SUCCESS"
                   onSendActivationLink={() => {}}
@@ -78,7 +73,7 @@ export default function LoginActivation(params: {
               </div>
             )}
             <div
-              className="absolute top-0 right-0 flex items-center justify-center w-full  h-fulL"
+              className="absolute top-0 right-0 flex items-center justify-center w-full h-fulL"
               id="re-send-activation-link"
             ></div>
             {NotSucessModal && (

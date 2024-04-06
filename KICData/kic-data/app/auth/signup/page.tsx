@@ -242,7 +242,7 @@ export default function Login() {
 
   return (
     <div
-      className="flex justify-between bg-white h-full w-full relative items-center flex-row "
+      className="relative flex flex-row items-center justify-between w-full h-full bg-white "
       data-label="sign-in"
     >
       {modalError ? (
@@ -270,7 +270,7 @@ export default function Login() {
                   Modal Title
                 </ModalHeader>
                 <ModalBody>
-                  <div className="flex w-full flex-col">
+                  <div className="flex flex-col w-full">
                     <Tabs aria-label="Options">
                       <Tab
                         key="Basic Contact Information"
@@ -481,7 +481,7 @@ export default function Login() {
       }
 
       {sucessModal && (
-        <div className=" flex items-center justify-center top-0 right-0 absolute w-full h-full">
+        <div className="absolute top-0 right-0 flex items-center justify-center w-full h-full ">
           <StatusModal
             status="CREATED_SUCCESS"
             booleanCallback={setSuccessModal}
@@ -494,7 +494,7 @@ export default function Login() {
       )}
 
       {failedModal && (
-        <div className=" flex items-center justify-center top-0 right-0 absolute w-full h-full ">
+        <div className="absolute top-0 right-0 flex items-center justify-center w-full h-full ">
           <StatusModal
             status="LOGIN_FAILED"
             onSendActivationLink={setFailedsModal(false)}
@@ -513,9 +513,9 @@ export default function Login() {
         </div>
       )}
 
-      <div className=" w-full h-full absolute  ">
-        <div className="lg:hidden bg-purple-900 overflow-hidden relative w-full h-full">
-          <div className="w-full absolute left-0 top-0 ">
+      <div className="absolute w-full h-full ">
+        <div className="relative w-full h-full overflow-hidden bg-purple-900 lg:hidden">
+          <div className="absolute top-0 left-0 w-full ">
             <DotGrid
               gridSize={103}
               spacing={15}
@@ -527,7 +527,7 @@ export default function Login() {
       </div>
 
       <div
-        className="z-10   rounded-md flex   items-center  justify-center h-full w-full "
+        className="z-10 flex items-center justify-center w-full h-full rounded-md "
         data-label="label"
       >
         <div
@@ -542,7 +542,7 @@ export default function Login() {
               <DotGrid gridSize={4} spacing={4} dotRadius={1} dotColor="blue" />
             </div>
             <h1 className="text-[14.5px]   font-[550] text-purple-600">
-              KICData Privacy
+              Data Privacy
             </h1>
           </div>
           <h1 className="text-slate-800 text-xl font-[600] font-[Helvetica]">
@@ -561,7 +561,7 @@ export default function Login() {
             </Button>
           </div>
 
-          <form method="POST" className="  rounded-md  flex flex-col space-y-5">
+          <form method="POST" className="flex flex-col space-y-5 rounded-md ">
             <div>
               <div className="flex items-center space-x-2">
                 <div>
@@ -725,7 +725,7 @@ export default function Login() {
                 />
               </div>
 
-              <div className="w-full  flex justify-between items-center h-full space-x-2 ">
+              <div className="flex items-center justify-between w-full h-full space-x-2 ">
                 <div className="w-full space-y-2">
                   <Code color="warning">{UserDataError.gender}</Code>
                   <Select
@@ -773,7 +773,7 @@ export default function Login() {
                 </div>
               </div>
 
-              <div className="space-x-3 mt-5 flex h-full items-center">
+              <div className="flex items-center h-full mt-5 space-x-3">
                 {accept ? (
                   <>
                     <input
@@ -814,15 +814,15 @@ export default function Login() {
             <Button
               disabled={isdisabled}
               onClick={handleSubmit}
-              className="bg-purple-500 text-slate-100 rounded-md"
+              className="bg-purple-500 rounded-md text-slate-100"
             >
               Sign Up
             </Button>
-            <div className="space-y-5 flex items-center flex-col">
+            <div className="flex flex-col items-center space-y-5">
               <h1 className="text-purple-800 pointer">
                 Already have account ?
               </h1>
-              <h1 className="text-purple-900 space-x-2">
+              <h1 className="space-x-2 text-purple-900">
                 <span
                   onClick={() => {
                     router.push("/auth/login");
@@ -836,8 +836,8 @@ export default function Login() {
           </form>
         </div>
       </div>
-      <div className="w-full h-full lg:block hidden overflow-hidden ">
-        <div className="bg-purple-900 overflow-hidden relative w-full h-full">
+      <div className="hidden w-full h-full overflow-hidden lg:block ">
+        <div className="relative w-full h-full overflow-hidden bg-purple-900">
           <div className=" rounded-md px-10  w-full h-full flex flex-col items-center right-0  mt-[20%] absolute z-[10]">
             <div className="w-[500px] space-y-2 flex flex-col items-center shadow-2xl shadow-purple-600 bg-white px-5 py-2 rounded-md">
               <h1 className="font-[600] text-purple-900 ">
@@ -871,7 +871,7 @@ export default function Login() {
               </div>
             </div>
           </div>
-          <div className="w-full absolute right-0 top-0   hidden lg:flex">
+          <div className="absolute top-0 right-0 hidden w-full lg:flex">
             <DotGrid
               gridSize={10}
               spacing={15}
@@ -880,7 +880,7 @@ export default function Login() {
             />
           </div>
 
-          <div className="right-0 top-0 absolute ">
+          <div className="absolute top-0 right-0 ">
             <DotGrid
               gridSize={15}
               spacing={15}
@@ -890,8 +890,8 @@ export default function Login() {
           </div>
         </div>
 
-        <div className="bg-purple-900 relative w-full">
-          <div className="w-full absolute left-0 bottom-0 hidden lg:flex">
+        <div className="relative w-full bg-purple-900">
+          <div className="absolute bottom-0 left-0 hidden w-full lg:flex">
             <DotGrid
               gridSize={10}
               spacing={10}
@@ -899,7 +899,7 @@ export default function Login() {
               dotColor="blue"
             />
           </div>
-          <div className="left-1  bottom-0 absolute ">
+          <div className="absolute bottom-0 left-1 ">
             <DotGrid
               gridSize={15}
               spacing={10}
