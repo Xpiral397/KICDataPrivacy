@@ -6,10 +6,10 @@ import React, { useEffect } from "react";
 export default function Page() {
   const router = useRouter();
   useEffect(() => {
-    router.push("/dashboard/Learn/pm");
+    router.push("/dashboard/Account");
   }, []);
   return (
-    <div className="w-full h-full justify-center items-center flex flex-col">
+    <div className="flex flex-col items-center justify-center w-full h-full">
       <h1>Loading...</h1>
       <Progress
         size="sm"

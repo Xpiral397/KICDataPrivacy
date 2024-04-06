@@ -40,13 +40,13 @@ export default function Navbar() {
     },
   ];
   const { data, status } = useSession();
-  useEffect(() => {
-    if (status !== "authenticated") {
-      router.push("/auth/login");
-    }
-  });
+  // useEffect(() => {
+  //   if (status !== "authenticated") {
+  //     router.push("/auth/login");
+  //   }
+  // });
   return (
-    <nav className="h-16 px-10 flex items-center justify-between bg-blue-500 w-full">
+    <nav className="flex items-center justify-between w-full h-16 px-10 bg-blue-500">
       <div className="flex items-center space-x-5">
         <DotGrid gridSize={4} spacing={4} dotRadius={1} dotColor="white" />
         <h1 className="text-white font-[600]  text-xl">KICData</h1>
@@ -54,17 +54,14 @@ export default function Navbar() {
 
       <ul className="flex items-center justify-center space-x-10 ">
         <ul className="flex items-center  text-white font-[500] space-x-10 text-sm  ">
-          <Input
-            startContent=<SearchRounded color="secondary" />
-            size="sm"
-            className="lg:block hidden  w-[300px]"
-            endContent={<InputRounded color="secondary" />}
-          />
           <a href="/dashboard/Account" className=" pointer">
             Account
           </a>
           <li className="pointer">
             <a href="/Learns">Learn</a>
+          </li>
+          <li className="pointer">
+            <a href="/consentForm/forms/info">Consent Form</a>
           </li>
         </ul>
         <div className="flex items-center gap-4">
@@ -82,8 +79,8 @@ export default function Navbar() {
               variant="flat"
               className="w-[350px] max-h-[80vh] overflow-scroll "
             >
-              <DropdownItem key="profile" className=" bg-zinc-100 gap-2">
-                <div className="flex w-full justify-between items-center ">
+              <DropdownItem key="profile" className="gap-2 bg-zinc-100">
+                <div className="flex items-center justify-between w-full ">
                   <Avatar
                     isBordered
                     as="button"
@@ -107,66 +104,66 @@ export default function Navbar() {
               </DropdownItem>
 
               <DropdownItem key="settings">
-                <h1 className="mt-8 flex  items-center justify-between">
+                <h1 className="flex items-center justify-between mt-8">
                   <span>
                     <Person />
                   </span>
                   <p className="font-[500]">Account Personal Information</p>
                 </h1>
                 <Divider />
-                <div className="mt-5 flex justify-between items-center">
+                <div className="flex items-center justify-between mt-5">
                   <span className="font-[500]">Full Name:</span>
                   <Code className="font-[500] min-w-[30px]">
-                    {(data as any).user?.userData?.name}
+                    {(data as any)?.user?.userData?.name}
                   </Code>
                 </div>
-                <div className="mt-5 flex justify-between items-center">
+                <div className="flex items-center justify-between mt-5">
                   <span className="font-[500]">Surname:</span>
                   <Code className="font-[500] min-w-[30px]">
-                    {(data as any).user?.userData?.surname}
+                    {(data as any)?.user?.userData?.surname}
                   </Code>
                 </div>
-                <div className="mt-5 flex justify-between items-center">
+                <div className="flex items-center justify-between mt-5">
                   <span className="font-[500]">Other Names:</span>
                   <Code className="font-[500] min-w-[30px]">
-                    {(data as any).user?.userData?.othername}
+                    {(data as any)?.user?.userData?.othername}
                   </Code>
                 </div>
-                <div className="mt-5 flex justify-between items-center">
+                <div className="flex items-center justify-between mt-5">
                   <span className="font-[500]">Username:</span>
                   <Code className="font-[500] min-w-[30px]">
-                    {(data as any).user?.userData?.username}
+                    {(data as any)?.user?.userData?.username}
                   </Code>
                 </div>
 
-                <div className="mt-5 flex justify-between items-center">
+                <div className="flex items-center justify-between mt-5">
                   <span className="font-[500]">Email:</span>
                   <Code className="font-[500]" color="secondary">
-                    {(data as any).user?.userData?.email}
+                    {(data as any)?.user?.userData?.email}
                   </Code>
                 </div>
-                <div className="mt-5 flex justify-between items-center">
+                <div className="flex items-center justify-between mt-5">
                   <span className="font-[500]">Email Verification:</span>
                   <Code className="font-[500]" color="secondary">
-                    {(data as any).user?.userData?.email
+                    {(data as any)?.user?.userData?.email
                       ? "Confirmed"
                       : "Not Confirmed"}
                   </Code>
                 </div>
-                <div className="mt-5 flex justify-between items-center">
+                <div className="flex items-center justify-between mt-5">
                   <span className="font-[500]">Gender:</span>
                   <Code className="font-[500]  text-center w-[50px]">
-                    {(data as any).user?.userData?.gender}
+                    {(data as any)?.user?.userData?.gender}
                   </Code>
                 </div>
-                <div className="mt-5 flex justify-between items-center">
+                <div className="flex items-center justify-between mt-5">
                   <span className="font-[500]">Country:</span>
                   <Code className="font-[500]  text-center w-[100px]">
-                    {(data as any).user?.userData?.country}
+                    {(data as any)?.user?.userData?.country}
                   </Code>
                 </div>
 
-                {/* <div className="mt-5 flex justify-between items-center">
+                {/* <div className="flex items-center justify-between mt-5">
                   <span className="font-[500]">Last Login:</span>
                   <Code className="font-[500]" color="success">
                     {

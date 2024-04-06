@@ -149,7 +149,7 @@ export default function Login() {
               </h1>
               <a
                 href="/auth/reset_password"
-                className="pointer text-purple-800"
+                className="text-purple-800 pointer"
               >
                 Forget password?
               </a>
@@ -187,6 +187,7 @@ export default function Login() {
                 </h1>
                 <p className="text-[15px] text-purple-800 font-[Arial, Helvetica, sans-serif] font-[500] ">
                   Keep your eyes on your data, focus on your privacy rather than
+                  convenience
                 </p>
                 <div className="rotate-260 absolute top-[18%] mr-[20px] border-r-white border-t-white border-r-[7px] border-t-[7px] h-[90px] w-[200px] space-y-2 flex flex-col items-center  bg-transparent  px-5 py-2 rounded-md"></div>
               </div>

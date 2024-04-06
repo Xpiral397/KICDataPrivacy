@@ -185,7 +185,7 @@ const CookiesAccountPage = ({
   if (true) {
     return (
       <div className="relative duration-75  hover:scale-[95%] bg-white p-4 mt-4 rounded-lg shadow-lg w-96">
-        <div className="flex space-x-3 top-0 right-0 mx-72">
+        <div className="top-0 right-0 flex space-x-3 mx-72">
           <div
             onClick={() => {
               onAddFav((e: any) => {
@@ -216,9 +216,9 @@ const CookiesAccountPage = ({
                   their database.
                 </h1>
               </div>
-              <div className="w-full space-x-5 flex mt-24">
+              <div className="flex w-full mt-24 space-x-5">
                 <Button
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 w-full "
+                  className="w-full px-4 py-2 text-white bg-blue-500 rounded-md shadow-md hover:bg-blue-600 "
                   onClick={() => {
                     setLinkModal({ key: cookie.key, value: false });
                   }}
@@ -226,7 +226,7 @@ const CookiesAccountPage = ({
                   cancel
                 </Button>
                 <Button
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 w-full"
+                  className="w-full px-4 py-2 text-white bg-blue-500 rounded-md shadow-md hover:bg-blue-600"
                   onClick={() => {
                     setLinkModal(() => {
                       const cookies: any[] = JSON.parse(
@@ -264,11 +264,11 @@ const CookiesAccountPage = ({
           </p>
         </div>
         <div className="flex items-center mb-2 text-[14px]">
-          <AccountCircle sx={{ fontSize: 20 }} className="text-blue-500 mr-2" />
+          <AccountCircle sx={{ fontSize: 20 }} className="mr-2 text-blue-500" />
           <p className="text-blue-500">Value: {cookie.value}</p>
         </div>
         <div className="flex items-center mb-2">
-          <Update sx={{ fontSize: 20 }} className="text-blue-500 mr-2" />
+          <Update sx={{ fontSize: 20 }} className="mr-2 text-blue-500" />
           <p className="text-blue-500 text-[14px]">
             Time Sigin:{" "}
             {
@@ -280,7 +280,7 @@ const CookiesAccountPage = ({
           </p>
         </div>
         <div className="flex items-center mb-2">
-          <AccessTime sx={{ fontSize: 20 }} className="text-blue-500 mr-2" />
+          <AccessTime sx={{ fontSize: 20 }} className="mr-2 text-blue-500" />
           <p className="text-blue-500 text-[12px]">
             Expires Time:{" "}
             {
@@ -293,7 +293,7 @@ const CookiesAccountPage = ({
         </div>
 
         <div className="flex items-center mb-2">
-          <Update sx={{ fontSize: 20 }} className="text-blue-500 mr-2" />
+          <Update sx={{ fontSize: 20 }} className="mr-2 text-blue-500" />
           <p className="text-blue-500 text-[14px]">
             Last Time Updated:{" "}
             {
@@ -306,7 +306,7 @@ const CookiesAccountPage = ({
         </div>
 
         <div className="flex items-center mb-2">
-          <Update sx={{ fontSize: 20 }} className="text-blue-500 mr-2" />
+          <Update sx={{ fontSize: 20 }} className="mr-2 text-blue-500" />
           <Code color="success" className="text-blue-500">
             Last Time Accessed:{" "}
             {
@@ -317,11 +317,13 @@ const CookiesAccountPage = ({
             }
           </Code>
         </div>
-        <div className="flex items-center justify-end mt- space-x-3">
-          <button className="text-white px-4 py-2 rounded-md shadow-md bg-blue-600">
+        <div className="flex items-center justify-end space-x-3 mt-">
+          <button className="px-4 py-2 text-white bg-blue-600 rounded-md shadow-md">
             <a
-              className="flex space-x-3 items-center "
+              className="flex items-center space-x-3"
               href={ensureHttps("www" + cookie.host_key)}
+              target="_blank" // Add this attribute
+              rel="noopener noreferrer" // Add this for security
               color="white"
             >
               <Lock color="inherit" fontSize="small" />
@@ -329,12 +331,18 @@ const CookiesAccountPage = ({
             </a>
           </button>
           <button
-            className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600"
+            className="px-4 py-2 text-white bg-blue-500 rounded-md shadow-md hover:bg-blue-600"
             onClick={() => {
               setLinkModal({ key: cookie.key, value: true });
             }}
           >
-            <a href={ensureHttps("www" + cookie.host_key)} color="white">
+            <a
+              className="flex items-center space-x-3"
+              href={ensureHttps("www" + cookie.host_key)}
+              target="_blank" // Add this attribute
+              rel="noopener noreferrer" // Add this for security
+              color="white"
+            >
               Sign Out
             </a>
           </button>

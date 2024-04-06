@@ -100,6 +100,10 @@ export default function Accounts() {
   });
   const [cookiesSet, cookiesSetSuccessfully] = useState<boolean | null>(null);
   const { data, update } = useSession();
+  console.log(
+    "qweKiop",
+    (data && data.user && (data?.user as any).refreshToken) || null
+  );
 
   const readFileContents = async (file: File) => {
     try {
@@ -117,6 +121,7 @@ export default function Accounts() {
       setPage(cookies.length);
       if (data && data.user)
         localStorage.setItem("cookie", JSON.stringify(cookies));
+      localStorage.setItem("set-cookies", "true");
     } catch (error) {
       setError("Failed to process cookies file");
     } finally {
@@ -139,8 +144,15 @@ export default function Accounts() {
   useEffect(() => {
     setLoading(true);
     if (localStorage.getItem("consent") && firsts) {
-      onOpen();
-      setScreen(1);
+      // alert(localStorage.getItem("set-cookies") == "true");
+      if (
+        localStorage.getItem("cookies") == "null" ||
+        localStorage.getItem("cookies") == null ||
+        localStorage.getItem("cookies") == "{}"
+      ) {
+        onOpen();
+        setScreen(1);
+      }
       setFirst(false);
     }
     if (localStorage.getItem("cookie") ?? false) {
@@ -252,7 +264,7 @@ export default function Accounts() {
         </div>
       )}
 
-      <div className="bg-teal-50 mt-1 rounded-md w-full flex items-center justify-center">
+      <div className="flex items-center justify-center w-full mt-1 rounded-md bg-teal-50">
         <Tabs
           color="secondary"
           aria-label="Tabs colors"
@@ -265,7 +277,7 @@ export default function Accounts() {
           {/* <Tab key="Disconnected" title="Disconnected" /> */}
         </Tabs>
       </div>
-      <div className="bg-teal-50 flex flex-col justify-center items-center h-full">
+      <div className="flex flex-col items-center justify-center h-full bg-teal-50">
         <Modal
           size="5xl"
           onClose={onClose}
@@ -299,7 +311,7 @@ export default function Accounts() {
                   <ModalHeader className="bg-ble-600 text-white font-[600] text-2xl">
                     Cookies Set Successfully
                   </ModalHeader>
-                  <ModalBody className="flex w-full h-full justify-center items-center">
+                  <ModalBody className="flex items-center justify-center w-full h-full">
                     You Have Successfully Set the Cookies Enviroment for your
                     system
                   </ModalBody>
@@ -314,7 +326,7 @@ export default function Accounts() {
                   <ModalHeader className="bg-ble-600 text-white font-[600] text-2xl">
                     Can't Set Cookies Successfully On Your System
                   </ModalHeader>
-                  <ModalBody className="flex w-full h-full justify-center items-center">
+                  <ModalBody className="flex items-center justify-center w-full h-full">
                     You Are Unable To Successfully Set the Cookies Enviroment
                     for your system
                   </ModalBody>
@@ -433,7 +445,7 @@ export default function Accounts() {
                             {" "}
                             We notice you have not signed in on this account{" "}
                           </p>
-                          <div className="w-full items-center flex justify-end">
+                          <div className="flex items-center justify-end w-full">
                             <Button
                               isExternal
                               className="bg-blue-500 text-slate-100 w-[150px]"
@@ -502,7 +514,7 @@ export default function Accounts() {
                     <div>
                       <Code color="warning" className="m-5 mt-1 space-y-2">
                         Copy this link
-                        <p className="ml-5 mt-2">
+                        <p className="mt-2 ml-5">
                           <Code color="warning">
                             {`C:\\Users\\%USERNAME%\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Network`}
                           </Code>
@@ -556,13 +568,13 @@ export default function Accounts() {
           hidden={Cookies.length === 0}
           hideScrollBar
           orientation="horizontal"
-          className="px-10 w-full max-w-full"
+          className="w-full max-w-full px-10"
         >
           {
             <div className="w-full">
-              <div className="w-full flex justify-end ">
-                <div className="place-content-end  gap-10  grid grid-cols-2 lg:grid-cols-4 ">
-                  <div className="w-full  items-center">
+              <div className="flex justify-end w-full ">
+                <div className="grid grid-cols-2 gap-10 place-content-end lg:grid-cols-4 ">
+                  <div className="items-center w-full">
                     <h1 className="text-[12px] font-[600]">Search:</h1>
                     <div>
                       <Input
@@ -602,7 +614,7 @@ export default function Accounts() {
                     </Select>
                   </div>
 
-                  <div className="w-full flex flex-col ">
+                  <div className="flex flex-col w-full ">
                     <label className="font-[600] text-[12px]">
                       Filter by date:
                     </label>
@@ -619,7 +631,7 @@ export default function Accounts() {
                     />
                   </div>
 
-                  <div className="w-full flex flex-col">
+                  <div className="flex flex-col w-full">
                     <label className="font-[600] text-[12px] ">
                       Filter by:
                     </label>
@@ -648,7 +660,7 @@ export default function Accounts() {
                 </div>
               </div>
               <div className="w-full h-full">
-                <div className="mt-10 py-20 rounded-md flex flex-wrap gap-4 justify-center">
+                <div className="flex flex-wrap justify-center gap-4 py-20 mt-10 rounded-md">
                   {Cookies &&
                     linksList &&
                     Cookies?.filter((cookies) => {
@@ -677,7 +689,7 @@ export default function Accounts() {
                       })
                       .slice(page * 100, page * 100 + 100)}
                 </div>
-                <div className="mt-10 w-full flex justify-center space-x-10">
+                <div className="flex justify-center w-full mt-10 space-x-10">
                   <Pagination
                     total={Math.floor(totalPage / 100)}
                     onChange={setPage}
@@ -698,7 +710,7 @@ export default function Accounts() {
           }
         </ScrollShadow>
       </div>
-      <div className="mt-10 flex justify-center space-x-10 items-center">
+      <div className="flex items-center justify-center mt-10 space-x-10">
         <Button
           onClick={() => {
             onOpen();
@@ -715,6 +727,10 @@ export default function Accounts() {
         >
           <Add /> Add E-commerce Website
         </Button>
+      </div>
+
+      <div className="flex justify-center w-full px-4">
+        <iframe src=""></iframe>
       </div>
     </div>
   );

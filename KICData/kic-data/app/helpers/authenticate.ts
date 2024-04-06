@@ -104,7 +104,7 @@ export async function getCookies(refresh_token: string, attepmts: string) {
     // Step 3: Return the access token and user data
     return cookies;
   } catch (error) {
-    console.error("Error:", error);
+    // console.error("Error:", error);
     return null;
   }
 }
@@ -127,9 +127,9 @@ export async function accessToken(refresh_token: string) {
       );
 
       if (loginResponse.ok) {
-        console.log((await loginResponse.json())?.access);
+        // console.log((await loginResponse.json())?.access);
         return (await loginResponse.json())?.access;
-      } 
+      }
 
       return "";
     } catch (e) {

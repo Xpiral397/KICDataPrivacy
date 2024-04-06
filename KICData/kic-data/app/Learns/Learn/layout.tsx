@@ -31,8 +31,8 @@ function Layout({ children }: { children: ReactNode }) {
   return (
     <>
       <Navbar />
-      <div className="flex items-start justify-center w-full h-full">
-        <div className="flex flex-row items-start justify-around">
+      <div className="flex items-center justify-center h-full w-fulll">
+        <div className="flex flex-row items-center justify-around w-full h-full">
           <div className="lg:hidden">
             <div onClick={() => onOpen()} className="text-black">
               <ListAltTwoTone />
