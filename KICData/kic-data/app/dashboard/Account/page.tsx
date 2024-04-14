@@ -262,7 +262,7 @@ export default function Accounts() {
         </div>
       )}
 
-      <div className="flex items-center justify-center w-full mt-1 rounded-md bg-teal-50">
+      <div className="flex items-center justify-center w-full mt-1 rounded-md bg-teal-50 shadow-lg">
         <Tabs
           color="secondary"
           aria-label="Tabs colors"
