@@ -17,3 +17,31 @@
     cursor: pointer;
     font-family: mo;
 }
+
+.scroll {
+    overflow: scroll;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+
+/* Optional: Add padding to prevent content from touching the edges */
+
+.scroll {
+    padding-right: 15px;
+    /* Adjust as needed */
+}
+
+.scroll {
+    height: inherit;
+    /* Enable scrolling */
+    scrollbar-width: none;
+    /* Hide scrollbar on Firefox */
+    -ms-overflow-style: none;
+    /* Hide scrollbar on Internet Explorer and Edge */
+}
+
+.scroll {
+    display: none;
+    /* Hide scrollbar on Webkit browsers (Chrome, Safari) */
+}

@@ -351,7 +351,7 @@ export default function Login() {
                                       communications
                                     </li>
                                     <li>
-                                      Preferred communication channels (e.g.,
+                                      Preferred communication channels (e.g,
                                       email, SMS)
                                     </li>
                                   </ul>

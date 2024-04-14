@@ -280,11 +280,11 @@ function Layout({ children }: { children: ReactNode }) {
 
               <li
                 onClick={() => {
-                  sets(7);
+                  sets(8);
                   router.push("/Learns/Learn/psp");
                 }}
                 className={`${
-                  set == 7
+                  set == 8
                     ? "border-l-blue-600  border-l h-10 flex flex-col items-center justify-center w-[70%]"
                     : ""
                 }`}

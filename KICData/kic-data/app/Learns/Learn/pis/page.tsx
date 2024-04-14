@@ -1,5 +1,7 @@
 "use client";
-import { Accordion, AccordionItem } from "@nextui-org/react";
+
+import { Accordion, AccordionItem, Image } from "@nextui-org/react";
+import PIS from "@/public/learn/talk.jpg";
 import React from "react";
 
 const BlogPost = () => {
@@ -7,19 +9,24 @@ const BlogPost = () => {
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
 
   return (
-    <div className="bg-gray-50 text-gray-800">
-      <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="text-gray-800 bg-gray-50">
+      <div className="max-w-4xl px-4 py-8 mx-auto">
         {/* Hero Section */}
-        <div className="bg-blue-600 text-white p-8 rounded-lg shadow-md">
+        <div className="p-8 text-white bg-blue-600 rounded-lg shadow-md">
           <h1 className="text-3xl font-bold">
             Navigating Personal Information Security in E-commerce
           </h1>
           <p className="mt-2">Safeguarding Your Digital Identity</p>
         </div>
 
+        <div className="p-4">
+          {" "}
+          <Image src={PIS.src} />
+        </div>
+
         {/* Introduction */}
         <div className="mt-8">
-          <p className="text-lg">
+          <p>
             In the bustling realm of e-commerce, where transactions occur
             seamlessly across digital platforms, ensuring the security of
             personal information is paramount. From browsing products to
@@ -36,7 +43,7 @@ const BlogPost = () => {
         {/* Subsections */}
         {/* Example Subsection */}
         <div className="mt-8">
-          <h2 className="font-bold text-xl mb-4">Understanding the Risks</h2>
+          <h2 className="mb-4 text-xl font-bold">Understanding the Risks</h2>
           <p>
             At the heart of personal information security lies the principle of
             confidentiality – ensuring that sensitive data remains private and
@@ -47,7 +54,7 @@ const BlogPost = () => {
             e-commerce platforms that prioritize data protection and employ
             robust security measures.
           </p>
-          <h2 className="font-bold text-xl mb-4 mt-10">
+          <h2 className="mt-10 mb-4 text-xl font-bold">
             Security Measur & Data Encryption
           </h2>
           <p>
@@ -74,10 +81,10 @@ const BlogPost = () => {
 
         {/* Practical Tips */}
         <div className="mt-8">
-          <h2 className="font-bold text-xl mb-4">
+          <h2 className="mb-4 text-xl font-bold">
             Proactive Security Practices
           </h2>
-          <div className="rounded-lg bg-zinc-50 py-2 px-3 border ">
+          <div className="px-3 py-2 border rounded-lg bg-zinc-50 ">
             <Accordion
               motionProps={{
                 variants: {
@@ -115,7 +122,7 @@ const BlogPost = () => {
                   },
                 },
               }}
-              className="border bg-white rounded-lg"
+              className="bg-white border rounded-lg"
             >
               <AccordionItem
                 key="1"
@@ -160,7 +167,7 @@ const BlogPost = () => {
               </AccordionItem>
             </Accordion>
 
-            <ul className="list-disc pl-8 space-y-2">
+            <ul className="pl-8 space-y-2 list-disc">
               <li>
                 Regularly update your passwords and use multi-factor
                 authentication.
@@ -176,7 +183,7 @@ const BlogPost = () => {
 
         {/* Conclusion */}
         <div className="mt-8">
-          <h2 className="font-bold text-xl">Conclusion</h2>
+          <h2 className="text-xl font-bold">Conclusion</h2>
           <p>
             In conclusion, personal information security is paramount in
             e-commerce, where users entrust sensitive data to online platforms

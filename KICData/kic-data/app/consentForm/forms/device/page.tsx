@@ -83,7 +83,7 @@ const DeviceInformationPage = () => {
       {/* Footer */}
       <footer className="py-4 mt-8 text-white bg-blue-600">
         <div className="container mx-auto text-center">
-          <p>&copy; 2024 Your Company. All rights reserved.</p>
+          <p>&copy; 2024 Data Privacy. All rights reserved.</p>
         </div>
       </footer>
     </div>

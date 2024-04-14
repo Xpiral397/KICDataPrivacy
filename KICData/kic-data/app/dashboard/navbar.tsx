@@ -49,7 +49,7 @@ export default function Navbar() {
     <nav className="flex items-center justify-between w-full h-16 px-10 bg-blue-500">
       <div className="flex items-center space-x-5">
         <DotGrid gridSize={4} spacing={4} dotRadius={1} dotColor="white" />
-        <h1 className="text-white font-[600]  text-xl">KICData</h1>
+        <h1 className="text-white font-[600]  text-xl">Data Privacy</h1>
       </div>
 
       <ul className="flex items-center justify-center space-x-10 ">

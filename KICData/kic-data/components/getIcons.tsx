@@ -2,6 +2,9 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 
 export function ensureHttps(url: string): string {
+  if (url.startsWith(".")) {
+    url = url.replace(".", "");
+  }
   if (!url.startsWith("https://") || !url.startsWith("http://")) {
     return "https://" + url;
   }
@@ -10,4 +13,3 @@ export function ensureHttps(url: string): string {
 export function getIconUrl(websiteUrl: string): string {
   return ensureHttps(`${websiteUrl}/favicon.ico`);
 }
-
