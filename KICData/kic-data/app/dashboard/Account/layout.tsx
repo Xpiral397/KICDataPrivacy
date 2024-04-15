@@ -122,6 +122,30 @@ function Layout({ children }: { children: ReactNode }) {
               }
             />
           </CardRender>
+          <CardRender>
+            <NextVideo
+              className="sm:w-[500px] w-full rounded-lg"
+              url={
+                "https://youtube.com/watch?v=BoyeFozmAXk&si=2gH1DYElGzJMqaNs"
+              }
+            />
+          </CardRender>
+          <CardRender>
+            <NextVideo
+              className="sm:w-[500px] w-full rounded-lg"
+              url={
+                "https://youtube.com/watch?v=Abta0j826Bk&si=gswiDVTgDl2tV6mU"
+              }
+            />
+          </CardRender>
+          <CardRender>
+            <NextVideo
+              className="sm:w-[500px] w-full rounded-lg"
+              url={
+                "https://youtube.com/watch?v=Ysujyky9mcg&si=E6ip0Vo6eLOB0Lxq"
+              }
+            />
+          </CardRender>
         </ScrollShadow>
       </div>
 
